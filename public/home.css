@@ -4,28 +4,34 @@
     font-size: xx-large
 }
 
-#info
+/* #info
 {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
-}
+} */
 
 #img
 {
     margin-top: 50px;
     width: 300px;
-    margin-right: 400px;
+    margin-right: 500px;
+    float: right;
 }
 
 #container
 {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
 #btn
 {
     margin-top: 50px;
+}
+
+#maniu
+{
+    display: none;
 }
