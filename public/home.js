@@ -9,5 +9,7 @@
 
 
 document.getElementById('maniuButton').addEventListener('click', function() {
-    document.getElementById('maniu').style.display = 'block';
+    let menu = document.getElementById('menu');
+    menu.style.display = 'block'; 
+    menu.style.marginLeft = '20px'; 
 });
