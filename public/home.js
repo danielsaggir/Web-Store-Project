@@ -8,7 +8,7 @@
 // });
 
 
-document.getElementById('maniuButton').addEventListener('click', function() {
+document.getElementById('menuButton').addEventListener('click', function() {
     let menu = document.getElementById('menu');
     menu.style.display = 'block'; 
     menu.style.marginLeft = '20px'; 
