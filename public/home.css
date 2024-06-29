@@ -28,9 +28,13 @@
 #container
 {
     display: flex;
+    flex-direction: column;
+    float: left;
     justify-content: space-between;
     align-items: center;
-    
+    /* background-image: url('https://i.pinimg.com/564x/7d/49/28/7d4928af08e1b7b4da073287c0aa1dd2.jpg'); */
+    background-size: cover;
+    background-position: center; 
 }
 
 #menuButton
@@ -68,6 +72,11 @@
 #menu
 {
     display: none;
+    position: absolute;
+    top: 60%;
+    background-color: rgba(240, 248, 255, 0.379);
+    border-radius: 15px;
+    padding: 10px;
 }
 
 #menu ul {
