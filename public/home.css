@@ -8,7 +8,7 @@
 
 #TopImg
 {
-    display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -33,12 +33,16 @@
     
 }
 
-#maniuButton
+#menuButton
 {
-    margin-top: 50px;
+    margin-top: 20px;
     position: absolute;
     z-index: 1;
+    margin-left: 20px;
+    background-color: rgba(240, 255, 253, 0.631);
 }
+#menuButton :hover{
+    background-color: rgba(240, 255, 253, 1);}
 
 #menu
 {
