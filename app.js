@@ -1,24 +1,24 @@
 const express = require('express');
 const path = require('path');
 
-const server = express();
+const app = express();
 
 // Serve static files from the 'public' directory
-server.use(express.static('public'));
+app.use(express.static('public'));
 
 // Set up a route to serve home.html when accessing '/'
 server.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home.html'));
 });
 
-server.get('/products', (req, res) => {
+app.get('/products', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'products.html'));
 });
 
-server.get('/product', (req, res) => {
+app.get('/product', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'product.html'));
 });
 
-server.listen(80, () => {
+app.listen(80, () => {
     console.log('Server is running on http://localhost');
 });
