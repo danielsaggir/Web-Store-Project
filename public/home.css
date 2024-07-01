@@ -32,9 +32,11 @@
     float: left;
     justify-content: space-between;
     align-items: center;
-    /* background-image: url('https://i.pinimg.com/564x/7d/49/28/7d4928af08e1b7b4da073287c0aa1dd2.jpg'); */
     background-size: cover;
     background-position: center; 
+    margin-left: 120px;
+    margin-top: 10px;
+
 }
 
 #menuButton
@@ -96,4 +98,17 @@
 
 #menu a:hover {
     text-decoration: underline; 
+}
+
+#TopCategories
+{
+    display: flex;
+    flex-direction: row;
+    margin-right: 10px;
+}
+
+.card
+{
+    justify-content: space-between;
+    margin-left: 20px;
 }
