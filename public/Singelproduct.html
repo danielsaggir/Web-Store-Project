@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Singelproduct.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+    <div id="FirstLine">
+        <div id="symbol">
+            <button id="search"><i class="bi bi-search"></i></button>
+            <button id="snow"><i class="bi bi-snow2"></i></button>
+            <button id="cart"><i class="bi bi-cart"></i></button>
+        </div>
+        <div id="label"> SkiDis</label></div>
+        <button id="list">
+        <i class="bi bi-list"></i>
+        <ul></ul>
+        </button>
+    </div>
+    <div id="MainLine">
+        <div id="caruselAnd">
+            <div id="carouselExampleFade" class="carousel slide carousel-fade">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                    <img src="data:image/jpeg;base64,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" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://cdn.outsideonline.com/wp-content/uploads/migrated-images_parent/migrated-images_79/ski-or-snowboard-fitness_h.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="..." class="d-block w-100" alt="...">
+                </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            <div id="extra">
+                <div class="card" style="width: 100px;">
+                    <img src="https://images.blue-tomato.com/is/image/bluetomato/305048846_style1.jpg-O1mCfjbf09cH9fUEmXH8L309awo/T+Rice+Pro+2024+Snowboard.jpg?$m4$" class="card-img-top" alt="...">
+                  </div>
+                  <div class="card" style="width: 100px;">
+                    <img src="https://images.blue-tomato.com/is/image/bluetomato/305048846_style1.jpg-O1mCfjbf09cH9fUEmXH8L309awo/T+Rice+Pro+2024+Snowboard.jpg?$m4$" class="card-img-top" alt="...">
+                  </div>
+                  <div class="card" style="width: 100px;">
+                    <img src="https://images.blue-tomato.com/is/image/bluetomato/305048846_style1.jpg-O1mCfjbf09cH9fUEmXH8L309awo/T+Rice+Pro+2024+Snowboard.jpg?$m4$" class="card-img-top" alt="...">
+                  </div>
+                  <div class="card" style="width: 100px;">
+                    <img src="https://images.blue-tomato.com/is/image/bluetomato/305048846_style1.jpg-O1mCfjbf09cH9fUEmXH8L309awo/T+Rice+Pro+2024+Snowboard.jpg?$m4$" class="card-img-top" alt="...">
+                  </div>
+            </div>
+        </div>
+          <div id="Productinfo">
+            <h2 id="name">ProductName</h2>
+            <h8 id="info">ProdInfo</h8>
+            <h8 id="price">Price:</h8>
+            <div id="size">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:whitesmoke;color: black;">
+                        Select Size
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#" >Small</a></li>
+                      <li><a class="dropdown-item" href="#">Medium</a></li>
+                      <li><a class="dropdown-item" href="#">Large</a></li>
+                      <li><a class="dropdown-item" href="#">X-Large</a></li>
+                      <li><a class="dropdown-item" href="#">XX-Large</a></li>
+                    </ul>
+                </div>
+            </div>
+            <button type="button" id="addto" class="btn btn-secondary btn-lg";" >Add to cart</button>
+            
+          </div>
+    </div>
+    <script src="Singelproduct.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> 
+</body>
+</html>
