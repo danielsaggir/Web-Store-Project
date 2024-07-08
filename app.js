@@ -20,6 +20,8 @@ server.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home.html'));
 });
 
+const Accessories = require('./models/Accessories');
+
 server.listen(80, () => {
     console.log('Server is running on http://localhost');
 });
