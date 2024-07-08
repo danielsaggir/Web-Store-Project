@@ -1,32 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="home.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
 </head>
-<body>
-    <div id="top">
-        skydis <br>
-        <button id="maniuButton">menu</button>
-    </div>
-    <div id="container">
-        <nav id="maniu">
-            <ul>
-                <li><a href="#ski-goggles">Ski Goggles</a></li>
-                <li><a href="#ski-jackets">Ski Jackets</a></li>
-                <li><a href="#ski-pants">Ski Pants</a></li>
-                <li><a href="#ski-helmets">Ski Helmets</a></li>
-                <li><a href="#ski-gloves">Ski Gloves</a></li>
-            </ul>
-        </nav>
-        <img id="img" src="https://wordpress-bucket-skideal.s3.eu-central-1.amazonaws.com/app/uploads/2022/09/29110848/SkiDeal-Week-2022-2614-e1664438967617-936x1024.jpg" alt="">
 
+<body>
+    <div id="topLine">
+        <p id="title"> SkiDis </p>
+        <button id="menuButton" type="button" class="btn btn-light">
+            <i class="bi bi-list"></i> 
+        </button>
+        <button id="cartBtn" type="button" class="btn btn-light">
+            <i class="bi bi-cart"></i>
+        </button>  
+        <button id="logInBtn" type="button" class="btn btn-light">
+        <i class="bi bi-person-circle"></i>
+        </button>
+        <div >
+            <div id="logInCard" class="card text-center mb-3" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">LOGIN</h5>
+                  <p>User Name*</p>
+                  <input type="text" placeholder="User Name">
+                  <p>Password*</p>
+                  <input type="text" placeholder="Password">
+                  <a href="#" class="btn btn-primary">login</a>
+                </div>
+              </div>
+        </div>
+        <div id="menu">
+            <ul>
+                <li><a href="#Ski-products">Ski products</a></li>
+                <li><a href="#Clothes">Clothes</a></li>
+                <li><a href="#Accessories">Accessories </a></li>
+            </ul>
         </div>
     </div>
 
-    <script src="home.js"></script>
+    <div id="top"></div>
+
+    <div id="container">
+        <p id="subTitel">Top Categories</p>
+        <div id="TopCategories">
+            <div class="card" style="width: 18rem;">
+                <img src="https://i.pinimg.com/564x/0a/b1/28/0ab128a7b16c4d64daf4ea495fc19e45.jpg"
+                    class="card-img-top" alt="">
+                <div class="card-body">
+                    <p class="card-text">category</p>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <img src="https://i.pinimg.com/564x/0a/b1/28/0ab128a7b16c4d64daf4ea495fc19e45.jpg"
+                    class="card-img-top" alt="">
+                <div class="card-body">
+                    <p class="card-text">category</p>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <img src="https://i.pinimg.com/564x/0a/b1/28/0ab128a7b16c4d64daf4ea495fc19e45.jpg"
+                    class="card-img-top" alt="">
+                <div class="card-body">
+                    <p class="card-text">category</p>
+                </div>
+            </div>
+        </div>
+
+        <p id="subTitel">Top Products</p>
+        <div id="TopCategories">
+            <div class="card" style="width: 18rem;">
+                <img src="https://i.pinimg.com/564x/0a/b1/28/0ab128a7b16c4d64daf4ea495fc19e45.jpg"
+                    class="card-img-top" alt="">
+                <div class="card-body">
+                    <p class="card-text">category</p>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <img src="https://i.pinimg.com/564x/0a/b1/28/0ab128a7b16c4d64daf4ea495fc19e45.jpg"
+                    class="card-img-top" alt="">
+                <div class="card-body">
+                    <p class="card-text">category</p>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <img src="https://i.pinimg.com/564x/0a/b1/28/0ab128a7b16c4d64daf4ea495fc19e45.jpg"
+                    class="card-img-top" alt="">
+                <div class="card-body">
+                    <p class="card-text">category</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+        <script src="home.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
 </body>
+
 </html>

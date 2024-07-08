@@ -1,37 +1,175 @@
 #top
 {
-    border-color: black;
-    font-size: xx-large
+    
+    background-image: url('https://media.cntraveler.com/photos/6351664f9e488d3c598e3279/16:9/w_2240,c_limit/Ski_GettyImages-1400588475.jpg');
+    height: 100vh; /* Take the full viewport height */
+     background-attachment: fixed; /*Parallax effect */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -2;
 }
 
-/* #info
+#topLine
 {
+    z-index: 3;
+    position: fixed;
     display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-} */
+    align-items: center;
+    width: 100%;
+    height: 50px;
+}
 
-#img
-{
-    margin-top: 50px;
-    width: 300px;
-    margin-right: 500px;
-    float: right;
+#title{
+    font-weight: bold;
+    font-size: xx-large;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    margin-top: 10px;
+    left: 47%;
 }
 
 #container
 {
     display: flex;
+    flex-direction: column;
+    float: left;
     justify-content: space-between;
     align-items: center;
+    background-size: cover;
+    background-position: center; 
+    margin-left: 215px;
+    margin-top: 10px;
+
 }
 
-#btn
+#menuButton
 {
-    margin-top: 50px;
+    position: absolute;
+    z-index: 1;
+    margin-left: 20px;
+    background-color: rgba(240, 255, 253, 0.485);
+    font-size:x-large;
+    margin-top: 3px; 
+    padding: 4px;
+    padding-bottom: 0.2px;
+    padding-top: 0.2px;
+    border-radius: 15px;
+
+}
+/* #menuButton :hover{
+    background-color: rgba(240, 255, 253, 0.485);
+} */
+
+#logInBtn
+{
+    left: 95%;
+    /* margin-right: 20px; */
+    position: absolute;
+    background-color: rgba(240, 255, 253, 0.485);
+    font-size:x-large;
+    margin-top: 3px; 
+    padding: 4px;
+    padding-bottom: 0.2px;
+    padding-top: 0.2px;
+    border-radius: 15px;
 }
 
-#maniu
+#cartBtn
+{
+    left: 92%;
+    /* margin-right: 20px; */
+    position: absolute;
+    background-color: rgba(240, 255, 253, 0.485);
+    font-size:x-large;
+    margin-top: 3px; 
+    padding: 4px;
+    padding-bottom: 0.2px;
+    padding-top: 0.2px;
+    border-radius: 15px;
+}
+
+#menu
 {
     display: none;
+    position: absolute;
+    margin-top: 25%;
+    background-color: rgba(240, 248, 255, 0.60);
+    width: 180px;
+    height: 200px;
+    padding: 10px;
+
+}
+
+#menu ul {
+    margin-top: 30px;
+    margin-left: 10px;
+    padding: 0; 
+    list-style-type: none;
+}
+
+#menu li {
+    margin-bottom: 10px; 
+}
+
+#menu li :hover{
+    margin-bottom: 10px; 
+    background-color: rgba(240, 248, 255);
+}
+
+#menu a {
+    color: black; 
+    text-decoration: none; 
+}
+
+#menu a:hover {
+    text-decoration: underline; 
+}
+
+#TopCategories
+{
+    display: flex;
+    flex-direction: row;
+    margin-right: 10px;
+
+}
+
+.card
+{
+    justify-content: space-between;
+    margin-left: 20px;
+}
+
+#subTitel
+{
+    margin-top: 10px;
+}
+
+#logInCard
+{
+    display: none;
+    margin-top: 350px;
+    left: 350%;
+    border-radius: 15px;
+    background-color: rgba(240, 248, 255, 0.60);
+}
+#logInCard input
+{
+    margin-bottom: 7px;
+    border-radius: 7px;
+    border-width: 0.5px;
+    padding-left: 10px;
+}
+
+#logInCard a
+{
+    margin-top: 10px;
+    background-color:white;
+    color: black;
+    border-color: gray;
+    width: 100px;
+}
+#logInCard a:hover{
+    background-color: rgba( 96, 206, 246, 0.153);
 }
