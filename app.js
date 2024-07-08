@@ -1,10 +1,13 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const path = require('path');
 
 const server = express();
 
 // Serve static files from the 'public' directory
 server.use(express.static('public'));
+
+
 
 // Set up a route to serve home.html when accessing '/'
 server.get('/', (req, res) => {
