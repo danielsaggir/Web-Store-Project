@@ -68,3 +68,20 @@ body::before {
     margin-right: 15px; 
     font-size: 20px; 
 }
+
+.filtering{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px; /* Adjust the gap as needed */
+    margin-top:-23px;
+    margin-right:15px;
+}
+#slides{
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-top:-13px;
+}
+.filtering:hover p,
+.filtering:hover #slides i {}
