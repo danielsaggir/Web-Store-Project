@@ -25,7 +25,7 @@ const productSchema = new mongoose.Schema({
 
     category: {
         type: String,
-        enum: ['Helmets', 'Gloves', 'Goggles', 'Masks'], // Restrict to these values
+        enum: ['Snowboard', 'Skis', 'Snowboard Bindings','Ski boots','Snowboard boots','Ski Bindings','Ski poles',], // Restrict to these values
         required: true
     },
     color: {
@@ -40,6 +40,6 @@ const productSchema = new mongoose.Schema({
     },
 });
 
-const Product = mongoose.model('Accessories', productSchema);
+const Product = mongoose.model('Ski-products', productSchema);
 
 module.exports = Product;
