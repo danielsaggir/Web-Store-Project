@@ -1,7 +1,4 @@
-/* body {
-    background-image: url('../public/Images/products/278039c5caa97a353223df327aafd42a.jpg');
-    background-size: cover;
-} */
+
 body {
     height: 100vh; /* Ensure the body takes up the full height of the viewport */
     background-image: url('../public/Images/products/background-productspage.jpg');
