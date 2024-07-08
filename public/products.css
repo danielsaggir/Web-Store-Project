@@ -1,7 +1,8 @@
 
 body {
     height: 100vh; /* Ensure the body takes up the full height of the viewport */
-    background-image: url('../public/Images/products/background-productspage.jpg');
+    background-image: url('https://media.cntraveler.com/photos/6351664f9e488d3c598e3279/16:9/w_2240,c_limit/Ski_GettyImages-1400588475.jpg');
+    /* background-image: url('../public/Images/products/background-productspage.jpg'); */
     background-size: cover;
     background-position: center;
 }
@@ -120,4 +121,51 @@ body::before {
     border:none;
     border-top:1px solid #ccc;
     margin: 10px 0;
+}
+.dropdown{
+    margin-top:-52px;
+    margin-left:8px;
+}
+.btn.btn-secondary.dropdown-toggle
+{
+    background-color:  rgba(255, 255, 255, 0.534);
+    color:black;
+}
+.dropdown-menu{
+    background-color:  rgba(255, 255, 255, 0.534);
+}
+.dropdown-item {
+    background-color: rgba(255, 255, 255, 0.534); /* Background color for dropdown items */
+    color: #000; /* Text color for dropdown items */
+}
+
+.dropdown-item.active,
+.dropdown-item:focus {
+    background-color: rgba(255, 255, 255, 0.534); /* Background color when selected */
+    color: #000; /* Text color when selected */
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main_header_category {
+    font-weight:bold;
+}
+
+.card_product{
+    width: 130px;
+    margin-top: 80px;
+    margin-left: 100px;
+    border: 1px solid #ccc; /* Border styling */
+    padding: 10px;
+}
+.card-body{
+    display: flex;
+    flex-direction: column;
+}
+.card-text2{
+    margin-top: -20px;
+    margin-left: 32px;
 }
