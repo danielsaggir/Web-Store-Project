@@ -20,3 +20,11 @@ window.addEventListener('scroll', function() {
     }
 });
 
+document.getElementById('logInBtn').addEventListener('click', function() {
+    let menu = document.getElementById('logInCard');
+    if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+    } else {
+        menu.style.display = 'block';
+    }
+});
