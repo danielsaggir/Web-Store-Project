@@ -95,7 +95,7 @@
     display: none;
     position: absolute;
     margin-top: 25%;
-    background-color: rgba(240, 248, 255, 0.379);
+    background-color: rgba(240, 248, 255, 0.60);
     width: 180px;
     height: 200px;
     padding: 10px;
@@ -103,13 +103,19 @@
 }
 
 #menu ul {
+    margin-top: 30px;
+    margin-left: 10px;
     padding: 0; 
     list-style-type: none;
 }
 
 #menu li {
     margin-bottom: 10px; 
-    
+}
+
+#menu li :hover{
+    margin-bottom: 10px; 
+    background-color: rgba(240, 248, 255);
 }
 
 #menu a {
@@ -138,4 +144,32 @@
 #subTitel
 {
     margin-top: 10px;
+}
+
+#logInCard
+{
+    display: none;
+    margin-top: 350px;
+    left: 350%;
+    border-radius: 15px;
+    background-color: rgba(240, 248, 255, 0.60);
+}
+#logInCard input
+{
+    margin-bottom: 7px;
+    border-radius: 7px;
+    border-width: 0.5px;
+    padding-left: 10px;
+}
+
+#logInCard a
+{
+    margin-top: 10px;
+    background-color:white;
+    color: black;
+    border-color: gray;
+    width: 100px;
+}
+#logInCard a:hover{
+    background-color: rgba( 96, 206, 246, 0.153);
 }
