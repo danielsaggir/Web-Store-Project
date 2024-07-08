@@ -17,11 +17,6 @@ const productSchema = new mongoose.Schema({
         type: [String], // Array of strings for multiple images
         required: true
     },
-    brand: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Brand',
-        required: true
-    },
     gender: {
         type: String,
         enum: ['Men', 'Women', 'Unisex'],
@@ -30,9 +25,19 @@ const productSchema = new mongoose.Schema({
 
     category: {
         type: String,
-        enum: ['Bags', 'Wallets', 'Accessories', 'Jewelry'], // Restrict to these values
+        enum: ['Helmets', 'Gloves', 'Socks', 'Masks'], // Restrict to these values
         required: true
-    }
+    },
+    color: {
+        type: String,
+        enum: ['Red', 'Black', 'White','Blue','Yellow'],
+        required: true
+    },
+    size: {
+        type: String,
+        enum: ['Small', 'Medium', 'Large','X-Large','XX-Large'],
+        required: true
+    },
 });
 
 const Product = mongoose.model('Accessories', productSchema);
