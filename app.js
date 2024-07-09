@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const Accessories = require('./models/Accessories');
+const Clothes = require('./models/Clothes');
+const SkiProducts = require('./models/SkiProducts');
 
 const server = express();
 
@@ -8,7 +11,7 @@ const server = express();
 server.use(express.static('public'));
 
 // הגדרת חיבור למסד הנתונים MongoDB Atlas
-const mongoURI = 'mongodb+srv://admin:admin@cluster0.hrynjzk.mongodb.net/mydb?retryWrites=true&w=majority';
+const mongoURI = 'mongodb+srv://admin:admin@cluster0.hrynjzk.mongodb.net/';
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB Atlas'))
@@ -20,8 +23,7 @@ server.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home.html'));
 });
 
-const Accessories = require('./models/Accessories');
-
-server.listen(80, () => {
-    console.log('Server is running on http://localhost');
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log('Server is running on ${PORT}');
 });
