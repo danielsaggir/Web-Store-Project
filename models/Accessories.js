@@ -17,10 +17,6 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    image: {
-        type: [String], // Array of strings for multiple images
-        required: true
-    },
     gender: {
         type: String,
         enum: ['Men', 'Women', 'Unisex'],
@@ -40,6 +36,10 @@ const productSchema = new mongoose.Schema({
     size: {
         type: String,
         enum: ['Small', 'Medium', 'Large','X-Large','XX-Large'],
+        required: true
+    },
+    imageUrl: {
+        type: String, // Array of strings for multiple images
         required: true
     },
     

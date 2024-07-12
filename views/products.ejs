@@ -67,34 +67,45 @@
         <div class="main_header_category"><%= category %></div>
         <hr class="line">
     </div>
-
-
-    <div id="TopCategories">
-        <div class="card" style="width: 18rem;">
-            <img src="https://i.pinimg.com/564x/0a/b1/28/0ab128a7b16c4d64daf4ea495fc19e45.jpg" class="card-img-top"
-                alt="">
-            <div class="card-body">
-                <p class="card-text1">Name Product</p>
-                <p class="card-text2"><b>Price</b></p>
+    <!-- <img src="Images/Accessories/black helmet.jpeg" alt=""> -->
+    <div id="cards" class="d-flex flex-wrap">
+        <% products.forEach(product => { %>
+            <div class="card" style="width: 18rem; margin: 10px;">
+                <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.name %>">
+                <div class="card-body">
+                    <p class="card-text1"><%= product.name %></p>
+                    <p class="card-text2"><b>Price:</b> <%= product.price %></p>
+                </div>
             </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <img src="https://i.pinimg.com/564x/0a/b1/28/0ab128a7b16c4d64daf4ea495fc19e45.jpg" class="card-img-top"
-                alt="">
-            <div class="card-body">
-                <p class="card-text1">Name Product</p>
-                <p class="card-text2"><b>Price</b></p>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <img src="https://i.pinimg.com/564x/0a/b1/28/0ab128a7b16c4d64daf4ea495fc19e45.jpg" class="card-img-top"
-                alt="">
-            <div class="card-body">
-                <p class="card-text1">Name Product</p>
-                <p class="card-text2"><b>Price</b></p>
-            </div>
-        </div>
+        <% }) %>
     </div>
+
+    <!-- <div id="cards">
+        <div class="card" style="width: 18rem;">
+            <img src="https://i.pinimg.com/564x/0a/b1/28/0ab128a7b16c4d64daf4ea495fc19e45.jpg" class="card-img-top"
+                alt="">
+            <div class="card-body">
+                <p class="card-text1">Name Product</p>
+                <p class="card-text2"><b>Price</b></p>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+            <img src="https://i.pinimg.com/564x/0a/b1/28/0ab128a7b16c4d64daf4ea495fc19e45.jpg" class="card-img-top"
+                alt="">
+            <div class="card-body">
+                <p class="card-text1">Name Product</p>
+                <p class="card-text2"><b>Price</b></p>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+            <img src="https://i.pinimg.com/564x/0a/b1/28/0ab128a7b16c4d64daf4ea495fc19e45.jpg" class="card-img-top"
+                alt="">
+            <div class="card-body">
+                <p class="card-text1">Name Product</p>
+                <p class="card-text2"><b>Price</b></p>
+            </div>
+        </div>
+    </div> -->
 
     <!-- <div class="card_product">
         <img src="../public/Images/Accessories/black helmet.jpeg" class="card-img-top">

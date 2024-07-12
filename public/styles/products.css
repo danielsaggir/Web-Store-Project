@@ -174,7 +174,7 @@ body::before {
     font-weight:bold;
 }
 
-#TopCategories {
+#cards {
     display: flex; /* Use flexbox for layout */
     justify-content: center; /* Center cards horizontally */
     flex-wrap: wrap; /* Allow cards to wrap to the next line if needed */
