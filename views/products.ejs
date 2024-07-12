@@ -12,7 +12,17 @@
 </head>
 
 <body>
-    <h1>Products - <%= category %></h1>
+    <!-- <% if (typeof category !== 'undefined') { %>
+        <h1>Products - <%= category %></h1>
+    <% } else { %>
+        <h1>Products - Category not defined</h1>
+    <% } %> -->
+    <h1>Products in category: <%= category %></h1>
+    <ul>
+        <% products.forEach(product => { %>
+            <li><%= product.name %> - <%= product.price %></li>
+        <% }) %>
+    </ul>
     <div id="FirstLine">
         <div id="symbol">
             <button id="search"><i class="bi bi-search"></i></button>
@@ -54,7 +64,7 @@
     </div>
 
     <div class="container_main">
-        <div class="main_header_category">Name category</div>
+        <div class="main_header_category"><%= category %></div>
         <hr class="line">
     </div>
 
