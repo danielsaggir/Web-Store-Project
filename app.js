@@ -30,9 +30,9 @@ const homeRoutes = require('./routes/home');
 const productRoutes = require('./routes/products');
 const SingleproductRoutes = require('./routes/Singleproduct');
 // Use routes
-app.use(homeRoutes);
-app.use(productRoutes);
-app.use(SingleproductRoutes);
+server.use(homeRoutes);
+server.use(productRoutes);
+server.use(SingleproductRoutes);
 
 
 // Start the server
