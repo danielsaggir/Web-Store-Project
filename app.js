@@ -25,20 +25,14 @@ server.set('view engine', 'ejs');
 server.set('views', path.join(__dirname, 'views'));
 
 
-// Set up a route to serve home.html when accessing '/'
-server.get('/', (req, res) => {
-    res.render('home'); // home.ejs
-});
-
-// Set up a route to serve products.html when accessing '/products'
-server.get('/products', (req, res) => {
-    res.render('products'); // products.ejs
-});
-
-// Set up a route to serve product.html when accessing '/product'
-server.get('/product', (req, res) => {
-    res.render('Singelproduct'); // Singelproduct.ejs
-});
+// Import routes
+const homeRoutes = require('./routes/home');
+const productRoutes = require('./routes/products');
+const SingleproductRoutes = require('./routes/Singleproduct');
+// Use routes
+app.use(homeRoutes);
+app.use(productRoutes);
+app.use(SingleproductRoutes);
 
 
 // Start the server
