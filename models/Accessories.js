@@ -46,7 +46,10 @@ const productSchema = new mongoose.Schema({
         enum: ['Small', 'Medium', 'Large','X-Large','XX-Large', 'One Size'],
         required: true
     },
-    
+    imageUrl: {
+        type : String,
+        required : true
+    },
 });
 
 const Product = mongoose.model('Accessories', productSchema);
