@@ -173,3 +173,8 @@
 #logInCard a:hover{
     background-color: rgba( 96, 206, 246, 0.153);
 }
+
+.card-text
+{
+    margin-left: 30%;
+}
