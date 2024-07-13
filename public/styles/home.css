@@ -145,12 +145,19 @@
 {
     margin-top: 10px;
 }
-
+#cartCard
+{
+    display: none;
+    margin-top: 200px;
+    left: 365%;
+    border-radius: 15px;
+    background-color: rgba(240, 248, 255, 0.60);
+}
 #logInCard
 {
     display: none;
     margin-top: 350px;
-    left: 350%;
+    left: 390%;
     border-radius: 15px;
     background-color: rgba(240, 248, 255, 0.60);
 }
