@@ -3,11 +3,11 @@ const Clothes = require('../models/Clothes');
 const Accessories = require('../models/Accessories');
 
 exports.getSingleProduct = async (req, res) => {
-    const myId = req.query.MyId; // Get MyId from query
-    const selectedCategory = req.query.selectedCategory; // Get selectedCategory from query
+    const myId = parseInt(req.query.MyId); // Corrected to match the query parameter case
+    const selectedCategory = req.query.selectedCategory; // Corrected to match the query parameter case
 
+    // console.log(`Product MyId: ${myId}, Selected Category: ${selectedCategory}`);
     console.log(`Product MyId: ${myId}, Selected Category: ${selectedCategory}`);
-
     let ProductModel;
 
     switch (selectedCategory) {
@@ -25,13 +25,19 @@ exports.getSingleProduct = async (req, res) => {
     }
 
     try {
-        const product = await ProductModel.findOne({ MyId: myId });
+        const product = await ProductModel.findOne({ MyId:myId });
         if (!product) {
             return res.status(404).send('Product not found');
         }
-        res.render('singleproduct', { product });
+
+        console.log('Found product:', product); // Log the found product for verification
+
+        res.render('Singelproduct', {
+            product,
+            selectedCategory // Pass selectedCategory to the view
+        });
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching product:', error);
         res.status(500).send('Internal Server Error');
     }
 };
