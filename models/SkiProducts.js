@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const skiSchema = new mongoose.Schema({
+    MyId: {
+        type: Number,
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -17,10 +21,6 @@ const skiSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    image: {
-        type: [String], // Array of strings for multiple images
-        required: true
-    },
     gender: {
         type: String,
         enum: ['Men', 'Women', 'Unisex'],
@@ -29,7 +29,7 @@ const skiSchema = new mongoose.Schema({
 
     category: {
         type: String,
-        enum: ['Snowboard', 'Skis', 'Snowboard Bindings','Ski boots','Snowboard boots','Ski Bindings','Ski poles',], // Restrict to these values
+        enum: ['Helmets', 'Gloves', 'Goggles', 'Masks'], // Restrict to these values
         required: true
     },
     color: {
@@ -40,6 +40,10 @@ const skiSchema = new mongoose.Schema({
     size: {
         type: String,
         enum: ['Small', 'Medium', 'Large','X-Large','XX-Large'],
+        required: true
+    },
+    imageUrl: {
+        type: String, // Array of strings for multiple images
         required: true
     },
 });
