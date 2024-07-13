@@ -3,7 +3,7 @@ const Clothes = require('../models/Clothes');
 const Accessories = require('../models/Accessories');
 
 exports.getProducts = async (req, res) => {
-    const selectedCategory = req.query.category;
+    const selectedCategory = req.query.category; // Renamed to selectedCategory to avoid confusion
     let ProductModel;
 
     switch (selectedCategory) {
@@ -22,7 +22,7 @@ exports.getProducts = async (req, res) => {
 
     try {
         const products = await ProductModel.find();
-        res.render('products', { selectedCategory, products });
+        res.render('products', { selectedCategory, products }); // Pass selectedCategory to the view
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');

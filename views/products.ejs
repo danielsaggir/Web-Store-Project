@@ -63,24 +63,23 @@
         </ul>
     </div>
 
-    <div class="container_main">
-        <div class="main_header_category"><%= selectedCategory %></div>
-        <hr class="line">
-    </div>
-    <div id="cards" class="d-flex flex-wrap">
-        <% products.forEach(product => { %>
-            <div class="card" style="width: 18rem; margin: 10px;">
-                <a href="/singleproduct?MyId=<%= product.MyId %>">
-                    <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.name %>">
-                    <div class="card-body">
-                        <p class="card-text1"><%= product.name %></p>
-                        <p class="card-text2"><b>Price:</b> <%= product.price %></p>
-                    </div>
-                </a>
-            </div>
-        <% }) %>
-    </div>
-
+ <div class="container_main">
+    <div class="main_header_category"><%= selectedCategory %></div>
+    <hr class="line">
+</div>
+<div id="cards" class="d-flex flex-wrap">
+    <% products.forEach(product => { %>
+        <div class="card" style="width: 18rem; margin: 10px;">
+            <a href="#" class="product-link" data-id="<%= product.MyId %>" data-category="<%= selectedCategory %>">
+                <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.name %>">
+                <div class="card-body">
+                    <p class="card-text1"><%= product.name %></p>
+                    <p class="card-text2"><b>Price:</b> <%= product.price %></p>
+                </div>
+            </a>
+        </div>
+    <% }) %>
+</div>
 
     <!-- <div id="cards">
         <div class="card" style="width: 18rem;">

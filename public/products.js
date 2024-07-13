@@ -9,3 +9,12 @@ document.querySelectorAll('.dropdown-item').forEach(item => {
         dropdownToggle.textContent = this.textContent.trim();
     });
 });
+
+document.querySelectorAll('.product-link').forEach(link => {
+    link.addEventListener('click', function(event) {
+        event.preventDefault();
+        const myId = this.getAttribute('data-id');
+        const category = this.getAttribute('data-category');
+        window.location.href = `/singleproduct?MyId=${myId}&selectedCategory=${category}`;
+    });
+});
