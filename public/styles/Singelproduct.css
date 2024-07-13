@@ -55,18 +55,20 @@ body::before {
     font-size: 20px;
 
 }
-.carousel-control-next-icon{
-    filter: invert(1) grayscale(100);
-}
-.carousel-control-prev-icon{
-    filter: invert(1) grayscale(100);
+#productimg img
+{
+    margin-top: 100px;
+    margin-left: 90px;
+    width: 380px;
+    height: auto;
 }
 #Productinfo{
-    margin-left: 300px;
+    margin-left: 200px;
     margin-top: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 #symbol{
     display: flex;
@@ -144,4 +146,10 @@ body::before {
 .dropdown-item:focus {
     background-color: rgba(255, 255, 255, 0.534); /* Background color when selected */
     color: #000; /* Text color when selected */
+}
+
+#price
+{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: x-large;
 }
