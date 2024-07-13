@@ -1,12 +1,8 @@
-// routes/products.js
 const express = require('express');
 const router = express.Router();
-const path = require('path');
+const singleProductController = require('../controllers/SingleproductController');
 
-// Route for products
-router.get('/product', (req, res) => {
-    res.render('Singleproducts');
-});
-
+// Route for single product
+router.get('/singleproduct', singleProductController.getSingleProduct);
 
 module.exports = router;

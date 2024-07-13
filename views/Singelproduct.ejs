@@ -9,6 +9,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
+    <h1><%= product.name %></h1>
+<img src="<%= product.imageUrl %>" alt="<%= product.name %>">
+<p>Price: <%= product.price %></p>
+<p>Description: <%= product.description %></p>
+
     <div id="FirstLine">
         <div id="symbol">
             <button id="search"><i class="bi bi-search"></i></button>

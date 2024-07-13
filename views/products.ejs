@@ -67,18 +67,20 @@
         <div class="main_header_category"><%= category %></div>
         <hr class="line">
     </div>
-    <!-- <img src="Images/Accessories/black helmet.jpeg" alt=""> -->
     <div id="cards" class="d-flex flex-wrap">
-        <% products.forEach(product => { %>
-            <div class="card" style="width: 18rem; margin: 10px;">
+    <% products.forEach(product => { %>
+        <div class="card" style="width: 18rem; margin: 10px;">
+            <a href="/singleproduct?MyId=<%= product.MyId %>">
                 <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.name %>">
                 <div class="card-body">
                     <p class="card-text1"><%= product.name %></p>
                     <p class="card-text2"><b>Price:</b> <%= product.price %></p>
                 </div>
-            </div>
-        <% }) %>
-    </div>
+            </a>
+        </div>
+    <% }) %>
+</div>
+
 
     <!-- <div id="cards">
         <div class="card" style="width: 18rem;">
