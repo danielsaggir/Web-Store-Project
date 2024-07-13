@@ -17,7 +17,7 @@
     <% } else { %>
         <h1>Products - Category not defined</h1>
     <% } %> -->
-    <h1>Products in category: <%= category %></h1>
+    <h1>Products in category: <%= selectedCategory %></h1>
     <ul>
         <% products.forEach(product => { %>
             <li><%= product.name %> - <%= product.price %></li>
@@ -63,14 +63,14 @@
         </ul>
     </div>
 
-    <div class="container_main">
-        <div class="main_header_category"><%= category %></div>
-        <hr class="line">
-    </div>
-    <div id="cards" class="d-flex flex-wrap">
+ <div class="container_main">
+    <div class="main_header_category"><%= selectedCategory %></div>
+    <hr class="line">
+</div>
+<div id="cards" class="d-flex flex-wrap">
     <% products.forEach(product => { %>
         <div class="card" style="width: 18rem; margin: 10px;">
-            <a href="/singleproduct?MyId=<%= product.MyId %>">
+            <a href="#" class="product-link" data-id="<%= product.MyId %>" data-category="<%= selectedCategory %>">
                 <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.name %>">
                 <div class="card-body">
                     <p class="card-text1"><%= product.name %></p>
@@ -80,7 +80,6 @@
         </div>
     <% }) %>
 </div>
-
 
     <!-- <div id="cards">
         <div class="card" style="width: 18rem;">

@@ -4,19 +4,24 @@ const Accessories = require('../models/Accessories');
 
 exports.getSingleProduct = async (req, res) => {
     const myId = req.query.MyId; // Get MyId from query
+    const selectedCategory = req.query.selectedCategory; // Get selectedCategory from query
+
+    console.log(`Product MyId: ${myId}, Selected Category: ${selectedCategory}`);
 
     let ProductModel;
 
-    // Determine the model based on the presence of MyId or any other logic you define
-    // This is a placeholder logic; adjust based on your needs
-    if (myId.startsWith('S')) {
-        ProductModel = SkiProducts;
-    } else if (myId.startsWith('C')) {
-        ProductModel = Clothes;
-    } else if (myId.startsWith('A')) {
-        ProductModel = Accessories;
-    } else {
-        return res.status(400).send('Invalid category');
+    switch (selectedCategory) {
+        case 'Ski Products':
+            ProductModel = SkiProducts;
+            break;
+        case 'Clothes':
+            ProductModel = Clothes;
+            break;
+        case 'Accessories':
+            ProductModel = Accessories;
+            break;
+        default:
+            return res.status(400).send('Invalid category');
     }
 
     try {
