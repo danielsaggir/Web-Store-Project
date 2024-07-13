@@ -28,3 +28,22 @@ document.getElementById('logInBtn').addEventListener('click', function() {
         menu.style.display = 'block';
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('ski-products-link').addEventListener('click', () => {
+        navigateToCategory('Ski Products');
+    });
+
+    document.getElementById('clothes-link').addEventListener('click', () => {
+        navigateToCategory('Clothes');
+    });
+
+    document.getElementById('accessories-link').addEventListener('click', () => {
+        navigateToCategory('Accessories');
+    });
+
+    function navigateToCategory(selectedCategory) {
+        window.location.href = `/products?category=${selectedCategory}`;
+    }
+});
