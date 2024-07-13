@@ -3,10 +3,10 @@ const Clothes = require('../models/Clothes');
 const Accessories = require('../models/Accessories');
 
 exports.getProducts = async (req, res) => {
-    const category = req.query.category;
+    const selectedCategory = req.query.category;
     let ProductModel;
 
-    switch (category) {
+    switch (selectedCategory) {
         case 'Ski Products':
             ProductModel = SkiProducts;
             break;
@@ -22,7 +22,7 @@ exports.getProducts = async (req, res) => {
 
     try {
         const products = await ProductModel.find();
-        res.render('products', { category, products });
+        res.render('products', { selectedCategory, products });
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');

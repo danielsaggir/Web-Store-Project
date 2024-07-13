@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         navigateToCategory('Accessories');
     });
 
-    function navigateToCategory(category) {
-        window.location.href = `/products?category=${category}`;
+    function navigateToCategory(selectedCategory) {
+        window.location.href = `/products?category=${selectedCategory}`;
     }
 });
