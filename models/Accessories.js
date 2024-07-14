@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-    MyId: {
-        type: Number,
-        required: true
-    },
     name: {
         type: String,
         required: true
@@ -19,6 +15,10 @@ const productSchema = new mongoose.Schema({
     },
     description: {
         type: String,
+        required: true
+    },
+    image: {
+        type: [String], // Array of strings for multiple images
         required: true
     },
     gender: {
@@ -40,10 +40,6 @@ const productSchema = new mongoose.Schema({
     size: {
         type: String,
         enum: ['Small', 'Medium', 'Large','X-Large','XX-Large'],
-        required: true
-    },
-    imageUrl: {
-        type: String, // Array of strings for multiple images
         required: true
     },
     
