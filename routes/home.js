@@ -5,7 +5,10 @@ const path = require('path');
 
 // Route for home
 router.get('/', (req, res) => {
-    res.render('home');
+    const { username } = req.query;
+    res.render('home', { username });
+    // res.render('home');
 });
+
 
 module.exports = router;
