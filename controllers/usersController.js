@@ -38,7 +38,8 @@ exports.loginUser = async (req, res) => {
         }
 
         console.log('Login successful');
-        res.redirect('/');
+        // res.redirect('/');
+        res.redirect(`/?username=${username}`);
     } catch (error) {
         console.error('Server error:', error);
         res.status(500).send('Server error');
@@ -56,21 +57,6 @@ exports.loginUser = async (req, res) => {
 //         const newUser = new Users({ firstName, lastName, username, password });
 //         await newUser.save();
 //         res.redirect('/'); // הפניה חזרה לעמוד הבית לאחר הרשמה מוצלחת
-//     } catch (error) {
-//         res.status(500).send('Server error');
-//     }
-// };
-
-// // פונקציה לטיפול בהתחברות
-// exports.loginUser = async (req, res) => {
-//     try {
-//         const { username, password } = req.body;
-//         const user = await Users.findOne({ username });
-//         if (!user || user.password !== password) {
-//             return res.status(400).send('Invalid credentials');
-//         }
-//         // התחברות מוצלחת
-//         res.redirect('/'); // הפניה לעמוד הבית
 //     } catch (error) {
 //         res.status(500).send('Server error');
 //     }
