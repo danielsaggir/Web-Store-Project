@@ -20,6 +20,10 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const server = express();
 
+//added this 
+server.use(express.urlencoded({ extended: true }));
+server.use(express.json());
+
 // Serve static files from the 'public' directory
 server.use(express.static('public'));
 
