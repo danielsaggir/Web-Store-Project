@@ -76,6 +76,11 @@
     border-radius: 15px;
 }
 
+#lineUser{
+    margin-left: 71px;
+    margin-top: 7px;
+}
+
 #cartBtn
 {
     left: 92%;
@@ -149,7 +154,7 @@
 #logInCard
 {
     display: none;
-    margin-top: 350px;
+    margin-top: 426px;
     left: 350%;
     border-radius: 15px;
     background-color: rgba(240, 248, 255, 0.60);
