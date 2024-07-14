@@ -26,7 +26,7 @@ exports.loginUser = async (req, res) => {
         // הוספת שורת ניפוי שגיאות לבדיקת הבקשה
         console.log('Received login request:', req.body);
 
-        const { username, password } = req.body;
+        const { username, password } = req.body || {};
         console.log('Received username:', username);
         console.log('Received password:', password);
 
