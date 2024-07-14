@@ -30,10 +30,12 @@ server.set('views', path.join(__dirname, 'views'));
 const homeRoutes = require('./routes/home');
 const productRoutes = require('./routes/products');
 const SingleproductRoutes = require('./routes/Singleproduct');
+const userRoutes = require('./routes/users'); // 
 // Use routes
 server.use(homeRoutes);
 server.use(productRoutes);
 server.use(SingleproductRoutes);
+server.use(userRoutes);
 
 
 // Start the server
