@@ -8,11 +8,4 @@ router.get('/', (req, res) => {
     res.render('home');
 });
 
-// const UserController = require('../controllers/usersController');
-
-// // כאן יבוצע הראוטינג של הגישה השונה
-// router.post('/login', usersController.login);
-// router.post('/register', usersController.register);
-
-
 module.exports = router;
