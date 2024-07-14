@@ -9,10 +9,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-    <h1><%= product.name %></h1>
-<img src="<%= product.imageUrl %>" alt="<%= product.name %>">
+    <!-- <h1><%= product.name %></h1> -->
+<!-- <img src="<%= product.imageUrl %>" alt="<%= product.name %>">
 <p>Price: <%= product.price %></p>
-<p>Description: <%= product.description %></p>
+<p>Description: <%= product.description %></p> -->
 
     <div id="FirstLine">
         <div id="symbol">
@@ -27,47 +27,13 @@
         </button>
     </div>
     <div id="MainLine">
-        <div id="caruselAnd">
-            <div id="carouselExampleFade" class="carousel slide carousel-fade">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                    <img src="https://curated-upload.imgix.net/AgAAAB0AIu__xMVqPCCq_qC1zNuEdQ.png?auto=compress%2Cformat&ch=Width%2CDPR%2CSave-Data&ixlib=react-9.4.0&w=1054" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="https://curated-upload.imgix.net/AgAAAB0AiLvrcLQSOiGAEqwvWagvqg.jpg?auto=compress%2Cformat&ch=Width%2CDPR%2CSave-Data&ixlib=react-9.4.0&w=1054" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="https://curated-upload.imgix.net/AgAAAB0AzcFk0WNbMWeoUAsPxa00RA.jpg?auto=compress%2Cformat&ch=Width%2CDPR%2CSave-Data&ixlib=react-9.4.0&w=1054" class="d-block w-100" alt="...">
-                </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-            <div id="extra">
-                <div class="card" style="width: 100px;">
-                    <img src="https://images.blue-tomato.com/is/image/bluetomato/305048846_style1.jpg-O1mCfjbf09cH9fUEmXH8L309awo/T+Rice+Pro+2024+Snowboard.jpg?$m4$" class="card-img-top" alt="...">
-                  </div>
-                  <div class="card" style="width: 100px;">
-                    <img src="https://images.blue-tomato.com/is/image/bluetomato/305048846_style1.jpg-O1mCfjbf09cH9fUEmXH8L309awo/T+Rice+Pro+2024+Snowboard.jpg?$m4$" class="card-img-top" alt="...">
-                  </div>
-                  <div class="card" style="width: 100px;">
-                    <img src="https://images.blue-tomato.com/is/image/bluetomato/305048846_style1.jpg-O1mCfjbf09cH9fUEmXH8L309awo/T+Rice+Pro+2024+Snowboard.jpg?$m4$" class="card-img-top" alt="...">
-                  </div>
-                  <div class="card" style="width: 100px;">
-                    <img src="https://images.blue-tomato.com/is/image/bluetomato/305048846_style1.jpg-O1mCfjbf09cH9fUEmXH8L309awo/T+Rice+Pro+2024+Snowboard.jpg?$m4$" class="card-img-top" alt="...">
-                  </div>
-            </div>
+        <div id="productimg">
+            <img src="<%= product.imageUrl %>" alt="<%= product.name %>">
         </div>
           <div id="Productinfo">
-            <h2 id="name">ProductName</h2>
-            <h8 id="info">ProdInfo</h8>
-            <h8 id="price">Price:</h8>
+            <h2 id="name"><%= product.name %></h2>
+            <h8 id="info"><%= product.description %>.</h8>
+            <h8 id="price"><%= product.price %> ₪</h8>
             <div id="size">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:whitesmoke;color: black;">
@@ -82,7 +48,6 @@
                     </ul>
                 </div>
             </div>
-            <h8 id="stock">Units in stock:</h8>
             <button type="button" id="addto" class="btn btn-secondary btn-lg";" >Add to cart</button>
             
           </div>
