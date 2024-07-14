@@ -20,8 +20,12 @@ const Users = require('../models/users');
 // };
 
 // פונקציה לטיפול בהתחברות
+
 exports.loginUser = async (req, res) => {
     try {
+        // הוספת שורת ניפוי שגיאות לבדיקת הבקשה
+        console.log('Received login request:', req.body);
+
         const { username, password } = req.body;
         console.log('Received username:', username);
         console.log('Received password:', password);
@@ -40,7 +44,6 @@ exports.loginUser = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
-
 
 // // פונקציה לטיפול בהרשמה
 // exports.registerUser = async (req, res) => {
