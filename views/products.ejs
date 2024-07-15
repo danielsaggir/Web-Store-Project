@@ -13,6 +13,7 @@
 </head>
 
 <body>
+<<<<<<< HEAD
     <div id="topDiv">
         <div id="topLine">
             <p id="title"> SkiDis </p>
@@ -21,6 +22,29 @@
         </button>  
         <button id="logInBtn" type="button" class="btn btn-light">
         <i class="bi bi-person-circle"></i>
+=======
+    <!-- <% if (typeof category !== 'undefined') { %>
+        <h1>Products - <%= category %></h1>
+    <% } else { %>
+        <h1>Products - Category not defined</h1>
+    <% } %> -->
+    <!-- <h1>Products in category: <%= selectedCategory %></h1>
+    <ul>
+        <% products.forEach(product => { %>
+            <li><%= product.name %> - <%= product.price %></li>
+        <% }) %>
+    </ul> -->
+    <div id="FirstLine">
+        <div id="symbol">
+            <button id="search"><i class="bi bi-search"></i></button>
+            <button id="snow"><i class="bi bi-snow2"></i></button>
+            <button id="cart"><i class="bi bi-cart"></i></button>
+        </div>
+        <div id="label"> SkiDis</label></div>
+        <button id="list">
+            <i class="bi bi-list"></i>
+            <ul></ul>
+>>>>>>> 5dd45b3 (Sorting Products by queries)
         </button>
         <div >
             <div id="logInCard" class="card text-center mb-3" style="width: 18rem;">
@@ -75,12 +99,12 @@
 
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false">Choose option</button>
+            aria-expanded="false">Sort by</button>
         <ul class="dropdown-menu">
             </li>
-            <li><a class="dropdown-item" href="#">Sort by most recent</a></li>
-            <li><a class="dropdown-item" href="#">Sort from cheap to expensive</a></li>
-            <li><a class="dropdown-item" href="#">Sort from expensive to cheap</a></li>
+            <li><a class="dropdown-item" href="/products?category=<%= selectedCategory %>&sort=recent">Sort by most recent</a></li>
+        <li><a class="dropdown-item" href="/products?category=<%= selectedCategory %>&sort=price_asc">Price ascending</a></li>
+        <li><a class="dropdown-item" href="/products?category=<%= selectedCategory %>&sort=price_desc">Price descending</a></li>
         </ul>
     </div>
 
