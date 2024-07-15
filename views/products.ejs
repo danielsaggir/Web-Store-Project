@@ -17,12 +17,12 @@
     <% } else { %>
         <h1>Products - Category not defined</h1>
     <% } %> -->
-    <h1>Products in category: <%= selectedCategory %></h1>
+    <!-- <h1>Products in category: <%= selectedCategory %></h1>
     <ul>
         <% products.forEach(product => { %>
             <li><%= product.name %> - <%= product.price %></li>
         <% }) %>
-    </ul>
+    </ul> -->
     <div id="FirstLine">
         <div id="symbol">
             <button id="search"><i class="bi bi-search"></i></button>
@@ -54,12 +54,12 @@
 
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false">Choose option</button>
+            aria-expanded="false">Sort by</button>
         <ul class="dropdown-menu">
             </li>
-            <li><a class="dropdown-item" href="#">Sort by most recent</a></li>
-            <li><a class="dropdown-item" href="#">Sort from cheap to expensive</a></li>
-            <li><a class="dropdown-item" href="#">Sort from expensive to cheap</a></li>
+            <li><a class="dropdown-item" href="/products?category=<%= selectedCategory %>&sort=recent">Sort by most recent</a></li>
+        <li><a class="dropdown-item" href="/products?category=<%= selectedCategory %>&sort=price_asc">Price ascending</a></li>
+        <li><a class="dropdown-item" href="/products?category=<%= selectedCategory %>&sort=price_desc">Price descending</a></li>
         </ul>
     </div>
 
