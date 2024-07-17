@@ -3,21 +3,36 @@ const Users = require('../models/users');
 
 
 // // פונקציה לטיפול בהרשמה
-// exports.registerUser = async (req, res) => {
-//     try {
-//         const { firstName, lastName, username, password } = req.body;
-//         const existingUser = await Users.findOne({ username });
-//         if (existingUser) {
-//             return res.status(400).send('User already exists');
-//         }
-//         const hashedPassword = await bcrypt.hash(password, 10);
-//         const newUser = new Users({ firstName, lastName, username, password: hashedPassword });
-//         await newUser.save();
-//         res.redirect('/'); // הפניה חזרה לעמוד הבית לאחר הרשמה מוצלחת
-//     } catch (error) {
-//         res.status(500).send('Server error');
-//     }
-// };
+
+exports.registerUser = async (req, res) => {
+    try {
+        console.log('Register request received:', req.body);
+        const { firstName, lastName, username, password } = req.body;
+
+        if (!firstName || !lastName || !username || !password) {
+            console.log('One or more fields are missing.');
+            return res.status(400).send('All fields are required');
+        }
+
+        console.log('Checking for existing user with username:', username);
+        const existingUser = await Users.findOne({ username });
+
+        if (existingUser) {
+            console.log('User already exists');
+            return res.status(400).send('User already exists');
+        }
+
+        console.log('Creating new user');
+                const newUser = new Users({ firstName, lastName, username, password });
+                await newUser.save();
+
+        console.log('New user created:', newUser);
+        res.redirect(`/?username=${username}`);
+    } catch (error) {
+            console.error('Server error:', error);
+            return res.status(500).send('Server error');
+        }
+    };
 
 // פונקציה לטיפול בהתחברות
 
