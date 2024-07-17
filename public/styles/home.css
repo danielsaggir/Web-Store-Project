@@ -101,6 +101,19 @@ body {
     border-radius: 15px;
 }
 
+#registerCard 
+{
+    left: 71%;
+    position: absolute;
+    background-color: rgba(240, 255, 253, 0.485);
+    font-size:meduim;
+    margin-top: 28px; 
+    padding: 4px;
+    padding-bottom: 0.2px;
+    padding-top: 0.2px;
+    border-radius: 15px;
+}
+
 #lineUser{
     margin-left: 71px;
     margin-top: 7px;
@@ -188,7 +201,7 @@ body {
 {
     display: none;
     margin-top: 426px;
-    left: 350%;
+    left: 306%;
     border-radius: 15px;
     background-color: rgba(240, 248, 255, 0.60);
 }
