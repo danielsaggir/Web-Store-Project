@@ -29,6 +29,29 @@ document.getElementById('logInBtn').addEventListener('click', function() {
     }
 });
 
+
+document.getElementById('showRegisterForm').addEventListener('click', function() {
+    let registerForm = document.getElementById('registerCard');
+    let loginForm = document.getElementById('logInCard');
+    
+    if (registerForm.style.display === 'block') {
+        registerForm.style.display = 'none';
+        loginForm.style.display = 'block';
+    } else {
+        registerForm.style.display = 'block';
+        loginForm.style.display = 'none';
+    }
+});
+
+document.getElementById('backToLogin').addEventListener('click', function() {
+    let registerForm = document.getElementById('registerCard');
+    let loginForm = document.getElementById('logInCard');
+    
+    registerForm.style.display = 'none';
+    loginForm.style.display = 'block';
+});
+
+
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ski-products-link').addEventListener('click', () => {
         navigateToCategory('Ski Products');
