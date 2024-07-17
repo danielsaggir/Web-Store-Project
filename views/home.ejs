@@ -24,12 +24,12 @@
         </button>
         <!-- <div id="lineUser">Hello Guest</div> -->
         <div id="lineUser">
-            <% if (username) { %>
-                Hello <%= username %>
-            <% } else { %>
-                Hello Guest
-            <% } %>
-        </div>
+    <% if (username) { %>
+        Hello <%= username %>
+    <% } else { %>
+        Hello Guest
+    <% } %>
+</div>
         <div >
             <div id="logInCard" class="card text-center mb-3" style="width: 18rem; display: none;">
                 <div class="card-body">
@@ -48,10 +48,10 @@
                     <button id="showRegisterForm" class="btn btn-secondary">Register</button>
                 </div>
             </div>
-            <!-- <div id="registerCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+            <div id="registerCard" class="card text-center mb-3" style="width: 18rem; display: none;">
                 <div class="card-body">
                     <h5 class="card-title">REGISTER</h5>
-                    <form id="registerForm" action="/users/register" method="POST">
+                    <form id="registerForm" action="/register" method="POST">
                         <div class="mb-3">
                             <label for="firstName" class="form-label">First Name</label>
                             <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
@@ -72,7 +72,7 @@
                     </form>
                     <button id="backToLogin" class="btn btn-secondary">Back to Login</button>
                 </div>
-            </div> -->
+            </div>
         </div>
         <div id="menu">
                <a id="homePage-link" href="/">Home</a>
