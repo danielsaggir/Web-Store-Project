@@ -111,7 +111,7 @@ body {
 {
     background-color: #e7eff1;
     width: 90%;
-    margin-left: 45px;
+    margin-left: 100px;
     margin-right: 20px;
     border-radius: 20px;
 }
@@ -125,4 +125,8 @@ body {
     background-color: aliceblue;
     border-radius: 20px;
     margin-bottom: 10px;
+}
+#upload-product
+{
+    margin-left: 100px;
 }
