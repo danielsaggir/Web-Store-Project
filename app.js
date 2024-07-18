@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const bodyParser = require('body-parser');
 
 const Accessories = require('./models/Accessories');
 const Clothes = require('./models/Clothes');
@@ -24,6 +25,8 @@ server.use(express.static('public'));
 server.set('view engine', 'ejs');
 server.set('views', path.join(__dirname, 'views'));
 
+// Middleware to parse JSON bodies
+server.use(bodyParser.json());
 
 // Import routes
 const homeRoutes = require('./routes/home');
