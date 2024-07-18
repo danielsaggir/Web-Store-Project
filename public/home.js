@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
 //     }
 // });
 
+
 // document.getElementById('logInBtn').addEventListener('click', function() {
 //     let menu = document.getElementById('logInCard');
 //     if (menu.style.display === 'block') {
@@ -165,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
 //     loginForm.style.display = 'block';
 // });
 
-document.getElementById('logInBtn').addEventListener('click', function() {
+document.getElementById('logInBtn').addEventListener('click', function () {
     let loginCard = document.getElementById('logInCard');
     let logoutCard = document.getElementById('logoutCard');
 
@@ -186,10 +187,54 @@ document.getElementById('logInBtn').addEventListener('click', function() {
     }
 });
 
-document.getElementById('showRegisterForm').addEventListener('click', function() {
+
+document.getElementById('showChangePassForm').addEventListener('click', function () {
+    let changePassForm = document.getElementById('changePassCard');
+    let logoutCard = document.getElementById('logoutCard');
+
+    if (changePassForm.style.display === 'block') {
+        changePassForm.style.display = 'none';
+        logoutCard.style.display = 'block';
+    } else {
+        changePassForm.style.display = 'block';
+        logoutCard.style.display = 'none';
+    }
+});
+
+document.getElementById('showChangeUserNameForm').addEventListener('click', function () {
+    let changeUserNameForm = document.getElementById('changeUserNameCard');
+    let logoutCard = document.getElementById('logoutCard');
+
+    if (changeUserNameForm.style.display === 'block') {
+        changeUserNameForm.style.display = 'none';
+        logoutCard.style.display = 'block';
+    } else {
+        changeUserNameForm.style.display = 'block';
+        logoutCard.style.display = 'none';
+    }
+});
+
+document.getElementById('backToLogoutFromPass').addEventListener('click', function () {
+    let changePassForm = document.getElementById('changePassCard');
+    let logoutCard = document.getElementById('logoutCard');
+
+    changePassForm.style.display = 'none';
+    logoutCard.style.display = 'block';
+});
+
+document.getElementById('backToLogoutFromUser').addEventListener('click', function () {
+    let changeUserNameForm = document.getElementById('changeUserNameCard');
+    let logoutCard = document.getElementById('logoutCard');
+
+    changeUserNameForm.style.display = 'none';
+    logoutCard.style.display = 'block';
+});
+
+
+document.getElementById('showRegisterForm').addEventListener('click', function () {
     let registerForm = document.getElementById('registerCard');
     let loginForm = document.getElementById('logInCard');
-    
+
     if (registerForm.style.display === 'block') {
         registerForm.style.display = 'none';
         loginForm.style.display = 'block';
@@ -199,10 +244,10 @@ document.getElementById('showRegisterForm').addEventListener('click', function()
     }
 });
 
-document.getElementById('backToLogin').addEventListener('click', function() {
+document.getElementById('backToLogin').addEventListener('click', function () {
     let registerForm = document.getElementById('registerCard');
     let loginForm = document.getElementById('logInCard');
-    
+
     registerForm.style.display = 'none';
     loginForm.style.display = 'block';
 });

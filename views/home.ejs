@@ -44,12 +44,38 @@
                             <button type="submit" class="btn btn-primary">Delete User</button>
                         </form>
                         <h5 class="card-title">Identity crisis?</h5>
-                        <form id="changePassForm" action="/changePass" method="GET">
+                        <button id="showChangePassForm" class="btn btn-primary">Change Password</button>
+                        <button id="showChangeUserNameForm" class="btn btn-primary">Change User Name</button>
+                    </div>
+                </div>
+                
+                <div id="changePassCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+                    <div class="card-body">
+                        <h5 class="card-title">Change Password</h5>
+                        <form id="changePassForm" action="/changePass" method="POST">
+                            <input type="hidden" name="username" value="<%= username %>">
+                            <div class="mb-3">
+                                <label for="newPassword" class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="New Password" required>
+                            </div>
                             <button type="submit" class="btn btn-primary">Change Password</button>
                         </form>
-                        <form id="changeUserNameForm" action="/changeUserName" method="GET">
+                        <button id="backToLogoutFromPass" class="btn btn-primary">Back</button>
+                    </div>
+                </div>
+                
+                <div id="changeUserNameCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+                    <div class="card-body">
+                        <h5 class="card-title">Change User Name</h5>
+                        <form id="changeUserNameForm" action="/changeUserName" method="POST">
+                            <input type="hidden" name="username" value="<%= username %>">
+                            <div class="mb-3">
+                                <label for="newUserName" class="form-label">New User Name</label>
+                                <input type="text" class="form-control" id="newUserName" name="newUserName" placeholder="New User Name" required>
+                            </div>
                             <button type="submit" class="btn btn-primary">Change User Name</button>
                         </form>
+                        <button id="backToLogoutFromUser" class="btn btn-primary">Back</button>
                     </div>
                 </div>
             <% } else { %>
