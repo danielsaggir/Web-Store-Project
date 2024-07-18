@@ -15,4 +15,9 @@ router.get('/logout', (req, res) => {
 
 router.get('/deleteUser', usersController.deleteUser);
 
+
+// טיפול בבקשות POST לשינוי סיסמא ושינוי שם משתמש
+router.post('/changePass', usersController.changePassword);
+router.post('/changeUserName', usersController.changeUserName);
+
 module.exports = router;

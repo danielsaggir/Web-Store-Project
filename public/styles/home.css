@@ -84,22 +84,30 @@
     margin-bottom: 20px; /* Add bottom margin to separate from next element */
 }
 
-#logoutForm {
+#logoutForm, #deleteForm, #changePassForm, #changeUserNameForm, #backToLogoutFromPass, #backToLogoutFromUser
+{
+    margin-top: 15px;
+}
+/* 
+#deleteForm, #changePassForm, #changeUserNameForm, #backToLogoutFromPass, #backToLogoutFromUser
+{
     margin-top: 15px;
 }
 
-#deleteForm {
+#changePassForm, #changeUserNameForm, #backToLogoutFromPass, #backToLogoutFromUser
+ {
     margin-top: 15px;
 }
 
-#changePassForm {
+#changeUserNameForm, #backToLogoutFromPass, #backToLogoutFromUser
+ {
     margin-top: 15px;
-}
+} */
 
-#changeUserNameForm {
-    margin-top: 15px;
+#showChangeUserNameForm
+{
+    margin-top:18px;
 }
-
 
 #registerCard 
 {
@@ -114,7 +122,8 @@
     border-radius: 15px;
 }
 
-#logoutCard{
+#logoutCard, #changePassCard, #changeUserNameCard
+{
     left: 71%;
     position: absolute;
     background-color: rgba(240, 255, 253, 0.485);
