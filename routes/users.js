@@ -9,4 +9,8 @@ router.post('/register', usersController.registerUser);
 // טיפול בבקשות POST להתחברות
 router.post('/login', usersController.loginUser);
 
+router.get('/logout', (req, res) => {
+    res.redirect('/?username=Guest');
+});
+
 module.exports = router;
