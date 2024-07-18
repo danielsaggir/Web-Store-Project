@@ -62,8 +62,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const deleteButton = document.createElement('i');
             deleteButton.classList.add('bi', 'bi-trash');
             deleteButton.addEventListener('click', () => {
-                // Add delete functionality here
-                alert(`Deleting item: ${item.name}`);
+                if (confirm(`Are you sure you want to delete item: ${item.name}?`)) {
+                    deleteItem(item.MyId);
+                }
             });
             deleteCell.appendChild(deleteButton);
         });
@@ -112,4 +113,16 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('Error:', error));
         }
     });
+
+    function deleteItem(itemId) {
+        fetch(`/manager/api/delete/${itemId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Delete successful:', data);
+            fetchData(currentModel);
+        })
+        .catch(error => console.error('Error:', error));
+    }
 });

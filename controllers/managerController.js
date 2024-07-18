@@ -55,5 +55,14 @@ exports.updateProduct = async (req, res) => {
     }
 };
 
+exports.deleteProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const deletedProduct = await SkiProducts.findOneAndDelete({ MyId: productId });
+        res.json({ message: 'Product deleted successfully', product: deletedProduct });
+    } catch (err) {
+        res.status(500).send(err);
+    }
+};
 
 

@@ -27,6 +27,8 @@ router.get('/manager/api/accessories', managerController.getAccessories);
 //updating the product
 router.put('/manager/api/update/:id', managerController.updateProduct);
 
+//delete product
+router.delete('/manager/api/delete/:id', managerController.deleteProduct);
 
 module.exports = router;
 
