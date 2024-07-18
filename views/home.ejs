@@ -24,30 +24,52 @@
         </button>
         <!-- <div id="lineUser">Hello Guest</div> -->
         <div id="lineUser">
-    <% if (username) { %>
-        Hello <%= username %>
-    <% } else { %>
-        Hello Guest
-    <% } %>
-</div>
-        <div >
-            <div id="logInCard" class="card text-center mb-3" style="width: 18rem; display: none;">
-                <div class="card-body">
-                    <h5 class="card-title">LOGIN</h5>
-                    <form id="loginForm" action="/login" method="POST">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">User Name</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="User Name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form>
-                    <button id="showRegisterForm" class="btn btn-secondary">Register</button>
+            <% if (username) { %>
+                Hello <%= username %>
+            <% } else { %>
+                Hello Guest
+            <% } %>
+        </div>
+        <div>
+            <% if (username && username !== 'Guest') { %>
+                <div id="logoutCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+                    <div class="card-body">
+                        <h5 class="card-title">See You Soon :)</h5>
+                        <form id="logoutForm" action="/logout" method="GET">
+                            <button type="submit" class="btn btn-primary">Log Out</button>
+                        </form>
+                        <h5 class="card-title">Already leaving? :(</h5>
+                        <form id="deleteForm" action="/deleteUser" method="GET">
+                            <button type="submit" class="btn btn-primary">Delete User</button>
+                        </form>
+                        <h5 class="card-title">Identity crisis?</h5>
+                        <form id="changePassForm" action="/changePass" method="GET">
+                            <button type="submit" class="btn btn-primary">Change Password</button>
+                        </form>
+                        <form id="changeUserNameForm" action="/changeUserName" method="GET">
+                            <button type="submit" class="btn btn-primary">Change User Name</button>
+                        </form>
+                    </div>
+                </div>                
+            <% } else { %>
+                <div id="logInCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+                    <div class="card-body">
+                        <h5 class="card-title">LOGIN</h5>
+                        <form id="loginForm" action="/login" method="POST">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">User Name</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="User Name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </form>
+                        <button id="showRegisterForm" class="btn btn-secondary">Register</button>
+                    </div>
                 </div>
-            </div>
+            <% } %>
             <div id="registerCard" class="card text-center mb-3" style="width: 18rem; display: none;">
                 <div class="card-body">
                     <h5 class="card-title">REGISTER</h5>
@@ -137,7 +159,9 @@
         </div>
 
     </div>
-
+    <script>
+        let username = "<%= username %>";
+    </script>
         <script src="home.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

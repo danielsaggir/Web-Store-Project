@@ -75,9 +75,46 @@
     padding-top: 0.2px;
     border-radius: 15px;
 }
+.card-title {
+    margin-bottom: 15px;
+    margin-top: 20px; /* Add top margin to separate from previous element */
+}
+
+#logoutCard form {
+    margin-bottom: 20px; /* Add bottom margin to separate from next element */
+}
+
+#logoutForm {
+    margin-top: 15px;
+}
+
+#deleteForm {
+    margin-top: 15px;
+}
+
+#changePassForm {
+    margin-top: 15px;
+}
+
+#changeUserNameForm {
+    margin-top: 15px;
+}
+
 
 #registerCard 
 {
+    left: 71%;
+    position: absolute;
+    background-color: rgba(240, 255, 253, 0.485);
+    font-size:meduim;
+    margin-top: 28px; 
+    padding: 4px;
+    padding-bottom: 0.2px;
+    padding-top: 0.2px;
+    border-radius: 15px;
+}
+
+#logoutCard{
     left: 71%;
     position: absolute;
     background-color: rgba(240, 255, 253, 0.485);
