@@ -24,5 +24,9 @@ router.get('/manager/api/clothes', managerController.getClothes);
 router.get('/manager/api/accessories', managerController.getAccessories);
 // router.get('/manager/api/users', managerController.getUsers);
 
+//updating the product
+router.put('/manager/api/update/:id', managerController.updateProduct);
+
+
 module.exports = router;
 
