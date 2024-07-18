@@ -1,65 +1,25 @@
-// document.addEventListener('DOMContentLoaded', function() {
-//     document.getElementById('ski-products-link').addEventListener('click', function() {
-//         fetchData('ski-products');
-//     });
-
-//     document.getElementById('clothes-link').addEventListener('click', function() {
-//         fetchData('clothes');
-//     });
-
-//     document.getElementById('accessories-link').addEventListener('click', function() {
-//         fetchData('accessories');
-//     });
-
-//     // document.getElementById('users-link').addEventListener('click', function() {
-//     //     fetchData('users');
-//     // });
-
-//     function fetchData(model) {
-//         fetch(`/manager/api/${model}`)
-//             .then(response => response.json()) // קבלת התגובה והמרתה ל-JSON
-//             .then(data => {
-//                 updateTable(data);
-//             })
-//             .catch(error => console.error('Error:', error));
-//     }
-
-//     function updateTable(data) {
-//         const table = document.querySelector('.table-striped');
-//         table.innerHTML = ''; // ניקוי תוכן הטבלה הקיים
-
-//         // Assuming data is an array of objects
-//         data.forEach(item => {
-//             const row = table.insertRow();
-//             for (const key in item) {
-//                 const cell = row.insertCell();
-//                 cell.textContent = item[key];
-//             }
-//         });
-//     }
-// });
-
-
 document.addEventListener('DOMContentLoaded', function () {
+    let currentItem = null;
+    let currentModel = '';
+
     document.getElementById('ski-products-link').addEventListener('click', function () {
-        fetchData('ski-products');
+        currentModel = 'ski-products';
+        fetchData(currentModel);
     });
 
     document.getElementById('clothes-link').addEventListener('click', function () {
-        fetchData('clothes');
+        currentModel = 'clothes';
+        fetchData(currentModel);
     });
 
     document.getElementById('accessories-link').addEventListener('click', function () {
-        fetchData('accessories');
+        currentModel = 'accessories';
+        fetchData(currentModel);
     });
-
-    // document.getElementById('users-link').addEventListener('click', function() {
-    //     fetchData('users');
-    // });
 
     function fetchData(model) {
         fetch(`/manager/api/${model}`)
-            .then(response => response.json()) // קבלת התגובה והמרתה ל-JSON
+            .then(response => response.json())
             .then(data => {
                 updateTable(data);
             })
@@ -68,12 +28,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateTable(data) {
         const table = document.querySelector('.table-striped');
-        table.innerHTML = ''; // ניקוי תוכן הטבלה הקיים
+        table.innerHTML = '';
 
-        // Create table headers
         const header = table.createTHead();
         const headerRow = header.insertRow();
-        const headers = ['ID', 'Name', 'Price', 'Quantity', 'Category', 'Color', 'Description', 'Edit', 'Delete']; // Headers to display
+        const headers = ['ID', 'Name', 'Price', 'Quantity', 'Category', 'Color', 'Description', 'Edit', 'Delete'];
 
         headers.forEach(headerText => {
             const th = document.createElement('th');
@@ -81,11 +40,8 @@ document.addEventListener('DOMContentLoaded', function () {
             headerRow.appendChild(th);
         });
 
-        // Fill table rows with specific fields
         data.forEach(item => {
             const row = table.insertRow();
-
-            // Fields to display
             const fieldsToDisplay = ['MyId', 'name', 'price', 'quantity', 'category', 'color', 'description'];
 
             fieldsToDisplay.forEach(field => {
@@ -93,17 +49,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 cell.textContent = item[field];
             });
 
-            // Add edit button
             const editCell = row.insertCell();
             const editButton = document.createElement('i');
             editButton.classList.add('bi', 'bi-pen');
             editButton.addEventListener('click', () => {
-                // Add edit functionality here
-                alert(`Editing item: ${item.name}`);
+                currentItem = item;
+                openEditModal(item);
             });
             editCell.appendChild(editButton);
 
-            // Add delete button
             const deleteCell = row.insertCell();
             const deleteButton = document.createElement('i');
             deleteButton.classList.add('bi', 'bi-trash');
@@ -113,6 +67,49 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             deleteCell.appendChild(deleteButton);
         });
-
     }
+
+    function openEditModal(item) {
+        document.getElementById('editName').value = item.name;
+        document.getElementById('editPrice').value = item.price;
+        document.getElementById('editQuantity').value = item.quantity;
+        document.getElementById('editCategory').value = item.category;
+        document.getElementById('editColor').value = item.color;
+        document.getElementById('editDescription').value = item.description;
+
+        const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+        editModal.show();
+    }
+
+    document.getElementById('updateButton').addEventListener('click', () => {
+        if (currentItem) {
+            const updatedItem = {
+                name: document.getElementById('editName').value,
+                price: document.getElementById('editPrice').value,
+                quantity: document.getElementById('editQuantity').value,
+                category: document.getElementById('editCategory').value,
+                color: document.getElementById('editColor').value,
+                description: document.getElementById('editDescription').value
+            };
+
+            console.log('Updated item:', updatedItem); // הדפסת הנתונים המעודכנים
+
+            fetch(`/manager/api/update/${currentItem.MyId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedItem)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Update successful:', data);
+                // רענון הטבלה או עדכון השורה בטבלה עם הנתונים החדשים
+                fetchData(currentModel); // עדכון זה כדי לטעון מחדש את הנתונים של המודל הנוכחי
+                const editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+                editModal.hide();
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
 });
