@@ -61,6 +61,23 @@ exports.loginUser = async (req, res) => {
     }
 };
 
+
+// פונקציה למחיקת משתמש
+exports.deleteUser = async (req, res) => {
+    try {
+        const { username } = req.query;
+        console.log('Delete user request received for username:', username);
+
+        await Users.deleteOne({ username });
+
+        console.log('User deleted:', username);
+        res.redirect('/?username=Guest');
+    } catch (error) {
+        console.error('Server error:', error);
+        return res.status(500).send('Server error');
+    }
+};
+
 // // פונקציה לטיפול בהרשמה
 // exports.registerUser = async (req, res) => {
 //     try {
