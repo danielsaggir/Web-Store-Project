@@ -13,4 +13,6 @@ router.get('/logout', (req, res) => {
     res.redirect('/?username=Guest');
 });
 
+router.get('/deleteUser', usersController.deleteUser);
+
 module.exports = router;
