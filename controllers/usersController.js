@@ -78,6 +78,40 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
+
+
+// פונקציה לשינוי סיסמא
+exports.changePassword = async (req, res) => {
+    try {
+        const { username, newPassword } = req.body;
+        console.log('Change password request received for username:', username);
+
+        await Users.updateOne({ username }, { password: newPassword });
+
+        console.log('Password updated for user:', username);
+        res.redirect(`/?username=${username}`);
+    } catch (error) {
+        console.error('Server error:', error);
+        return res.status(500).send('Server error');
+    }
+};
+
+// פונקציה לשינוי שם משתמש
+exports.changeUserName = async (req, res) => {
+    try {
+        const { username, newUserName } = req.body;
+        console.log('Change user name request received for username:', username);
+
+        await Users.updateOne({ username }, { username: newUserName });
+
+        console.log('User name updated from:', username, 'to:', newUserName);
+        res.redirect(`/?username=${newUserName}`);
+    } catch (error) {
+        console.error('Server error:', error);
+        return res.status(500).send('Server error');
+    }
+};
+
 // // פונקציה לטיפול בהרשמה
 // exports.registerUser = async (req, res) => {
 //     try {
