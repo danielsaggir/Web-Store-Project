@@ -4,16 +4,15 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    margin: 0; /* Remove default margin */
-    height: 100vh; /* Take the full viewport height */
-    overflow: hidden; /* Prevent scrolling */
+    margin: 0; 
 }
 
 .content {
     position: relative;
     z-index: 1; /* Ensure content is above the background */
     padding: 20px;
-    /* Additional styling for content */
+    display: flex;
+    flex-direction: column;
 }
 
 #container
@@ -27,6 +26,7 @@ body {
     height: 600px;
     padding: 15px;
     border-radius: 15px;
+    margin-bottom: 40px;
 }
 
 #managerName
@@ -39,7 +39,7 @@ body {
     font-weight: bold;
 }
 
-#info
+#info 
 {
     display: flex;
     flex-direction: row;
@@ -53,28 +53,65 @@ body {
 {
     border-radius: 15px;
     width: 400px;
-    height: auto;
+    height: 330px;
+    margin-top: 20px;
 }
 #statistics
 {
     display: flex;
     flex-direction: column;
     /* justify-content: space-between; */
-    margin-left: 50px;
+    margin-left: 10px;
+    margin-top: 20px;
 
 }
 #statisticsCards{
-    border-radius: 40px;
+    border-radius: 30px;
     width: 250px;
-    margin-bottom: 20px;
+    height: fit-content;
+    margin-bottom: 30px;
     transition: box-shadow 0.3s ease;
 }
 #statisticsCards:hover {
     box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
 }
 
-#menu
+#models
 {
-    display: block;
-    width: 140px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-left: 90px;
+}
+#models p
+{
+    font-size: x-large;
+}
+
+#models button
+{
+    width: 170px;
+    height: 50px;
+    border-color: rgba(223, 222, 222, 0.696);
+    border-style: solid;
+    background-color: aliceblue;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+#models button :hover
+{
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+}
+#dataTable
+{
+    margin-top: 30px;
+    width: 95%;
+}
+.table.table-striped
+{
+    background-color: #e7eff1;
+    width: 90%;
+    margin-left: 45px;
+    margin-right: 20px;
+    border-radius: 20px;
 }
