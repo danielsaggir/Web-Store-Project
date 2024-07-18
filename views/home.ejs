@@ -40,6 +40,7 @@
                         </form>
                         <h5 class="card-title">Already leaving? :(</h5>
                         <form id="deleteForm" action="/deleteUser" method="GET">
+                            <input type="hidden" name="username" value="<%= username %>">
                             <button type="submit" class="btn btn-primary">Delete User</button>
                         </form>
                         <h5 class="card-title">Identity crisis?</h5>
@@ -50,7 +51,7 @@
                             <button type="submit" class="btn btn-primary">Change User Name</button>
                         </form>
                     </div>
-                </div>                
+                </div>
             <% } else { %>
                 <div id="logInCard" class="card text-center mb-3" style="width: 18rem; display: none;">
                     <div class="card-body">
