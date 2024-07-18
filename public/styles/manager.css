@@ -115,3 +115,14 @@ body {
     margin-right: 20px;
     border-radius: 20px;
 }
+
+#upload-product
+{
+    width: 170px;
+    height: 50px;
+    border-color: rgba(223, 222, 222, 0.696);
+    border-style: solid;
+    background-color: aliceblue;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}

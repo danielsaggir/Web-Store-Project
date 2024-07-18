@@ -2,19 +2,78 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentItem = null;
     let currentModel = '';
 
+    const categoryOptions = {
+        'ski-products': ['Snowboards', 'Poles', 'Boots', 'Masks'],
+        'clothes': ['Jackets', 'Pants', 'Gloves'],
+        'accessories': ['Helmets', 'Goggles', 'Gloves']
+    };
+
+    function updateCategoryOptions(model) {
+        const uploadCategory = document.getElementById('uploadCategory');
+        uploadCategory.innerHTML = '';
+        categoryOptions[model].forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option;
+            opt.textContent = option;
+            uploadCategory.appendChild(opt);
+        });
+    }
+
     document.getElementById('ski-products-link').addEventListener('click', function () {
         currentModel = 'ski-products';
         fetchData(currentModel);
+        document.getElementById('upload-product').style.display = 'block';
+        updateCategoryOptions(currentModel);
     });
 
     document.getElementById('clothes-link').addEventListener('click', function () {
         currentModel = 'clothes';
         fetchData(currentModel);
+        document.getElementById('upload-product').style.display = 'block';
+        updateCategoryOptions(currentModel);
     });
 
     document.getElementById('accessories-link').addEventListener('click', function () {
         currentModel = 'accessories';
         fetchData(currentModel);
+        document.getElementById('upload-product').style.display = 'block';
+        updateCategoryOptions(currentModel);
+    });
+
+    document.getElementById('upload-product').addEventListener('click', function () {
+        const uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
+        uploadModal.show();
+    });
+
+    document.getElementById('saveUploadButton').addEventListener('click', () => {
+        const newItem = {
+            MyId: document.getElementById('uploadMyId').value,
+            name: document.getElementById('uploadName').value,
+            price: document.getElementById('uploadPrice').value,
+            quantity: document.getElementById('uploadQuantity').value,
+            description: document.getElementById('uploadDescription').value,
+            gender: document.getElementById('uploadGender').value,
+            category: document.getElementById('uploadCategory').value,
+            color: document.getElementById('uploadColor').value,
+            size: document.getElementById('uploadSize').value,
+            imageUrl: document.getElementById('uploadImgUrl').value
+        };
+
+        fetch(`/manager/api/upload/${currentModel}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newItem)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Upload successful:', data);
+            fetchData(currentModel); // רענון הטבלה עם המוצר החדש
+            const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
+            uploadModal.hide();
+        })
+        .catch(error => console.error('Error:', error));
     });
 
     function fetchData(model) {
@@ -93,8 +152,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 description: document.getElementById('editDescription').value
             };
 
-            console.log('Updated item:', updatedItem); // הדפסת הנתונים המעודכנים
-
             fetch(`/manager/api/update/${currentItem.MyId}`, {
                 method: 'PUT',
                 headers: {
@@ -105,8 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 console.log('Update successful:', data);
-                // רענון הטבלה או עדכון השורה בטבלה עם הנתונים החדשים
-                fetchData(currentModel); // עדכון זה כדי לטעון מחדש את הנתונים של המודל הנוכחי
+                fetchData(currentModel);
                 const editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
                 editModal.hide();
             })

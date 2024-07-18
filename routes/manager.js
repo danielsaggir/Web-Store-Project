@@ -30,5 +30,8 @@ router.put('/manager/api/update/:id', managerController.updateProduct);
 //delete product
 router.delete('/manager/api/delete/:id', managerController.deleteProduct);
 
+//upload product
+router.post('/manager/api/upload/:model', managerController.uploadProduct);
+
 module.exports = router;
 

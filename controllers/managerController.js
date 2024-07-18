@@ -65,4 +65,30 @@ exports.deleteProduct = async (req, res) => {
     }
 };
 
+exports.uploadProduct = async (req, res) => {
+    try {
+        const model = req.params.model;
+        let ProductModel;
+
+        switch (model) {
+            case 'ski-products':
+                ProductModel = SkiProducts;
+                break;
+            case 'clothes':
+                ProductModel = Clothes;
+                break;
+            case 'accessories':
+                ProductModel = Accessories;
+                break;
+            default:
+                return res.status(400).send({ error: 'Invalid model type' });
+        }
+
+        const newProduct = new ProductModel(req.body);
+        const savedProduct = await newProduct.save();
+        res.json(savedProduct);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+};
 
