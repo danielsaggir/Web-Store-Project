@@ -169,6 +169,40 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(loginForm);
+            const data = {
+                username: formData.get('username'),
+                password: formData.get('password')
+            };
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    window.location.href = `/?username=${data.username}`;
+                } else {
+                    const result = await response.json();
+                    const loginError = document.getElementById('loginError');
+                    loginError.textContent = result.error;
+                    loginError.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
     document.getElementById('ski-products-link').addEventListener('click', () => {
         navigateToCategory('Ski Products');
     });
