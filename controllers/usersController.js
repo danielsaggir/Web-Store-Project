@@ -47,9 +47,16 @@ exports.loginUser = async (req, res) => {
 
         const user = await Users.findOne({ username });
 
-        if (!user || user.password !== password) {
-            console.log('Invalid credentials');
-            return res.status(400).send('Invalid credentials');
+        if (!user) {
+            console.log('Wrong User Name');
+            return res.status(400).json({ error: 'Wrong User Name' });
+            // return res.status(400).send('Invalid credentials');
+        }
+
+        if (user.password !== password) {
+            console.log('Wrong Password');
+            return res.status(400).json({ error: 'Wrong Password' });
+            // return res.status(400).send('Invalid credentials');
         }
 
         console.log('Login successful');
