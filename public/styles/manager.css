@@ -1,0 +1,132 @@
+body {
+    background-image: url('https://media.cntraveler.com/photos/6351664f9e488d3c598e3279/16:9/w_2240,c_limit/Ski_GettyImages-1400588475.jpg');
+    background-attachment: fixed; /* Parallax effect */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0; 
+}
+
+.content {
+    position: relative;
+    z-index: 1; /* Ensure content is above the background */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#container
+{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(218 235 244 / 80%);
+    margin-top: 90px;
+    margin-left: 140px;
+    width: 80%;
+    height: 600px;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+}
+
+#managerName
+{
+    margin-right: auto;
+}
+#managerName h6
+{
+    font-size: x-large;
+    font-weight: bold;
+}
+
+#info 
+{
+    display: flex;
+    flex-direction: row;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-top: 22px;
+    margin-left: 60px;
+}
+
+#graph
+{
+    border-radius: 15px;
+    width: 400px;
+    height: 330px;
+    margin-top: 20px;
+}
+#statistics
+{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    margin-left: 10px;
+    margin-top: 20px;
+
+}
+#statisticsCards{
+    border-radius: 30px;
+    width: 250px;
+    height: fit-content;
+    margin-bottom: 30px;
+    transition: box-shadow 0.3s ease;
+}
+#statisticsCards:hover {
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+#models
+{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-left: 90px;
+}
+#models p
+{
+    font-size: x-large;
+}
+
+#models button
+{
+    width: 170px;
+    height: 50px;
+    border-color: rgba(223, 222, 222, 0.696);
+    border-style: solid;
+    background-color: aliceblue;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+#models button :hover
+{
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+}
+#dataTable
+{
+    margin-top: 30px;
+    width: 95%;
+}
+.table.table-striped
+{
+    background-color: #e7eff1;
+    width: 90%;
+    margin-left: 100px;
+    margin-right: 20px;
+    border-radius: 20px;
+}
+
+#upload-product
+{
+    width: 170px;
+    height: 50px;
+    border-color: rgba(223, 222, 222, 0.696);
+    border-style: solid;
+    background-color: aliceblue;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+#upload-product
+{
+    margin-left: 100px;
+}
