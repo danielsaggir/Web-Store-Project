@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false // ברירת מחדל משתמש רגיל, ניתן לשנות ידנית במידת הצורך
     }
 });
 
