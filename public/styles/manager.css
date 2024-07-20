@@ -129,4 +129,9 @@ body {
 #upload-product
 {
     margin-left: 100px;
+    display: none;
+}
+#searchItem1
+{
+    display: none;
 }
