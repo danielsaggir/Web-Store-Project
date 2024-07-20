@@ -11,7 +11,8 @@ exports.registerUser = async (req, res) => {
 
         if (!firstName || !lastName || !username || !password) {
             console.log('One or more fields are missing.');
-            return res.status(400).send('All fields are required');
+            // return res.status(400).send('All fields are required');
+            return res.status(400).json({ error: 'All fields are required' });
         }
 
         console.log('Checking for existing user with username:', username);
@@ -19,7 +20,8 @@ exports.registerUser = async (req, res) => {
 
         if (existingUser) {
             console.log('User already exists');
-            return res.status(400).send('User already exists');
+            return res.status(400).json({ error: 'User already exists' });
+            // return res.status(400).send('User already exists');
         }
 
         console.log('Creating new user');
@@ -93,6 +95,12 @@ exports.changePassword = async (req, res) => {
         const { username, newPassword } = req.body;
         console.log('Change password request received for username:', username);
 
+        const existingPassword = await Users.findOne({ password: newPassword });
+        if (existingPassword) {
+            console.log('Password already exists');
+            return res.status(400).json({ error: 'Password already exists' });
+        }
+
         await Users.updateOne({ username }, { password: newPassword });
 
         console.log('Password updated for user:', username);
@@ -108,6 +116,12 @@ exports.changeUserName = async (req, res) => {
     try {
         const { username, newUserName } = req.body;
         console.log('Change user name request received for username:', username);
+
+        const existingUser = await Users.findOne({ username: newUserName });
+        if (existingUser) {
+            console.log('User name already exists');
+            return res.status(400).json({ error: 'User name already exists' });
+        }
 
         await Users.updateOne({ username }, { username: newUserName });
 

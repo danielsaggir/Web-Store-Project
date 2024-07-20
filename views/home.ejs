@@ -52,6 +52,7 @@
                 <div id="changePassCard" class="card text-center mb-3" style="width: 18rem; display: none;">
                     <div class="card-body">
                         <h5 class="card-title">Change Password</h5>
+                        <div id="changePassError" class="alert alert-danger" style="display: none;"></div>
                         <form id="changePassForm" action="/changePass" method="POST">
                             <input type="hidden" name="username" value="<%= username %>">
                             <div class="mb-3">
@@ -67,6 +68,7 @@
                 <div id="changeUserNameCard" class="card text-center mb-3" style="width: 18rem; display: none;">
                     <div class="card-body">
                         <h5 class="card-title">Change User Name</h5>
+                        <div id="changeUserNameError" class="alert alert-danger" style="display: none;"></div>
                         <form id="changeUserNameForm" action="/changeUserName" method="POST">
                             <input type="hidden" name="username" value="<%= username %>">
                             <div class="mb-3">
@@ -120,7 +122,8 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Register</button>
                     </form>
-                    <button id="backToLogin" class="btn btn-secondary">Back to Login</button>
+                    <div id="registerError" class="alert alert-danger" style="display: none;"></div>
+                    <button id="backToLogin" class="btn btn-primary">Back to Login</button>
                 </div>
             </div>
         </div>

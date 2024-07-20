@@ -203,6 +203,117 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(registerForm);
+            const data = {
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                username: formData.get('username'),
+                password: formData.get('password')
+            };
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    window.location.href = `/?username=${result.username}`;
+                } else {
+                    const result = await response.json();
+                    const registerError = document.getElementById('registerError');
+                    registerError.textContent = result.error;
+                    registerError.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+     // הוספת טיפול בטופס שינוי סיסמא
+     const changePassForm = document.getElementById('changePassForm');
+     if (changePassForm) {
+         changePassForm.addEventListener('submit', async (event) => {
+             event.preventDefault();
+ 
+             const formData = new FormData(changePassForm);
+             const data = {
+                 username: formData.get('username'),
+                 newPassword: formData.get('newPassword')
+             };
+ 
+             try {
+                 const response = await fetch('/changePass', {
+                     method: 'POST',
+                     headers: {
+                         'Content-Type': 'application/json'
+                     },
+                     body: JSON.stringify(data)
+                 });
+ 
+                 if (response.ok) {
+                     const result = await response.json();
+                     alert('Password changed successfully');
+                     window.location.href = `/?username=${result.username}`;
+                 } else {
+                     const result = await response.json();
+                     const changePassError = document.getElementById('changePassError');
+                     changePassError.textContent = result.error;
+                     changePassError.style.display = 'block';
+                 }
+             } catch (error) {
+                 console.error('Error:', error);
+             }
+         });
+     }
+ 
+     // הוספת טיפול בטופס שינוי שם משתמש
+     const changeUserNameForm = document.getElementById('changeUserNameForm');
+     if (changeUserNameForm) {
+         changeUserNameForm.addEventListener('submit', async (event) => {
+             event.preventDefault();
+ 
+             const formData = new FormData(changeUserNameForm);
+             const data = {
+                 username: formData.get('username'),
+                 newUserName: formData.get('newUserName')
+             };
+ 
+             try {
+                 const response = await fetch('/changeUserName', {
+                     method: 'POST',
+                     headers: {
+                         'Content-Type': 'application/json'
+                     },
+                     body: JSON.stringify(data)
+                 });
+ 
+                 if (response.ok) {
+                     const result = await response.json();
+                     alert('User name changed successfully');
+                     window.location.href = `/?username=${result.username}`;
+                 } else {
+                     const result = await response.json();
+                     const changeUserNameError = document.getElementById('changeUserNameError');
+                     changeUserNameError.textContent = result.error;
+                     changeUserNameError.style.display = 'block';
+                 }
+             } catch (error) {
+                 console.error('Error:', error);
+             }
+         });
+     }
+
     document.getElementById('ski-products-link').addEventListener('click', () => {
         navigateToCategory('Ski Products');
     });
