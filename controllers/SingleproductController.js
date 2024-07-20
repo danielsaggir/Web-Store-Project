@@ -32,7 +32,7 @@ exports.getSingleProduct = async (req, res) => {
 
         console.log('Found product:', product); // Log the found product for verification
 
-        res.render('Singelproduct', {
+        res.render('SingleProduct', {
             product,
             selectedCategory // Pass selectedCategory to the view
         });
