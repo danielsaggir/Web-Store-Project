@@ -141,7 +141,13 @@
                 <li><a id="ski-products-link" href="#">Ski Products</a></li>
                 <li><a id="clothes-link" href="#">Clothes</a></li>
                 <li><a id="accessories-link" href="#">Accessories</a></li>
-                <li><a id="manager-link" href="/manager">manager entry</a></li>
+                <% if (isAdmin === true) { %>
+                    <li><a id="manager-link" href="/manager">Manager Entry</a></li>
+                <% } else { %>
+                    <li><a id="personal-zone-link" href="/account">My Account</a></li>
+                <% } %> 
+                <!-- <li><a id="manager-link" href="/manager">manager entry</a></li> -->
+                <!-- <li><a id="manager-link" href="/manager">manager entry</a></li> -->
             </ul>
         </div>
     </div>
@@ -202,6 +208,7 @@
     </div>
     <script>
         let username = "<%= username %>";
+        let isAdmin = "<%= isAdmin %>";
     </script>
         <script src="home.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
