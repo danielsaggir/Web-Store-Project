@@ -19,28 +19,33 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function showSearchAndUploadButtons() {
+        document.getElementById('upload-product').style.display = 'block';
+        document.getElementById('searchItem1').style.display = 'block';
+    }
+
     document.getElementById('ski-products-link1').addEventListener('click', function () {
         currentModel = 'ski-products';
         fetchData(currentModel);
-        document.getElementById('upload-product').style.display = 'block';
+        showSearchAndUploadButtons();
         updateCategoryOptions(currentModel);
     });
 
     document.getElementById('clothes-link1').addEventListener('click', function () {
         currentModel = 'clothes';
         fetchData(currentModel);
-        document.getElementById('upload-product').style.display = 'block';
+        showSearchAndUploadButtons();
         updateCategoryOptions(currentModel);
     });
 
     document.getElementById('accessories-link1').addEventListener('click', function () {
         currentModel = 'accessories';
         fetchData(currentModel);
-        document.getElementById('upload-product').style.display = 'block';
+        showSearchAndUploadButtons();
         updateCategoryOptions(currentModel);
     });
 
-    document.getElementById('upload-product1').addEventListener('click', function () {
+    document.getElementById('upload-product').addEventListener('click', function () {
         const uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
         uploadModal.show();
     });
@@ -76,10 +81,33 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Error:', error));
     });
 
+    document.getElementById('searchButton1').addEventListener('click', () => {
+        const searchQuery = document.getElementById('searchBox1').value;
+        console.log(`Search query: ${searchQuery}`); // הודעת הדפסה לבדיקה
+        if (searchQuery) {
+            fetch(`/manager/api/search?model=${currentModel}&query=${encodeURIComponent(searchQuery)}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Search result:', data); // הודעת הדפסה לבדיקה
+                    updateTable(data); // עדכון הטבלה עם התוצאות של החיפוש
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    });
+
+    document.getElementById('searchBox1').addEventListener('input', () => {
+        const searchQuery = document.getElementById('searchBox1').value;
+        console.log(`Search input changed: ${searchQuery}`); // הודעת הדפסה לבדיקה
+        if (!searchQuery) {
+            fetchData(currentModel); // אם תיבת החיפוש ריקה, נטען את כל הנתונים מחדש
+        }
+    });
+
     function fetchData(model) {
         fetch(`/manager/api/${model}`)
             .then(response => response.json())
             .then(data => {
+                console.log('Fetched data:', data); // הודעת הדפסה לבדיקה
                 updateTable(data);
             })
             .catch(error => console.error('Error:', error));
@@ -100,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         data.forEach(item => {
+            console.log('Adding item to table:', item); // הודעת הדפסה לבדיקה
             const row = table.insertRow();
             const fieldsToDisplay = ['MyId', 'name', 'price', 'quantity', 'category', 'color', 'description'];
 
