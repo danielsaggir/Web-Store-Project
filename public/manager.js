@@ -19,21 +19,21 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    document.getElementById('ski-products-link').addEventListener('click', function () {
+    document.getElementById('ski-products-link1').addEventListener('click', function () {
         currentModel = 'ski-products';
         fetchData(currentModel);
         document.getElementById('upload-product').style.display = 'block';
         updateCategoryOptions(currentModel);
     });
 
-    document.getElementById('clothes-link').addEventListener('click', function () {
+    document.getElementById('clothes-link1').addEventListener('click', function () {
         currentModel = 'clothes';
         fetchData(currentModel);
         document.getElementById('upload-product').style.display = 'block';
         updateCategoryOptions(currentModel);
     });
 
-    document.getElementById('accessories-link').addEventListener('click', function () {
+    document.getElementById('accessories-link1').addEventListener('click', function () {
         currentModel = 'accessories';
         fetchData(currentModel);
         document.getElementById('upload-product').style.display = 'block';
