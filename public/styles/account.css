@@ -1,0 +1,50 @@
+body {
+    background-image: url('https://media.cntraveler.com/photos/6351664f9e488d3c598e3279/16:9/w_2240,c_limit/Ski_GettyImages-1400588475.jpg');
+    background-attachment: fixed; /* Parallax effect */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0; 
+}
+
+.content {
+    position: relative;
+    z-index: 1; /* Ensure content is above the background */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#container
+{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(218 235 244 / 80%);
+    margin-top: 90px;
+    margin-left: 140px;
+    width: 80%;
+    height: 600px;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+}
+
+#managerName
+{
+    margin-right: auto;
+}
+#managerName h6
+{
+    font-size: x-large;
+    font-weight: bold;
+}
+
+#info 
+{
+    display: flex;
+    flex-direction: row;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-top: 22px;
+    margin-left: 60px;
+}
