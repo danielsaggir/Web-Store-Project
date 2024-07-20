@@ -1,13 +1,3 @@
-// const express = require('express');
-// const router = express.Router();
-// const path = require('path');
-
-// // Route for manager page
-// router.get('/manager', (req, res) => {
-//     res.render('manager');
-// });
-
-// module.exports = router;
 
 const express = require('express');
 const router = express.Router();
@@ -32,6 +22,9 @@ router.delete('/manager/api/delete/:id', managerController.deleteProduct);
 
 //upload product
 router.post('/manager/api/upload/:model', managerController.uploadProduct);
+
+//search product
+router.get('/manager/api/search', managerController.searchProduct);
 
 module.exports = router;
 
