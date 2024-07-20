@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 
-
 const Accessories = require('./models/Accessories');
 const Clothes = require('./models/Clothes');
 const SkiProducts = require('./models/SkiProducts');
@@ -38,12 +37,14 @@ const productRoutes = require('./routes/products');
 const SingleproductRoutes = require('./routes/Singleproduct');
 const userRoutes = require('./routes/users'); // 
 const managerRoutes = require('./routes/manager');
+const accountRoutes = require('./routes/account');
 // Use routes
 server.use(homeRoutes);
 server.use(productRoutes);
 server.use(SingleproductRoutes);
 server.use(userRoutes);
 server.use(managerRoutes);
+server.use(accountRoutes);
 
 
 // Start the server
