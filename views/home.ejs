@@ -138,6 +138,18 @@
             <input type="text" id="searchBox" placeholder="Search for a product">
             <button id="searchButton" type="button">Search</button>
         </div>
+            <ul>
+                <li><a id="ski-products-link" href="#">Ski Products</a></li>
+                <li><a id="clothes-link" href="#">Clothes</a></li>
+                <li><a id="accessories-link" href="#">Accessories</a></li>
+                <% if (isAdmin === true) { %>
+                    <li><a id="manager-link" href="/manager">Manager Entry</a></li>
+                <% } else { %>
+                    <li><a id="personal-zone-link" href="/account">My Account</a></li>
+                <% } %> 
+                <!-- <li><a id="manager-link" href="/manager">manager entry</a></li> -->
+                <!-- <li><a id="manager-link" href="/manager">manager entry</a></li> -->
+            </ul>
         </div>
     </div>
 
@@ -173,6 +185,7 @@
     </div>
     <script>
         let username = "<%= username %>";
+        let isAdmin = "<%= isAdmin %>";
     </script>
         <script src="home.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6RNA9mZmst46xbC-wuiIEA7xIQAjO-Pw&callback=initMap" async defer></script>
