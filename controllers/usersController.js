@@ -30,6 +30,7 @@ exports.registerUser = async (req, res) => {
 
         console.log('New user created:', newUser);
         res.redirect(`/?username=${username}`);
+        // res.render('home', { username: newUser.username, isAdmin: newUser.isAdmin });
     } catch (error) {
             console.error('Server error:', error);
             return res.status(500).send('Server error');
@@ -64,6 +65,7 @@ exports.loginUser = async (req, res) => {
         console.log('Login successful');
         // res.redirect('/');
         res.redirect(`/?username=${username}`);
+        // res.render('home', { username: user.username, isAdmin: user.isAdmin });
     } catch (error) {
         console.error('Server error:', error);
         res.status(500).send('Server error');
