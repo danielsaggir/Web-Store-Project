@@ -12,13 +12,45 @@
 <body>
     <div id="content">
         <div id="topLine">
-            <p id="title">SkiDis</p>
+            <p id="title"> SkiDis </p>
             <button id="cartBtn" type="button" class="btn btn-light">
                 <i class="bi bi-cart"></i>
-            </button>
+            </button>  
             <button id="logInBtn" type="button" class="btn btn-light">
-                <i class="bi bi-person-circle"></i>
+            <i class="bi bi-person-circle"></i>
             </button>
+            <div >
+                <div id="logInCard" class="card text-center mb-3" style="width: 18rem;">
+                    <div class="card-body">
+                      <h5 class="card-title">LOGIN</h5>
+                      <p>User Name*</p>
+                      <input type="text" placeholder="User Name">
+                      <p>Password*</p>
+                      <input type="text" placeholder="Password">
+                      <a href="#" class="btn btn-primary">login</a>
+                    </div>
+                  </div>
+            </div>
+            <div >
+                <div id="cartCard" class="card text-center mb-3" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">YOUR SHOPING CART</h5>
+                        <ul id="cartItems"></ul>
+                        <p id="emptyCartMessage">Your cart is empty.</p>
+                    </div>
+                </div>        
+            </div>
+            <div id="menu">
+                    <a id="homePage-link" href="/">Home</a>
+                    <a id="ski-products-link" href="#">Ski Products</a>
+                    <a id="clothes-link" href="#">Clothes</a>
+                    <a id="accessories-link" href="#">Accessories</a>
+                    <a id="manager-link" href="/manager">manager entry</a>
+            </div>
+            <div id="searchItem">
+                <input type="text" id="searchBox" placeholder="Search for a product">
+                <button id="searchButton" type="button">Search</button>
+            </div>
         </div>
 
         <div id="container">
