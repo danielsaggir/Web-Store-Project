@@ -29,17 +29,21 @@ server.use(express.static('public'));
 server.set('view engine', 'ejs');
 server.set('views', path.join(__dirname, 'views'));
 
+// Middleware to parse JSON bodies
+server.use(express.json());
 
 // Import routes
 const homeRoutes = require('./routes/home');
 const productRoutes = require('./routes/products');
 const SingleproductRoutes = require('./routes/Singleproduct');
 const userRoutes = require('./routes/users'); // 
+const managerRoutes = require('./routes/manager');
 // Use routes
 server.use(homeRoutes);
 server.use(productRoutes);
 server.use(SingleproductRoutes);
 server.use(userRoutes);
+server.use(managerRoutes);
 
 
 // Start the server

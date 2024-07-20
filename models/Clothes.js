@@ -29,7 +29,7 @@ const ClothesSchema = new mongoose.Schema({
 
     category: {
         type: String,
-        enum: ['Helmets', 'Gloves', 'Goggles', 'Masks'], // Restrict to these values
+        enum: ['Shirts', 'Jackets', 'Pants', 'Socks', 'Underwear'], // Restrict to these values
         required: true
     },
     color: {

@@ -29,12 +29,12 @@ const skiSchema = new mongoose.Schema({
 
     category: {
         type: String,
-        enum: ['Helmets', 'Gloves', 'Goggles', 'Masks'], // Restrict to these values
+        enum: ['Snowboards', 'Poles', 'Boots', 'Masks'], // Restrict to these values
         required: true
     },
     color: {
         type: String,
-        enum: ['Red', 'Black', 'White','Blue','Yellow'],
+        enum: ['Red', 'Black', 'White','Blue','Yellow','Green'],
         required: true
     },
     size: {
