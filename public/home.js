@@ -141,3 +141,11 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = `/products?category=${selectedCategory}`;
     }
 });
+
+// Add event listener to the search button
+document.getElementById('searchButton').addEventListener('click', function () {
+    const searchQuery = document.getElementById('searchBox').value;
+    if (searchQuery) {
+        window.location.href = `/singleproduct?name=${encodeURIComponent(searchQuery)}`;
+    }
+});
