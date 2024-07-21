@@ -1,25 +1,29 @@
-#top
-{
-    
+body {
     background-image: url('https://media.cntraveler.com/photos/6351664f9e488d3c598e3279/16:9/w_2240,c_limit/Ski_GettyImages-1400588475.jpg');
-    height: 100vh; /* Take the full viewport height */
-     background-attachment: fixed; /*Parallax effect */
+    background-attachment: fixed; /* Parallax effect */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    z-index: -2;
+    margin: 0; 
 }
 
 #topLine
 {
+    top: 0;
     z-index: 3;
     position: fixed;
     display: flex;
     align-items: center;
     width: 100%;
     height: 50px;
+    background-color: rgb(238, 244, 249);
 }
-
+#menu
+{
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+}
 #title{
     font-weight: bold;
     font-size: xx-large;
@@ -29,6 +33,13 @@
     margin-top: 10px;
     left: 47%;
 }
+
+#searchItem
+{
+    margin-left: 400px;
+    border-radius: 30px;
+}
+
 
 #container
 {
@@ -44,7 +55,7 @@
 
 }
 
-#menuButton
+/* #menuButton
 {
     position: absolute;
     z-index: 1;
@@ -57,7 +68,7 @@
     padding-top: 0.2px;
     border-radius: 15px;
 
-}
+} */
 /* #menuButton :hover{
     background-color: rgba(240, 255, 253, 0.485);
 } */
@@ -67,7 +78,7 @@
     left: 95%;
     /* margin-right: 20px; */
     position: absolute;
-    background-color: rgba(240, 255, 253, 0.485);
+    /* background-color: rgba(240, 255, 253, 0.485); */
     font-size:x-large;
     margin-top: 3px; 
     padding: 4px;
@@ -81,7 +92,7 @@
     left: 92%;
     /* margin-right: 20px; */
     position: absolute;
-    background-color: rgba(240, 255, 253, 0.485);
+    /* background-color: rgba(240, 255, 253, 0.485); */
     font-size:x-large;
     margin-top: 3px; 
     padding: 4px;
@@ -90,19 +101,19 @@
     border-radius: 15px;
 }
 
-#menu
+/* #menu
 {
-    display: none;
-    position: absolute;
+    /* display: none; */
+    /* position: absolute;
     margin-top: 25%;
     background-color: rgba(240, 248, 255, 0.60);
     width: 180px;
     height: 200px;
     padding: 10px;
 
-}
+} */
 
-#menu ul {
+/* #menu ul {
     margin-top: 30px;
     margin-left: 10px;
     padding: 0; 
@@ -116,11 +127,12 @@
 #menu li :hover{
     margin-bottom: 10px; 
     background-color: rgba(240, 248, 255);
-}
+} */
 
 #menu a {
     color: black; 
     text-decoration: none; 
+    margin-left: 23px;
 }
 
 #menu a:hover {
@@ -145,12 +157,19 @@
 {
     margin-top: 10px;
 }
-
+#cartCard
+{
+    display: none;
+    margin-top: 200px;
+    left: 365%;
+    border-radius: 15px;
+    background-color: rgba(240, 248, 255, 0.60);
+}
 #logInCard
 {
     display: none;
     margin-top: 350px;
-    left: 350%;
+    left: 390%;
     border-radius: 15px;
     background-color: rgba(240, 248, 255, 0.60);
 }
