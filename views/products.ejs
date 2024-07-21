@@ -29,38 +29,35 @@
             <button id="snow"><i class="bi bi-snow2"></i></button>
             <button id="cart"><i class="bi bi-cart"></i></button>
         </div>
-        <div id="label"> SkiDis</label></div>
+        <div id="title"> SkiDis</label></div>
         <button id="list">
             <i class="bi bi-list"></i>
             <ul></ul>
         </button>
     </div>
-
-    <button class="filtering" id="slides">
-        <i class="bi bi-sliders"></i>   סנן לפי
-    </button>
-    <div class="filter-box">
-        <h1 id="header_main">סנן לפי</h1>
-        <h2 id="header">category 1</h2>
-        <hr class="line">
-        <h3 id="header">category 2</h3>
-        <hr class="line">
-        <h4 id="header">New</h4>
-        <hr class="line">
-        <h5 id="header">Color</h5>
-        <hr class="line">
-        <h6 id="header">Size</h6>
-    </div>
-
+    
+    <div class="container_sorting">
+        <button class="filtering" id="slides">
+            <i class="bi bi-sliders"></i>   סנן לפי
+        </button>
+        <div class="filter-box">
+            <h1 id="header_main">סנן לפי</h1>
+            <h4 id="header">New</h4>
+            <hr class="line">
+            <h5 id="header">Color</h5>
+            <hr class="line">
+            <h6 id="header">Size</h6>
+        </div>
+        <div class="container_sorting">
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
             aria-expanded="false">Sort by</button>
         <ul class="dropdown-menu">
             </li>
-            <li><a class="dropdown-item" href="/products?category=<%= selectedCategory %>&sort=recent">Sort by most recent</a></li>
         <li><a class="dropdown-item" href="/products?category=<%= selectedCategory %>&sort=price_asc">Price ascending</a></li>
         <li><a class="dropdown-item" href="/products?category=<%= selectedCategory %>&sort=price_desc">Price descending</a></li>
         </ul>
+    </div>
     </div>
 
  <div class="container_main">
