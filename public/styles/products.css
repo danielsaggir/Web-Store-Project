@@ -178,7 +178,7 @@ body::before {
     justify-content: space-between; /* Space cards evenly */
     flex-wrap: wrap; /* Allow cards to wrap to the next line if needed */
     gap: 20px; /* Space between the cards */
-    padding: 200px; /* Adjust padding as needed */
+    padding: 300px; /* Adjust padding as needed */
 }
 
 .card {
