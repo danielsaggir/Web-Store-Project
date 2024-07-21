@@ -6,6 +6,11 @@ body {
     background-size: cover;
     margin: 0; 
 }
+#topLine
+{
+    position: fixed;
+    width: 100%;
+}
 
 .content {
     position: relative;
