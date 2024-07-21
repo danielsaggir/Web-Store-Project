@@ -142,10 +142,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Add event listener to the search button
-document.getElementById('searchButton').addEventListener('click', function () {
-    const searchQuery = document.getElementById('searchBox').value;
-    if (searchQuery) {
-        window.location.href = `/singleproduct?name=${encodeURIComponent(searchQuery)}`;
+// Replace 'YOUR_API_KEY' with your actual API key
+const apiKey = 'e9b3b2b154c9598738e429ab2b39f9ce';
+const cities = [
+  { name: 'Bansko', country: 'BG' },
+  { name: 'Val Thorens', country: 'FR' },
+  { name: 'Chamonix', country: 'FR' }
+];
+
+let weatherData = [];
+let currentIndex = 0;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const weatherDiv = document.getElementById('weather');
+
+  // Fetch weather data for each city
+  cities.forEach(city => {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.name},${city.country}&appid=${apiKey}&units=metric`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(`Weather in ${city.name}:`, data);
+        weatherData.push({ city: city.name, data });
+        
+        // Display the first city's weather data once it's fetched
+        if (weatherData.length === 1) {
+          displayWeather(weatherData[0]);
+        }
+      })
+      .catch(error => console.error('Error fetching weather data:', error));
+  });
+
+  // Function to display weather data
+  function displayWeather(weather) {
+    weatherDiv.innerHTML = `
+      <p>${weather.city} : Temperature ${weather.data.main.temp}°C ,  ${weather.data.weather[0].description} , Wind Speed: ${weather.data.wind.speed} m/s</p>
+    `;
+  }
+
+  // Function to cycle through weather data every 5 seconds
+  setInterval(() => {
+    if (weatherData.length > 0) {
+      currentIndex = (currentIndex + 1) % weatherData.length;
+      displayWeather(weatherData[currentIndex]);
     }
+  }, 5000);
 });
