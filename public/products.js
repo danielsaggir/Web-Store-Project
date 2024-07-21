@@ -18,3 +18,4 @@ document.querySelectorAll('.product-link').forEach(link => {
         window.location.href = `/singleproduct?MyId=${myId}&selectedCategory=${category}`;
     });
 });
+

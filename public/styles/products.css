@@ -70,20 +70,12 @@ body::before {
 }
 
 .filtering{
-    /* display: flex;
-    align-items: center;
-    justify-content: flex-end; */
-    margin-left:1412px;
     gap: 10px; 
-    margin-top:-23px;
     z-index:1001;
     background-color: rgba(255, 255, 255, 0.534); /* Button background color */
     border: 2px solid white; /* White border */
     border-radius: 8px; /* Border radius for rounded corners */
-    /* cursor: pointer; */
-     /* Pointer cursor for button */
-    /* transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; */
-    /* margin-right:15px; */
+    margin-left:auto;
 }
 .filtering:hover {
     background-color: rgba(255, 255, 255, 0.8); /* Change background on hover */
@@ -95,39 +87,30 @@ body::before {
     color: inherit; /* Inherit text color */
 }
 
-/* #slides{
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-top:-13px;
-}
-.filtering:hover p,
-.filtering:hover #slides i {
-    color:blue;
-} */
-
 .filter-box {
     position: fixed;
-    top: 185px; /* Adjust based on where you want the box to appear */
-    right: -500px; /* Adjust based on the width of the box */
-    width:500px; /* Adjust the width as needed */
+    top: 40px;
+    right:20px;
+    width: 200px;
     height: 500px;
-    background-color: rgba(255, 255, 255, 0.534);
+    background-color: rgba(255, 255, 255, 0.85);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
     transition: right 0.3s ease-in-out;
-     z-index: 1000; 
+     z-index: 1; 
      direction: rtl;
+    float: right;
+    margin-top: 150px;
+    overflow-y: auto;
 }
 
-.filter-box.active {
-    right: 0;
-}
 #header_main
 {
     font-size:16px;
     /* font-weight:bold; */
     margin-bottom: 10px;
+    padding-right: 45px;
+
 }
 #header
 {
@@ -138,17 +121,20 @@ body::before {
 .line{
     border:none;
     border-top:1px solid #ccc;
-    margin: 10px 0;
+    margin: 10px 12px;
 }
 .dropdown{
-    margin-top:-52px;
+    margin-top:-30px;
     margin-left:8px;
 }
 .btn.btn-secondary.dropdown-toggle
 {
-    background-color:  rgba(255, 255, 255, 0.534);
+    position:relative;
+    margin-top: 148px;
+    background-color:  rgba(255, 255, 255);
     color:black;
 }
+
 .dropdown-menu{
     background-color:  rgba(255, 255, 255, 0.534);
 }
@@ -157,28 +143,27 @@ body::before {
     color: #000; /* Text color for dropdown items */
 }
 
-.dropdown-item.active,
-.dropdown-item:focus {
+.dropdown-item.active, .dropdown-item:focus {
     background-color: rgba(255, 255, 255, 0.534); /* Background color when selected */
     color: #000; /* Text color when selected */
-}
-.container_main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top:52px;
 }
 
 .main_header_category {
     font-weight:bold;
 }
 #cards {
-    display: flex; /* Use flexbox for layout */
-    justify-content: space-between; /* Space cards evenly */
-    flex-wrap: wrap; /* Allow cards to wrap to the next line if needed */
-    gap: 20px; /* Space between the cards */
-    padding: 300px; /* Adjust padding as needed */
+    position: fixed;
+    top: 180px;
+    bottom: 10px;
+    left: 10px;
+    right: 250px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    overflow-y: auto;
 }
+
 
 .card {
     flex: 1 1 calc((100% / 4) - 40px); /* Set width to one-third minus the gap */
@@ -196,27 +181,3 @@ body::before {
     margin-top: -20px;
     margin-left: 9px;
 }
-
-
-
-
-
-/* #TopCategories{
-    width: 130px;
-    /* margin-top: 80px; */
-    /* margin-left: 100px;
-    border: 1px solid #ccc; /* Border styling */
-    /* padding: 10px;
-    display:flex;
-    justify-content:space-around;
-    flex-wrap:wrap;
-    margin-top: 20px;
-}
-.card-body{
-    display: flex;
-    flex-direction: column;
-}
-.card-text2{
-    margin-top: -20px;
-    margin-left: 32px;
-} */ 
