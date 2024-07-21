@@ -90,7 +90,7 @@ body::before {
 
 .filter-box {
     position: fixed;
-    top: 40px;
+    top: 32px;
     right:20px;
     width: 200px;
     height: 500px;
@@ -163,13 +163,14 @@ body::before {
     flex-wrap: wrap;
     gap: 20px;
     overflow-y: auto;
+    border: 5px solid rgb(255, 255, 255);
 }
 
 
 .card {
     flex: 1 1 calc((100% / 4) - 40px); /* Set width to one-third minus the gap */
     max-width: calc((100% / 4) - 40px); /* Ensure max-width doesn't exceed one-third */
-    border: 1px solid #ccc; /* Border styling */
+    border: 1px solid #cccccc; /* Border styling */
     text-align: center;
 }
 
