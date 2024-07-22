@@ -16,6 +16,7 @@ body::before {
     z-index: -1; /* Ensure the overlay is behind other content */
 }
 
+
 #FirstLine{
     height: 150px;
     width: 100%;

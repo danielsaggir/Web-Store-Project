@@ -6,27 +6,31 @@ body {
     background-size: cover;
     margin: 0; 
 }
-#topDiv
-{
+#topDiv {
     top: 0;
     position: fixed;
     z-index: 10;
     width: 100%;
 }
-#weather
-{
+
+#weather {
     background-color: #4A5C6A;
     color: white;
-    padding-left: 420px;
+    width: 100%;
+    padding-top: 15px;
+    height: 30px;
+    display: flex;
+    justify-content: center; /* Center the content */
+    align-items: center;
 }
 
-#topLine
-{
+#topLine {
     display: flex;
     align-items: center;
     height: 50px;
     background-color: rgb(238, 244, 249);
-    margin-top: -16px;
+    margin: 0; /* Remove margin to prevent gaps */
+    width: 100%;
 }
 #menu
 {
