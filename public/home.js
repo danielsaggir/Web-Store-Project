@@ -1,24 +1,5 @@
 
-// document.getElementById('menuButton').addEventListener('click', function() {
-//     let menu = document.getElementById('menu');
-//     if (menu.style.display === 'block') {
-//         menu.style.display = 'none';
-//     } else {
-//         menu.style.display = 'block';
-//     }
-// });
-
-
-// window.addEventListener('scroll', function() {
-//     let topLine = document.getElementById('topLine');
-//     let top = document.getElementById('top');
-//     let topHeight = top.offsetHeight;
-//     if (window.scrollY > topHeight) {
-//         topLine.style.backgroundColor = 'rgba(250, 253, 255)';
-//     } else {
-//         topLine.style.backgroundColor = 'transparent';
-//     }
-// });
+// google map API- AIzaSyDtEOV27s_9fpwiv7jXk4uY2YnDwjuawwQ
 
 document.addEventListener('DOMContentLoaded', function() {
     // Function to toggle login card visibility
@@ -142,18 +123,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Replace 'YOUR_API_KEY' with your actual API key
+// Replace 'YOUR_GOOGLE_MAPS_API_KEY' with your actual Google Maps API key
+const googleMapsApiKey = 'AIzaSyB6RNA9mZmst46xbC-wuiIEA7xIQAjO-Pw';
+
+// Replace 'YOUR_API_KEY' with your actual OpenWeather API key
 const apiKey = 'e9b3b2b154c9598738e429ab2b39f9ce';
 const cities = [
-  { name: 'Bansko', country: 'BG' },
-  { name: 'Val Thorens', country: 'FR' },
-  { name: 'Chamonix', country: 'FR' }
+  { name: 'Chamonix', country: 'FR', lat: 45.9237, lng: 6.8694 },
+  { name: 'Bansko', country: 'BG', lat: 41.8262, lng: 23.4857 },
+  { name: 'Val Thorens', country: 'FR', lat: 45.2970, lng: 6.5800 }
 ];
 
+let map;
+let markers = [];
 let weatherData = [];
 let currentIndex = 0;
 
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 5,
+    center: { lat: 45.0, lng: 10.0 }
+  });
+
+  cities.forEach(city => {
+    let marker = new google.maps.Marker({
+      position: { lat: city.lat, lng: city.lng },
+      map: map,
+      title: city.name
+    });
+    markers.push(marker);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize Google Maps
+  initMap();
+
   const weatherDiv = document.getElementById('weather');
 
   // Fetch weather data for each city
