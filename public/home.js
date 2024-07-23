@@ -74,6 +74,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    function isLoggedIn() {
+        return !!localStorage.getItem('userToken'); // Assuming userToken indicates logged-in state
+    }
+
+    function showLoginPrompt() {
+        alert('Please log in to add items to your cart.');
+        // Optionally, redirect to login page
+        // window.location.href = '/login';
+    }
+
     async function loadCart() {
         let username = localStorage.getItem('username'); // Replace with actual method of retrieving username
         const response = await fetch(`/cart/${username}`);
@@ -237,6 +247,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('totalAmount').textContent = 'Total: 0 ₪';
                 }
             });
+        });
+    });
+
+    // קוד לבחירת מידה
+    const sizeDropdownItems = document.querySelectorAll('#size .dropdown-item');
+    sizeDropdownItems.forEach(item => {
+        item.addEventListener('click', function() {
+            let sizeButton = document.querySelector('#size .btn-secondary.dropdown-toggle');
+            sizeButton.textContent = this.textContent;
+            sizeDropdownItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
         });
     });
 
@@ -489,13 +510,5 @@ document.addEventListener('DOMContentLoaded', () => {
         navigateToCategory('Accessories');
     });
 
-    function isLoggedIn() {
-        return !!localStorage.getItem('userToken'); // Assuming userToken indicates logged-in state
-    }
-
-    function showLoginPrompt() {
-        alert('Please log in to add items to your cart.');
-        // Optionally, redirect to login page
-        // window.location.href = '/login';
-    }
+    
 });

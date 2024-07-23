@@ -4,6 +4,7 @@ const router = express.Router();
 const path = require('path');
 const Users = require('../models/users'); // Import the Users model
 
+
 // Route for home
 // router.get('/', (req, res) => {
 //     const { username } = req.query;

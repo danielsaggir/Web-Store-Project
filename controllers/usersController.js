@@ -2,8 +2,17 @@ const Users = require('../models/users');
 // const bcrypt = require('bcrypt');  // need to check if we need this
 
 
-// // פונקציה לטיפול בהרשמה
+// פונקציה לבדיקת התחברות
+const isLoggedIn = (req, res, next) => {
+    if (req.session && req.session.username) {
+        next();
+    } else {
+        res.status(401).send('User is not authenticated');
+    }
+};
 
+
+// // פונקציה לטיפול בהרשמה
 exports.registerUser = async (req, res) => {
     try {
         console.log('Register request received:', req.body);
