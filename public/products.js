@@ -16,43 +16,83 @@ document.querySelectorAll('.product-link').forEach(link => {
 });
 
 
+
+
+/////////////////////////////////filter by price range////////////////////////////////////
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const priceRange = document.getElementById('price-filter');
 
     if (priceRange) {
+        // Set the initial value of the select box based on the URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const priceFilter = urlParams.get('price');
+        if (priceFilter) {
+            priceRange.value = priceFilter;
+        } else {
+            priceRange.value = 'allprices'; // Default to 'allprices' if no filter is set
+        }
+
         priceRange.addEventListener('change', function() {
             const selectedPriceFilter = priceRange.value;
             const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('price', selectedPriceFilter);
+
+            if (selectedPriceFilter === 'allprices') {
+                // Remove the price parameter if "All Prices" is selected
+                urlParams.delete('price');
+            } else {
+                // Set the price parameter to the selected value
+                urlParams.set('price', selectedPriceFilter);
+            }
+
+            // Redirect to the new URL with updated parameters
             window.location.href = `/products?${urlParams.toString()}`;
         });
     } else {
         console.error('Price range element not found.');
     }
-
-    // Other event listeners and functionality
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+
+/////////////////////////////////filter by price range////////////////////////////////////
+
+
+
+
+
+
+
+/////////////////////////////////filter by size////////////////////////////////////
+
+document.addEventListener('DOMContentLoaded', () => {
     const sizeCheckboxes = document.querySelectorAll('input[name="size"]');
-    
+    const urlParams = new URLSearchParams(window.location.search);
+    const checkedSizes = urlParams.get('size') ? urlParams.get('size').split(',') : [];
+
+    // Set the checkboxes based on URL parameters
     sizeCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            const checkedSizes = Array.from(document.querySelectorAll('input[name="size"]:checked'))
-                                   .map(el => el.value.charAt(0).toUpperCase() + el.value.slice(1).toLowerCase());
-            
-            const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('size', checkedSizes.join(','));
-            
-            // Optionally, remove size parameter if no sizes are selected
-            if (checkedSizes.length === 0) {
-                urlParams.delete('size');
-            }
-            
+        if (checkedSizes.includes(checkbox.value.charAt(0).toUpperCase() + checkbox.value.slice(1).toLowerCase())) {
+            checkbox.checked = true;
+        }
+    });
+
+    // Add event listener to update URL parameters on checkbox change
+    sizeCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            const updatedCheckedSizes = Array.from(sizeCheckboxes)
+                                             .filter(el => el.checked)
+                                             .map(el => el.value.charAt(0).toUpperCase() + el.value.slice(1).toLowerCase());
+
+            urlParams.set('size', updatedCheckedSizes.join(','));
             window.location.href = `/products?${urlParams.toString()}`;
         });
     });
 });
+
+
+/////////////////////////////////filter by size////////////////////////////////////
+
 
 
 

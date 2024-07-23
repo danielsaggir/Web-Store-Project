@@ -16,36 +16,42 @@ exports.getProducts = async (req, res) => {
     console.log('Price Filter:', priceFilter);
 
     let ProductModel;
+    let filterCriteria = {};
 
     switch (selectedCategory) {
         case 'Ski Products':
             ProductModel = SkiProducts;
+            // Apply filters specific to Ski Products
+            if (colorFilters.length > 0) {
+                filterCriteria.color = { $in: colorFilters };
+            }
+            if (sizeFilters.length > 0) {
+                filterCriteria.size = { $in: sizeFilters };
+            }
             break;
         case 'Clothes':
             ProductModel = Clothes;
+            // Apply filters specific to Clothes
+            if (colorFilters.length > 0) {
+                filterCriteria.color = { $in: colorFilters };
+            }
+            if (sizeFilters.length > 0) {
+                const capitalizedSizeFilters = sizeFilters.map(size => size.charAt(0).toUpperCase() + size.slice(1).toLowerCase());
+                filterCriteria.size = { $in: capitalizedSizeFilters };
+            }
             break;
         case 'Accessories':
             ProductModel = Accessories;
+            // Apply filters specific to Accessories
+            if (colorFilters.length > 0) {
+                filterCriteria.color = { $in: colorFilters };
+            }
             break;
         default:
             return res.status(400).send('Invalid category');
     }
 
-    let filterCriteria = {};
-
-    // Apply color filter if selected
-    if (colorFilters.length > 0) {
-        filterCriteria.color = { $in: colorFilters };
-    }
-
-      // Apply size filter if selected
-      if (sizeFilters.length > 0) {
-        // Convert sizeFilters to capitalize the first letter (assuming it's consistent in your database)
-        const capitalizedSizeFilters = sizeFilters.map(size => size.charAt(0).toUpperCase() + size.slice(1).toLowerCase());
-        
-        filterCriteria.size = { $in: capitalizedSizeFilters };
-    }
-
+    // Apply price filter if selected
     if (priceFilter) {
         switch (priceFilter) {
             case 'under300':
@@ -57,14 +63,12 @@ exports.getProducts = async (req, res) => {
             case '800andabove':
                 filterCriteria.price = { $gte: 800 };
                 break;
-            default:
-                console.error('Unexpected price filter:', priceFilter);
+            case 'allprices':
                 break;
         }
     }
-    
-    
-    
+
+    // Define sorting criteria based on sort option
     let sortCriteria = {};
     switch (sortOption) {
         case 'price_asc':
@@ -79,6 +83,7 @@ exports.getProducts = async (req, res) => {
     }
 
     try {
+        // Fetch products based on filter and sort criteria
         const products = await ProductModel.find(filterCriteria).sort(sortCriteria).exec();
         res.render('products', { selectedCategory, products }); // Render the products view with filtered products
     } catch (error) {
@@ -86,5 +91,4 @@ exports.getProducts = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
-
 
