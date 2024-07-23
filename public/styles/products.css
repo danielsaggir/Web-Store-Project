@@ -92,7 +92,7 @@ body::before {
     top: 32px;
     right:20px;
     width: 200px;
-    height: 500px;
+    height: 1000px;
     background-color: rgba(255, 255, 255, 0.85);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
@@ -106,17 +106,19 @@ body::before {
 
 #header_main
 {
-    font-size:16px;
-    /* font-weight:bold; */
-    margin-bottom: 10px;
-    padding-right: 45px;
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom: 65px;
+    margin-right: 35px;
 
 }
 #header
 {
-    font-size:14px;
-    font-weight:normal;
-    margin-bottom:10px;
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom: 25px;
+    margin-right: -5px;
+
 }
 .line{
     border:none;
@@ -182,3 +184,30 @@ body::before {
     margin-top: -20px;
     margin-left: 9px;
 }
+
+.filter-options {
+    list-style-type: none; /* Remove default bullets */
+    padding-left: 0;
+    margin-right:-50px;
+    margin-bottom: 50px;
+}
+
+.filter-options li {
+    margin-top: 5px;
+}
+
+.filter-options label {
+    cursor: pointer;
+    font-size: 14px;
+    right: 10px;
+
+}
+
+.filter-options input[type="checkbox"],
+.filter-section select {
+    margin-right: 2px;
+    
+}
+
+
+
