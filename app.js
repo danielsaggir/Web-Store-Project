@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 const Accessories = require('./models/Accessories');
 const Clothes = require('./models/Clothes');
@@ -17,9 +18,16 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const server = express();
 
-//added this 
+//added this  //middleware settings
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
+server.use(cookieParser());
+server.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // במצב ייצור יש לשנות ל-true
+}));
 
 // Serve static files from the 'public' directory
 server.use(express.static('public'));
@@ -30,6 +38,14 @@ server.set('views', path.join(__dirname, 'views'));
 
 // Middleware to parse JSON bodies
 server.use(express.json());
+
+
+// Middleware to attach user info to response locals
+server.use((req, res, next) => {
+    res.locals.username = req.session.username;
+    res.locals.isAdmin = req.session.isAdmin;
+    next();
+});
 
 // Import routes
 const homeRoutes = require('./routes/home');
