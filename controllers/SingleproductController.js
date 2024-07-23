@@ -36,7 +36,7 @@ exports.getSingleProduct = async (req, res) => {
 
         console.log('Found product:', product);
 
-        res.render('Singleproduct', {
+        res.render('SingleProduct', {
             product,
             selectedCategory // Pass selectedCategory to the view
         });
