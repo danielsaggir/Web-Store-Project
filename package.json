@@ -8,5 +8,13 @@
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "mongoose": "^8.4.5"
-  }
+  },
+  "name": "project",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

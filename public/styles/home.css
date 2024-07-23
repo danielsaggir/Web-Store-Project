@@ -213,10 +213,14 @@
 #cartCard
 {
     display: none;
-    margin-top: 200px;
-    left: 365%;
+    margin-top: 25px;
+    left: 60%;
     border-radius: 15px;
-    background-color: rgba(240, 248, 255, 0.60);
+    position: absolute !important;
+    z-index: 3;
+}
+#checkOut{
+    margin-bottom: 3px;
 }
 #logInCard
 {
@@ -249,4 +253,51 @@
 .card-text
 {
     margin-left: 30%;
+}
+.cart-item{
+    display: flex;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%; 
+    max-width: 600px;
+    margin-right: 100px;
+}
+.cart-item-img {
+    width: 200px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.cart-item-details {
+    display: flex;
+    justify-content: space-between;
+    width: 400px !important; /* Adjust the width as needed */
+    max-width: 400px; /* Optional: Set a maximum width */
+}
+.cart-item-details p {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+
+.cart-item-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 45px;
+}
+
+.cart-item-info,
+.cart-item-price {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.cart-item-info {
+    flex-grow: 1;
+}
+
+.cart-item-price {
+    margin-left: 10px;
 }
