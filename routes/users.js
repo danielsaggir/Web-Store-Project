@@ -9,9 +9,17 @@ router.post('/register', usersController.registerUser);
 // טיפול בבקשות POST להתחברות
 router.post('/login', usersController.loginUser);
 
-router.get('/logout', (req, res) => {
-    res.redirect('/?username=Guest');
-});
+// router.get('/logout', (req, res) => {
+//     res.redirect('/?username=Guest');
+// });
+
+router.get('/logout', usersController.logoutUser);
+// req.session.destroy(err => {
+//     if (err) {
+//         return res.status(500).send('Server error');
+//     }
+//     res.redirect('/');
+// });
 
 router.get('/deleteUser', usersController.deleteUser);
 
