@@ -3,6 +3,6 @@ const router = express.Router();
 const singleProductController = require('../controllers/SingleProductController');
 
 // Route for single product
-router.get('/SingleProduct', SingleProductController.getSingleProduct);
+router.get('/singleProduct', singleProductController.getSingleProduct);
 
 module.exports = router;
