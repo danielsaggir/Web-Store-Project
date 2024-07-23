@@ -9,64 +9,67 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 menu.style.display = 'block';
             }
-        }
-    )}
-});
-
-// הקוד עבור גלילת הדף
-window.addEventListener('scroll', function() {
-    let topLine = document.getElementById('topLine');
-    let top = document.getElementById('top');
-    let topHeight = top.offsetHeight;
-    if (window.scrollY > topHeight) {
-        topLine.style.backgroundColor = 'rgba(250, 253, 255)';
-    } else {
-        topLine.style.backgroundColor = 'transparent';
-    }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    function isLoggedIn() {
-        return !!localStorage.getItem('userToken'); // Assuming userToken indicates logged-in state
+        });
     }
 
-    function showLoginPrompt() {
-        alert('Please log in to add items to your cart.');
-        // Optionally, redirect to login page
-        // window.location.href = '/login';
+    // הקוד עבור כפתור ה-logIn
+    const logInBtn = document.getElementById('logInBtn');
+    if (logInBtn) {
+        logInBtn.addEventListener('click', function(event) {
+            event.stopPropagation(); // למנוע סגירה בעת קליק מחוץ לתיבה
+            let loginCard = document.getElementById('logInCard');
+            let logoutCard = document.getElementById('logoutCard');
+            let changePassCard = document.getElementById('changePassCard');
+            let changeUserNameCard = document.getElementById('changeUserNameCard');
+
+            // סגירת כל התיבות הפתוחות
+            if (changePassCard && changePassCard.style.display === 'block') {
+                changePassCard.style.display = 'none';
+            }
+            if (changeUserNameCard && changeUserNameCard.style.display === 'block') {
+                changeUserNameCard.style.display = 'none';
+            }
+
+            if (username && username !== 'Guest') {
+                // המשתמש מחובר
+                if (logoutCard.style.display === 'block') {
+                    logoutCard.style.display = 'none';
+                } else {
+                    logoutCard.style.display = 'block';
+                }
+            } else {
+                // המשתמש לא מחובר
+                if (loginCard.style.display === 'block') {
+                    loginCard.style.display = 'none';
+                } else {
+                    loginCard.style.display = 'block';
+                }
+            }
+        });
     }
 
-    function toggleLogInCard() {
-        let logInCard = document.getElementById('logInCard');
-        let cartCard = document.getElementById('cartCard');
-        logInCard.style.display = logInCard.style.display === 'block' ? 'none' : 'block';
-        if (cartCard.style.display === 'block') {
-            cartCard.style.display = 'none';
-        }
+    // הקוד עבור כפתור ה-cart
+    const cartBtn = document.getElementById('cartBtn');
+    if (cartBtn) {
+        cartBtn.addEventListener('click', function(event) {
+            event.stopPropagation(); // למנוע סגירה בעת קליק מחוץ לתיבה
+            let cartCard = document.getElementById('cartCard');
+            let logInCard = document.getElementById('logInCard');
+            cartCard.style.display = cartCard.style.display === 'block' ? 'none' : 'block';
+            if (logInCard.style.display === 'block') {
+                logInCard.style.display = 'none';
+            }
+        });
     }
 
-    function toggleCart() {
-        let cartCard = document.getElementById('cartCard');
-        let logInCard = document.getElementById('logInCard');
-        cartCard.style.display = cartCard.style.display === 'block' ? 'none' : 'block';
-        if (logInCard.style.display === 'block') {
-            logInCard.style.display = 'none';
-        }
-    }
-
-    let cartBtn = document.getElementById('cartBtn');
-    cartBtn.addEventListener('click', function(event) {
-        toggleCart();
-        event.stopPropagation();
-    });
-
+    // הקוד לסגירת תיבות בעת לחיצה מחוץ להן
     document.addEventListener('click', function(event) {
         let logInCard = document.getElementById('logInCard');
         let cartCard = document.getElementById('cartCard');
-        if (!logInCard.contains(event.target) && event.target !== logInBtn) {
+        if (logInCard && !logInCard.contains(event.target) && event.target !== logInBtn) {
             logInCard.style.display = 'none';
         }
-        if (!cartCard.contains(event.target) && event.target !== cartBtn) {
+        if (cartCard && !cartCard.contains(event.target) && event.target !== cartBtn) {
             cartCard.style.display = 'none';
         }
     });
@@ -237,48 +240,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // הקוד עבור כפתור ה-logIn
-    const logInBtn = document.getElementById('logInBtn');
-    if (logInBtn) {
-        logInBtn.addEventListener('click', function() {
-            let loginCard = document.getElementById('logInCard');
-            let logoutCard = document.getElementById('logoutCard');
-            let changePassCard = document.getElementById('changePassCard');
-            let changeUserNameCard = document.getElementById('changeUserNameCard');
-
-            // סגירת כל התיבות הפתוחות
-            if (changePassCard && changePassCard.style.display === 'block') {
-                changePassCard.style.display = 'none';
-            }
-            if (changeUserNameCard && changeUserNameCard.style.display === 'block') {
-                changeUserNameCard.style.display = 'none';
-            }
-
-            if (username && username !== 'Guest') {
-                // המשתמש מחובר
-                if (logoutCard.style.display === 'block') {
-                    logoutCard.style.display = 'none';
-                } else {
-                    logoutCard.style.display = 'block';
-                }
-            } else {
-                // המשתמש לא מחובר
-                if (loginCard.style.display === 'block') {
-                    loginCard.style.display = 'none';
-                } else {
-                    loginCard.style.display = 'block';
-                }
-            }
-        });
-    }
-   
     // הקוד עבור כפתור ה-showRegisterForm
     const showRegisterForm = document.getElementById('showRegisterForm');
     if (showRegisterForm) {
         showRegisterForm.addEventListener('click', function() {
             let registerForm = document.getElementById('registerCard');
             let loginForm = document.getElementById('logInCard');
-            
+
             if (registerForm.style.display === 'block') {
                 registerForm.style.display = 'none';
                 loginForm.style.display = 'block';
@@ -295,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
         backToLogin.addEventListener('click', function() {
             let registerForm = document.getElementById('registerCard');
             let loginForm = document.getElementById('logInCard');
-            
+
             registerForm.style.display = 'none';
             loginForm.style.display = 'block';
         });
@@ -307,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showChangePassForm.addEventListener('click', function() {
             let changePassForm = document.getElementById('changePassCard');
             let logoutCard = document.getElementById('logoutCard');
-            
+
             if (changePassForm.style.display === 'block') {
                 changePassForm.style.display = 'none';
                 logoutCard.style.display = 'block';
@@ -324,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showChangeUserNameForm.addEventListener('click', function() {
             let changeUserNameForm = document.getElementById('changeUserNameCard');
             let logoutCard = document.getElementById('logoutCard');
-            
+
             if (changeUserNameForm.style.display === 'block') {
                 changeUserNameForm.style.display = 'none';
                 logoutCard.style.display = 'block';
@@ -430,79 +398,84 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-     // הוספת טיפול בטופס שינוי סיסמא
-     const changePassForm = document.getElementById('changePassForm');
-     if (changePassForm) {
-         changePassForm.addEventListener('submit', async (event) => {
-             event.preventDefault();
- 
-             const formData = new FormData(changePassForm);
-             const data = {
-                 username: formData.get('username'),
-                 newPassword: formData.get('newPassword')
-             };
- 
-             try {
-                 const response = await fetch('/changePass', {
-                     method: 'POST',
-                     headers: {
-                         'Content-Type': 'application/json'
-                     },
-                     body: JSON.stringify(data)
-                 });
- 
-                 if (response.ok) {
-                     const result = await response.json();
-                     alert('Password changed successfully');
-                     window.location.href = `/?username=${result.username}`;
-                 } else {
-                     const result = await response.json();
-                     const changePassError = document.getElementById('changePassError');
-                     changePassError.textContent = result.error;
-                     changePassError.style.display = 'block';
-                 }
-             } catch (error) {
-                 console.error('Error:', error);
-             }
-         });
-     }
- 
-     // הוספת טיפול בטופס שינוי שם משתמש
-     const changeUserNameForm = document.getElementById('changeUserNameForm');
-     if (changeUserNameForm) {
-         changeUserNameForm.addEventListener('submit', async (event) => {
-             event.preventDefault();
- 
-             const formData = new FormData(changeUserNameForm);
-             const data = {
-                 username: formData.get('username'),
-                 newUserName: formData.get('newUserName')
-             };
- 
-             try {
-                 const response = await fetch('/changeUserName', {
-                     method: 'POST',
-                     headers: {
-                         'Content-Type': 'application/json'
-                     },
-                     body: JSON.stringify(data)
-                 });
- 
-                 if (response.ok) {
-                     const result = await response.json();
-                     alert('User name changed successfully');
-                     window.location.href = `/?username=${result.username}`;
-                 } else {
-                     const result = await response.json();
-                     const changeUserNameError = document.getElementById('changeUserNameError');
-                     changeUserNameError.textContent = result.error;
-                     changeUserNameError.style.display = 'block';
-                 }
-             } catch (error) {
-                 console.error('Error:', error);
-             }
-         });
-     }
+    // הוספת טיפול בטופס שינוי סיסמא
+    const changePassForm = document.getElementById('changePassForm');
+    if (changePassForm) {
+        changePassForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(changePassForm);
+            const data = {
+                username: formData.get('username'),
+                newPassword: formData.get('newPassword')
+            };
+
+            try {
+                const response = await fetch('/changePass', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert('Password changed successfully');
+                    window.location.href = `/?username=${result.username}`;
+                } else {
+                    const result = await response.json();
+                    const changePassError = document.getElementById('changePassError');
+                    changePassError.textContent = result.error;
+                    changePassError.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    // הוספת טיפול בטופס שינוי שם משתמש
+    const changeUserNameForm = document.getElementById('changeUserNameForm');
+    if (changeUserNameForm) {
+        changeUserNameForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(changeUserNameForm);
+            const data = {
+                username: formData.get('username'),
+                newUserName: formData.get('newUserName')
+            };
+
+            try {
+                const response = await fetch('/changeUserName', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert('User name changed successfully');
+                    window.location.href = `/?username=${result.username}`;
+                } else {
+                    const result = await response.json();
+                    const changeUserNameError = document.getElementById('changeUserNameError');
+                    changeUserNameError.textContent = result.error;
+                    changeUserNameError.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    // פונקציה לנווט לקטגוריות
+    function navigateToCategory(selectedCategory) {
+        window.location.href = `/products?category=${selectedCategory}`;
+    }
 
     document.getElementById('ski-products-link').addEventListener('click', () => {
         navigateToCategory('Ski Products');
@@ -516,11 +489,13 @@ document.addEventListener('DOMContentLoaded', function() {
         navigateToCategory('Accessories');
     });
 
-    function navigateToCategory(selectedCategory) {
-        window.location.href = `/products?category=${selectedCategory}`;
+    function isLoggedIn() {
+        return !!localStorage.getItem('userToken'); // Assuming userToken indicates logged-in state
+    }
+
+    function showLoginPrompt() {
+        alert('Please log in to add items to your cart.');
+        // Optionally, redirect to login page
+        // window.location.href = '/login';
     }
 });
-
-
-
-
