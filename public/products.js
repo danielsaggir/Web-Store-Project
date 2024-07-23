@@ -1,8 +1,4 @@
 
-document.querySelector('.filtering').addEventListener('click', function() {
-    document.querySelector('.filter-box').classList.toggle('active');
-});
-
 document.querySelectorAll('.dropdown-item').forEach(item => {
     item.addEventListener('click', function() {
         const dropdownToggle = this.closest('.dropdown').querySelector('.dropdown-toggle');
@@ -18,4 +14,23 @@ document.querySelectorAll('.product-link').forEach(link => {
         window.location.href = `/singleproduct?MyId=${myId}&selectedCategory=${category}`;
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const priceRange = document.getElementById('price-filter');
+
+    if (priceRange) {
+        priceRange.addEventListener('change', function() {
+            const selectedPriceFilter = priceRange.value;
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('price', selectedPriceFilter);
+            window.location.href = `/products?${urlParams.toString()}`;
+        });
+    } else {
+        console.error('Price range element not found.');
+    }
+
+    // Other event listeners and functionality
+});
+
 
