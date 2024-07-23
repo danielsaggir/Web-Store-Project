@@ -33,4 +33,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Other event listeners and functionality
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const sizeCheckboxes = document.querySelectorAll('input[name="size"]');
+    
+    sizeCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const checkedSizes = Array.from(document.querySelectorAll('input[name="size"]:checked'))
+                                   .map(el => el.value.charAt(0).toUpperCase() + el.value.slice(1).toLowerCase());
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('size', checkedSizes.join(','));
+            
+            // Optionally, remove size parameter if no sizes are selected
+            if (checkedSizes.length === 0) {
+                urlParams.delete('size');
+            }
+            
+            window.location.href = `/products?${urlParams.toString()}`;
+        });
+    });
+});
+
+
+
+
 

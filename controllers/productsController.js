@@ -38,9 +38,12 @@ exports.getProducts = async (req, res) => {
         filterCriteria.color = { $in: colorFilters };
     }
 
-    // Apply size filter if selected
-    if (sizeFilters.length > 0) {
-        filterCriteria.size = { $in: sizeFilters };
+      // Apply size filter if selected
+      if (sizeFilters.length > 0) {
+        // Convert sizeFilters to capitalize the first letter (assuming it's consistent in your database)
+        const capitalizedSizeFilters = sizeFilters.map(size => size.charAt(0).toUpperCase() + size.slice(1).toLowerCase());
+        
+        filterCriteria.size = { $in: capitalizedSizeFilters };
     }
 
     if (priceFilter) {
