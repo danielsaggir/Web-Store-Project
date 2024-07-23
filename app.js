@@ -33,13 +33,13 @@ server.use(express.json());
 // Import routes
 const homeRoutes = require('./routes/home');
 const productRoutes = require('./routes/products');
-const SingleproductRoutes = require('./routes/singleProduct');
+const SingleProductRoutes = require('./routes/SingleProduct');
 const managerRoutes = require('./routes/manager');
 const userRoutes = require('./routes/users'); // 
 // Use routes
 server.use(homeRoutes);
 server.use(productRoutes);
-server.use(singleProductRoutes);
+server.use(SingleProductRoutes);
 server.use(managerRoutes);
 server.use(userRoutes);
 

@@ -209,6 +209,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (weatherData.length > 0) {
       currentIndex = (currentIndex + 1) % weatherData.length;
       displayWeather(weatherData[currentIndex]);
+// Add event listener to the search button
+document.getElementById('searchButton').addEventListener('click', function () {
+    const searchQuery = document.getElementById('searchBox').value;
+    if (searchQuery) {
+        window.location.href = `/SingleProduct?name=${encodeURIComponent(searchQuery)}`;
     }
   }, 5000);
 });
