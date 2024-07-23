@@ -12,13 +12,10 @@ window.addEventListener('scroll', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     function isLoggedIn() {
-        // Check if the user is logged in.
-        // This example assumes the presence of a token in local storage.
-        return !!localStorage.getItem('userToken'); // Replace with actual login check
+        return !!localStorage.getItem('userToken'); // Assuming userToken indicates logged-in state
     }
 
     function showLoginPrompt() {
-        // Show a login prompt or redirect to login page.
         alert('Please log in to add items to your cart.');
         // Optionally, redirect to login page
         // window.location.href = '/login';
@@ -66,8 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     async function loadCart() {
-        let userId = 'someUserId'; // Replace with actual user ID
-        const response = await fetch(`/cart/${userId}`);
+        let username = localStorage.getItem('username'); // Replace with actual method of retrieving username
+        const response = await fetch(`/cart/${username}`);
         const savedCartItems = await response.json();
         const cartItemsList = document.getElementById('cartItems');
         const emptyCartMessage = document.getElementById('emptyCartMessage');
@@ -169,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     productSize: selectedSize,
                     productPrice,
                     productImg,
-                    userId: 'someUserId' // Replace with actual user ID
+                    username: localStorage.getItem('username') // Replace with actual method of retrieving username
                 })
             });
 
