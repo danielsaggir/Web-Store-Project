@@ -29,6 +29,8 @@ exports.registerUser = async (req, res) => {
                 await newUser.save();
 
         console.log('New user created:', newUser);
+        req.session.username = newUser.username;
+        req.session.isAdmin = newUser.isAdmin;
         res.redirect(`/?username=${username}`);
         // res.render('home', { username: newUser.username, isAdmin: newUser.isAdmin });
     } catch (error) {
@@ -64,6 +66,8 @@ exports.loginUser = async (req, res) => {
 
         console.log('Login successful');
         // res.redirect('/');
+        req.session.username = user.username;
+        req.session.isAdmin = user.isAdmin;
         res.redirect(`/?username=${username}`);
         // res.render('home', { username: user.username, isAdmin: user.isAdmin });
     } catch (error) {
@@ -71,7 +75,14 @@ exports.loginUser = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
-
+exports.logoutUser = (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send('Server error');
+        }
+        res.redirect('/');
+    });
+};
 
 // פונקציה למחיקת משתמש
 exports.deleteUser = async (req, res) => {
@@ -82,7 +93,13 @@ exports.deleteUser = async (req, res) => {
         await Users.deleteOne({ username });
 
         console.log('User deleted:', username);
-        res.redirect('/?username=Guest');
+        req.session.destroy(err => {
+            if (err) {
+                return res.status(500).send('Server error');
+            }
+            res.redirect('/?username=Guest');
+        });
+        // res.redirect('/?username=Guest');
     } catch (error) {
         console.error('Server error:', error);
         return res.status(500).send('Server error');
@@ -127,6 +144,7 @@ exports.changeUserName = async (req, res) => {
 
         await Users.updateOne({ username }, { username: newUserName });
 
+        req.session.username = newUserName; // עדכון שם המשתמש בסשן
         console.log('User name updated from:', username, 'to:', newUserName);
         res.redirect(`/?username=${newUserName}`);
     } catch (error) {
