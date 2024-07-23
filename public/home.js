@@ -1,130 +1,236 @@
-
 document.getElementById('menuButton').addEventListener('click', function() {
     let menu = document.getElementById('menu');
-    if (menu.style.display === 'block') {
-        menu.style.display = 'none';
-    } else {
-        menu.style.display = 'block';
-    }
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
 });
-
 
 window.addEventListener('scroll', function() {
     let topLine = document.getElementById('topLine');
     let top = document.getElementById('top');
     let topHeight = top.offsetHeight;
-    if (window.scrollY > topHeight) {
-        topLine.style.backgroundColor = 'rgba(250, 253, 255)';
-    } else {
-        topLine.style.backgroundColor = 'transparent';
-    }
+    topLine.style.backgroundColor = window.scrollY > topHeight ? 'rgba(250, 253, 255)' : 'transparent';
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Function to toggle login card visibility
+    function isLoggedIn() {
+        // Check if the user is logged in.
+        // This example assumes the presence of a token in local storage.
+        return !!localStorage.getItem('userToken'); // Replace with actual login check
+    }
+
+    function showLoginPrompt() {
+        // Show a login prompt or redirect to login page.
+        alert('Please log in to add items to your cart.');
+        // Optionally, redirect to login page
+        // window.location.href = '/login';
+    }
+
     function toggleLogInCard() {
         let logInCard = document.getElementById('logInCard');
         let cartCard = document.getElementById('cartCard');
-        
-        if (logInCard.style.display === 'block') {
-            logInCard.style.display = 'none';
-        } else {
-            logInCard.style.display = 'block';
-            // Close cartCard if it's open
-            if (cartCard.style.display === 'block') {
-                cartCard.style.display = 'none';
-            }
+        logInCard.style.display = logInCard.style.display === 'block' ? 'none' : 'block';
+        if (cartCard.style.display === 'block') {
+            cartCard.style.display = 'none';
         }
     }
 
-    // Function to toggle cart visibility
     function toggleCart() {
         let cartCard = document.getElementById('cartCard');
         let logInCard = document.getElementById('logInCard');
-        
-        if (cartCard.style.display === 'block') {
-            cartCard.style.display = 'none';
-        } else {
-            cartCard.style.display = 'block';
-            // Close logInCard if it's open
-            if (logInCard.style.display === 'block') {
-                logInCard.style.display = 'none';
-            }
+        cartCard.style.display = cartCard.style.display === 'block' ? 'none' : 'block';
+        if (logInCard.style.display === 'block') {
+            logInCard.style.display = 'none';
         }
     }
 
-    // Add event listener to toggle login card visibility when clicking logInBtn
     let logInBtn = document.getElementById('logInBtn');
     logInBtn.addEventListener('click', function(event) {
         toggleLogInCard();
-        event.stopPropagation(); // Prevent the click event from bubbling up to document
+        event.stopPropagation();
     });
 
-    // Add event listener to toggle cart visibility when clicking cartBtn
     let cartBtn = document.getElementById('cartBtn');
     cartBtn.addEventListener('click', function(event) {
         toggleCart();
-        event.stopPropagation(); // Prevent the click event from bubbling up to document
+        event.stopPropagation();
     });
 
-    // Close logInCard and cartCard when clicking outside of them
     document.addEventListener('click', function(event) {
         let logInCard = document.getElementById('logInCard');
         let cartCard = document.getElementById('cartCard');
-        let logInBtn = document.getElementById('logInBtn');
-        let cartBtn = document.getElementById('cartBtn');
-        
-        // Check if clicked element is outside logInCard and logInBtn
         if (!logInCard.contains(event.target) && event.target !== logInBtn) {
             logInCard.style.display = 'none';
         }
-        
-        // Check if clicked element is outside cartCard and cartBtn
         if (!cartCard.contains(event.target) && event.target !== cartBtn) {
             cartCard.style.display = 'none';
         }
     });
 
-    // Add event listener to all 'Add to Cart' buttons
-    let addToCartButtons = document.querySelectorAll('.addto');
+    async function loadCart() {
+        let userId = 'someUserId'; // Replace with actual user ID
+        const response = await fetch(`/cart/${userId}`);
+        const savedCartItems = await response.json();
+        const cartItemsList = document.getElementById('cartItems');
+        const emptyCartMessage = document.getElementById('emptyCartMessage');
+
+        cartItemsList.innerHTML = ''; // Clear existing items
+
+        if (!isLoggedIn()) {
+            emptyCartMessage.style.display = 'block';
+            emptyCartMessage.textContent = 'Your cart is empty. Please log in to add items to your cart.';
+        } else {
+            if (savedCartItems.length === 0) {
+                emptyCartMessage.style.display = 'block';
+                emptyCartMessage.textContent = 'Your cart is empty.';
+            } else {
+                emptyCartMessage.style.display = 'none';
+
+                savedCartItems.forEach(item => {
+                    const cartItem = document.createElement('li');
+                    cartItem.classList.add('cart-item');
+
+                    const imgElement = document.createElement('img');
+                    imgElement.src = item.productImg;
+                    imgElement.alt = item.productName;
+                    imgElement.classList.add('cart-item-img');
+                    cartItem.appendChild(imgElement);
+
+                    const productDetails = document.createElement('div');
+                    productDetails.classList.add('cart-item-details');
+                    productDetails.innerHTML = `
+                        <div class="cart-item-info">
+                            <p>${item.productName}</p>
+                            <p>Size: ${item.productSize}</p>
+                        </div>
+                        <div class="cart-item-price">
+                            <p>${item.productPrice} ₪</p>
+                        </div>`;
+                    cartItem.appendChild(productDetails);
+
+                    const removeButton = document.createElement('button');
+                    removeButton.textContent = 'Remove';
+                    removeButton.classList.add('remove-button');
+                    cartItem.appendChild(removeButton);
+
+                    removeButton.addEventListener('click', async function() {
+                        await fetch(`/cart/${item._id}`, {
+                            method: 'DELETE'
+                        });
+                        cartItem.remove();
+                        totalAmount -= item.productPrice;
+                        document.getElementById('totalAmount').textContent = `Total: ${totalAmount.toFixed(2)} ₪`;
+
+                        if (cartItemsList.children.length === 0) {
+                            emptyCartMessage.style.display = 'block';
+                            emptyCartMessage.textContent = 'Your cart is empty.';
+                            document.getElementById('totalAmount').textContent = 'Total: 0 ₪';
+                        }
+                    });
+
+                    cartItemsList.appendChild(cartItem);
+                });
+
+                document.getElementById('totalAmount').textContent = `Total: ${totalAmount.toFixed(2)} ₪`;
+            }
+        }
+    }
+
+    let totalAmount = 0;
+    document.addEventListener('DOMContentLoaded', loadCart);
+
+    let addToCartButtons = document.querySelectorAll('#Productinfo #addto');
+
     addToCartButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Get product details
-            let productName = this.parentNode.querySelector('.card-title').textContent;
-            let productPrice = parseFloat(this.parentNode.querySelector('.card-text').textContent.replace('Price: $', ''));
-            
-            // Create a new list item for the cart
-            let cartItem = document.createElement('li');
-            cartItem.textContent = `${productName} - $${productPrice.toFixed(2)}`;
-            
-            // Add item to the cart
+        button.addEventListener('click', async function() {
+            if (!isLoggedIn()) {
+                showLoginPrompt();
+                return;
+            }
+
+            let selectedSizeElement = document.querySelector('#size .dropdown-item.active');
+
+            if (!selectedSizeElement) {
+                alert('Please select a size before adding to cart.');
+                return;
+            }
+
+            let selectedSize = selectedSizeElement.dataset.size;
+            let productName = document.querySelector('#Productinfo #name').textContent;
+            let productPriceText = document.querySelector('#Productinfo #price').textContent;
+            let productImg = document.querySelector('#productimg #img').src;
+            let productPrice = parseFloat(productPriceText.replace(' ₪', ''));
+
+            const response = await fetch('/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productName,
+                    productSize: selectedSize,
+                    productPrice,
+                    productImg,
+                    userId: 'someUserId' // Replace with actual user ID
+                })
+            });
+
+            const newItem = await response.json();
+            const cartItem = document.createElement('li');
+            cartItem.classList.add('cart-item');
+
+            const imgElement = document.createElement('img');
+            imgElement.src = productImg;
+            imgElement.alt = productName;
+            imgElement.classList.add('cart-item-img');
+            cartItem.appendChild(imgElement);
+
+            const productDetails = document.createElement('div');
+            productDetails.classList.add('cart-item-details');
+            productDetails.innerHTML = `
+                <div class="cart-item-info">
+                    <p>${productName}</p>
+                    <p>Size: ${selectedSize}</p>
+                </div>
+                <div class="cart-item-price">
+                    <p>${productPrice} ₪</p>
+                </div>`;
+            cartItem.appendChild(productDetails);
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.classList.add('remove-button');
+            cartItem.appendChild(removeButton);
+
             let cartItemsList = document.getElementById('cartItems');
             cartItemsList.appendChild(cartItem);
-            
-            // Show the cart if it's hidden
+
+            totalAmount += productPrice;
+            document.getElementById('totalAmount').textContent = `Total: ${totalAmount.toFixed(2)} ₪`;
+
             document.getElementById('cartCard').style.display = 'block';
-            
-            // Hide empty cart message
             document.getElementById('emptyCartMessage').style.display = 'none';
-            
-            // Close logInCard if it's open
+
             let logInCard = document.getElementById('logInCard');
             if (logInCard.style.display === 'block') {
                 logInCard.style.display = 'none';
             }
+
+            removeButton.addEventListener('click', async function() {
+                await fetch(`/cart/${newItem._id}`, {
+                    method: 'DELETE'
+                });
+                cartItem.remove();
+                totalAmount -= productPrice;
+                document.getElementById('totalAmount').textContent = `Total: ${totalAmount.toFixed(2)} ₪`;
+
+                if (cartItemsList.children.length === 0) {
+                    document.getElementById('emptyCartMessage').style.display = 'block';
+                    document.getElementById('emptyCartMessage').textContent = 'Your cart is empty.';
+                    document.getElementById('totalAmount').textContent = 'Total: 0 ₪';
+                }
+            });
         });
     });
 
-    // Check if cart is empty and show empty cart message initially
-    let cartItemsList = document.getElementById('cartItems');
-    if (cartItemsList.children.length === 0) {
-        document.getElementById('emptyCartMessage').style.display = 'block';
-    }
-});
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ski-products-link').addEventListener('click', () => {
         navigateToCategory('Ski Products');
     });
