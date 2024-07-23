@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const singleProductController = require('../controllers/SingleProductController');
+const SingleProductController = require('../controllers/SingleProductController');
 
 // Route for single product
-router.get('/singleProduct', singleProductController.getSingleProduct);
+router.get('/SingleProduct', SingleProductController.getSingleProduct);
 
 module.exports = router;

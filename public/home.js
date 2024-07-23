@@ -145,6 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('searchButton').addEventListener('click', function () {
     const searchQuery = document.getElementById('searchBox').value;
     if (searchQuery) {
-        window.location.href = `/singleproduct?name=${encodeURIComponent(searchQuery)}`;
+        window.location.href = `/SingleProduct?name=${encodeURIComponent(searchQuery)}`;
     }
 });
