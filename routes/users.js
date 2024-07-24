@@ -22,8 +22,7 @@ router.get('/logout', usersController.logoutUser);
 // });
 
 router.get('/deleteUser', usersController.deleteUser);
-// router.get('/deleteUser', usersController.isLoggedIn, usersController.deleteUser);
-
+// 
 
 // טיפול בבקשות POST לשינוי סיסמא ושינוי שם משתמש
 router.post('/changePass', usersController.changePassword);

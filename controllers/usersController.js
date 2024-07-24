@@ -2,7 +2,6 @@ const Users = require('../models/users');
 // const bcrypt = require('bcrypt');  // need to check if we need this
 
 
-// פונקציה לבדיקת התחברות
 const isLoggedIn = (req, res, next) => {
     if (req.session && req.session.username) {
         next();
@@ -10,6 +9,7 @@ const isLoggedIn = (req, res, next) => {
         res.status(401).send('User is not authenticated');
     }
 };
+exports.isLoggedIn = isLoggedIn;
 
 
 // // פונקציה לטיפול בהרשמה
