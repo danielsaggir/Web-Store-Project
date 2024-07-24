@@ -96,171 +96,127 @@ document.addEventListener('DOMContentLoaded', () => {
             this.classList.add('active');
         });
     });
-    let addToCartButtons = document.querySelectorAll('#Productinfo #addto');
-
-addToCartButtons.forEach(button => {
-    button.addEventListener('click', async function() {
+    
+    // פונקציה לטעינת העגלה
+    async function loadCart() {
+        const response = await fetch(`/orders/user-orders`);
+        const savedCartItems = await response.json();
+        const cartItemsList = document.getElementById('cartItems');
+        const emptyCartMessage = document.getElementById('emptyCartMessage');
+    
+        cartItemsList.innerHTML = ''; // Clear existing items
+    
         if (!isLoggedIn()) {
-            showLoginPrompt();
-            return;
+            emptyCartMessage.style.display = 'block';
+            emptyCartMessage.textContent = 'Your cart is empty. Please log in to add items to your cart.';
+        } else {
+            if (savedCartItems.length === 0) {
+                emptyCartMessage.style.display = 'block';
+                emptyCartMessage.textContent = 'Your cart is empty.';
+            } else {
+                emptyCartMessage.style.display = 'none';
+    
+                savedCartItems.forEach(item => {
+                    const cartItem = document.createElement('li');
+                    cartItem.classList.add('cart-item');
+    
+                    const imgElement = document.createElement('img');
+                    imgElement.src = item.productImg;
+                    imgElement.alt = item.productName;
+                    imgElement.classList.add('cart-item-img');
+                    cartItem.appendChild(imgElement);
+    
+                    const productDetails = document.createElement('div');
+                    productDetails.classList.add('cart-item-details');
+                    productDetails.innerHTML = `
+                        <div class="cart-item-info">
+                            <p>${item.productName}</p>
+                            <p>Size: ${item.productSize}</p>
+                        </div>
+                        <div class="cart-item-price">
+                            <p>${item.productPrice} ₪</p>
+                        </div>`;
+                    cartItem.appendChild(productDetails);
+    
+                    const removeButton = document.createElement('button');
+                    removeButton.textContent = 'Remove';
+                    removeButton.classList.add('remove-button');
+                    cartItem.appendChild(removeButton);
+    
+                    removeButton.addEventListener('click', async function() {
+                        const removeResponse = await fetch(`/orders/${item._id}`, {
+                            method: 'DELETE'
+                        });
+    
+                        if (removeResponse.ok) {
+                            cartItem.remove();
+                            totalAmount -= item.productPrice;
+                            document.getElementById('totalAmount').textContent = `Total: ${totalAmount.toFixed(2)} ₪`;
+    
+                            if (cartItemsList.children.length === 0) {
+                                emptyCartMessage.style.display = 'block';
+                                emptyCartMessage.textContent = 'Your cart is empty.';
+                                document.getElementById('totalAmount').textContent = 'Total: 0 ₪';
+                            }
+                        } else {
+                            alert('Error removing item from cart');
+                        }
+                    });
+    
+                    cartItemsList.appendChild(cartItem);
+                });
+    
+                document.getElementById('totalAmount').textContent = `Total: ${totalAmount.toFixed(2)} ₪`;
+            }
         }
-
-        let selectedSizeElement = document.querySelector('#size .dropdown-item.active');
-
-        if (!selectedSizeElement) {
-            showSizePrompt();
-            return;
-        }
-
-        // let selectedSize = selectedSizeElement.dataset.size;
-        // let productName = document.querySelector('#Productinfo #name').textContent;
-        // let productPriceText = document.querySelector('#Productinfo #price').textContent;
-        // let productImg = document.querySelector('#productimg #img').src;
-        // let productPrice = parseFloat(productPriceText.replace(' ₪', ''));
-
-        // const response = await fetch('/order/add-to-cart', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         productName,
-        //         productSize: selectedSize,
-        //         productPrice,
-        //         productImg,
-        //         username
-        //     })
-        // });
-
-        // if (response.ok) {
-        //     alert('Item added to cart');
-        // } else {
-        //     alert('Error adding item to cart');
-        // }
+    }
+    
+    let totalAmount = 0;
+    document.addEventListener('DOMContentLoaded', loadCart);
+    
+    let addToCartButtons = document.querySelectorAll('#Productinfo #addto');
+    
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', async function() {
+            if (!isLoggedIn()) {
+                showLoginPrompt();
+                return;
+            }
+    
+            let selectedSizeElement = document.querySelector('#size .dropdown-item.active');
+    
+            if (!selectedSizeElement) {
+                showSizePrompt();
+                return;
+            }
+    
+            let selectedSize = selectedSizeElement.dataset.size;
+            let productName = document.querySelector('#Productinfo #name').textContent;
+            let productPriceText = document.querySelector('#Productinfo #price').textContent;
+            let productImg = document.querySelector('#productimg #img').src;
+            let productPrice = parseFloat(productPriceText.replace(' ₪', ''));
+    
+            const response = await fetch('/orders/add-to-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productName,
+                    productSize: selectedSize,
+                    productPrice,
+                    productImg,
+                    username
+                })
+            });
+    
+            if (response.ok) {
+                loadCart(); // Reload the cart to show the new item
+            } else {
+                alert('Error adding item to cart');
+            }
+        });
     });
-});
-    
-    // // פונקציה לטעינת העגלה
-    // async function loadCart() {
-    //     const response = await fetch(`/orders/user-orders`);
-    //     const savedCartItems = await response.json();
-    //     const cartItemsList = document.getElementById('cartItems');
-    //     const emptyCartMessage = document.getElementById('emptyCartMessage');
-    
-    //     cartItemsList.innerHTML = ''; // Clear existing items
-    
-    //     if (!isLoggedIn()) {
-    //         emptyCartMessage.style.display = 'block';
-    //         emptyCartMessage.textContent = 'Your cart is empty. Please log in to add items to your cart.';
-    //     } else {
-    //         if (savedCartItems.length === 0) {
-    //             emptyCartMessage.style.display = 'block';
-    //             emptyCartMessage.textContent = 'Your cart is empty.';
-    //         } else {
-    //             emptyCartMessage.style.display = 'none';
-    
-    //             savedCartItems.forEach(item => {
-    //                 const cartItem = document.createElement('li');
-    //                 cartItem.classList.add('cart-item');
-    
-    //                 const imgElement = document.createElement('img');
-    //                 imgElement.src = item.productImg;
-    //                 imgElement.alt = item.productName;
-    //                 imgElement.classList.add('cart-item-img');
-    //                 cartItem.appendChild(imgElement);
-    
-    //                 const productDetails = document.createElement('div');
-    //                 productDetails.classList.add('cart-item-details');
-    //                 productDetails.innerHTML = `
-    //                     <div class="cart-item-info">
-    //                         <p>${item.productName}</p>
-    //                         <p>Size: ${item.productSize}</p>
-    //                     </div>
-    //                     <div class="cart-item-price">
-    //                         <p>${item.productPrice} ₪</p>
-    //                     </div>`;
-    //                 cartItem.appendChild(productDetails);
-    
-    //                 const removeButton = document.createElement('button');
-    //                 removeButton.textContent = 'Remove';
-    //                 removeButton.classList.add('remove-button');
-    //                 cartItem.appendChild(removeButton);
-    
-    //                 removeButton.addEventListener('click', async function() {
-    //                     const removeResponse = await fetch(`/orders/${item._id}`, {
-    //                         method: 'DELETE'
-    //                     });
-    
-    //                     if (removeResponse.ok) {
-    //                         cartItem.remove();
-    //                         totalAmount -= item.productPrice;
-    //                         document.getElementById('totalAmount').textContent = `Total: ${totalAmount.toFixed(2)} ₪`;
-    
-    //                         if (cartItemsList.children.length === 0) {
-    //                             emptyCartMessage.style.display = 'block';
-    //                             emptyCartMessage.textContent = 'Your cart is empty.';
-    //                             document.getElementById('totalAmount').textContent = 'Total: 0 ₪';
-    //                         }
-    //                     } else {
-    //                         alert('Error removing item from cart');
-    //                     }
-    //                 });
-    
-    //                 cartItemsList.appendChild(cartItem);
-    //             });
-    
-    //             document.getElementById('totalAmount').textContent = `Total: ${totalAmount.toFixed(2)} ₪`;
-    //         }
-    //     }
-    // }
-    
-    // let totalAmount = 0;
-    // document.addEventListener('DOMContentLoaded', loadCart);
-    
-    // let addToCartButtons = document.querySelectorAll('#Productinfo #addto');
-    
-    // addToCartButtons.forEach(button => {
-    //     button.addEventListener('click', async function() {
-    //         if (!isLoggedIn()) {
-    //             showLoginPrompt();
-    //             return;
-    //         }
-    
-    //         let selectedSizeElement = document.querySelector('#size .dropdown-item.active');
-    
-    //         if (!selectedSizeElement) {
-    //             showSizePrompt();
-    //             return;
-    //         }
-    
-    //         let selectedSize = selectedSizeElement.dataset.size;
-    //         let productName = document.querySelector('#Productinfo #name').textContent;
-    //         let productPriceText = document.querySelector('#Productinfo #price').textContent;
-    //         let productImg = document.querySelector('#productimg #img').src;
-    //         let productPrice = parseFloat(productPriceText.replace(' ₪', ''));
-    
-    //         const response = await fetch('/orders/add-to-cart', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 productName,
-    //                 productSize: selectedSize,
-    //                 productPrice,
-    //                 productImg,
-    //                 username
-    //             })
-    //         });
-    
-    //         if (response.ok) {
-    //             loadCart(); // Reload the cart to show the new item
-    //         } else {
-    //             alert('Error adding item to cart');
-    //         }
-    //     });
-    // });
-
     // הקוד עבור כפתור ה-backToLogin
     const backToLogin = document.getElementById('backToLogin');
     if (backToLogin) {
