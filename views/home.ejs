@@ -16,39 +16,99 @@
         <div id="weather"></div>
         <div id="topLine">
             <p id="title"> SkiDis </p>
-        <button id="cartBtn" type="button" class="btn btn-light">
-            <i class="bi bi-cart"></i>
-        </button>  
-        <button id="logInBtn" type="button" class="btn btn-light">
-        <i class="bi bi-person-circle"></i>
-        </button>
-        <!-- <div id="lineUser">Hello Guest</div> -->
-        <div id="lineUser">
-            <% if (username) { %>
-                Hello <%= username %>
-            <% } else { %>
-                Hello Guest
-            <% } %>
+            <button id="cartBtn" type="button" class="btn btn-light">
+                <i class="bi bi-cart"></i>
+            </button>  
+            <button id="logInBtn" type="button" class="btn btn-light">
+            <i class="bi bi-person-circle"></i>
+            </button>
+            <div id="lineUser">
+                <% if (username) { %>
+                    Hello <%= username %>
+                <% } else { %>
+                    Hello Guest
+                <% } %>
+            </div>
+            <div id="menu">
+                <a id="homePage-link" href="/">Home</a>
+                <a id="ski-products-link" href="#">Ski Products</a>
+                <a id="clothes-link" href="#">Clothes</a>
+                <a id="accessories-link" href="#">Accessories</a>
+                <% if (isAdmin === true) { %>
+                    <a id="manager-link" href="/manager">Manager Entry</a>
+                <% } else { %>
+                    <a id="personal-zone-link" href="/account">My Account</a>
+                <% } %>
+            </div>
+            
+            <div id="searchItem">
+                <input type="text" id="searchBox" placeholder="Search for a product">
+                <button id="searchButton" type="button">Search</button>
+            </div>
         </div>
-        <div id="menu">
-            <a id="homePage-link" href="/">Home</a>
-            <a id="ski-products-link" href="#">Ski Products</a>
-            <a id="clothes-link" href="#">Clothes</a>
-            <a id="accessories-link" href="#">Accessories</a>
-            <% if (isAdmin === true) { %>
-                <a id="manager-link" href="/manager">Manager Entry</a>
-            <% } else { %>
-                <a id="personal-zone-link" href="/account">My Account</a>
-            <% } %>
-        </div>
-        
-        <div id="searchItem">
-            <input type="text" id="searchBox" placeholder="Search for a product">
-            <button id="searchButton" type="button">Search</button>
     </div>
 
     <div id="top"></div>
-    <div>
+
+    <div id="container">
+        <div>
+            <div id="logInCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title">LOGIN</h5>
+                    <form id="loginForm" action="/login" method="POST">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">User Name</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="User Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <div id="loginError" style="color: red; display: none;"></div>
+                    <button id="showRegisterForm" class="btn btn-secondary">Register</button>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div id="cartCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title">YOUR SHOPPING CART</h5>
+                    <ul id="cartItems"></ul>
+                    <p id="emptyCartMessage">Your cart is empty.</p>
+                </div>
+            </div>        
+        </div>
+
+        <div id="registerCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+            <div class="card-body">
+                <h5 class="card-title">REGISTER</h5>
+                <form id="registerForm" action="/register" method="POST">
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerUsername" class="form-label">User Name</label>
+                        <input type="text" class="form-control" id="registerUsername" name="username" placeholder="User Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+                <div id="registerError" class="alert alert-danger" style="display: none;"></div>
+                <button id="backToLogin" class="btn btn-primary">Back to Login</button>
+            </div>
+        </div>
+        
         <% if (username && username !== 'Guest') { %>
             <div id="logoutCard" class="card text-center mb-3" style="width: 18rem; display: none;">
                 <div class="card-body">
@@ -98,52 +158,8 @@
                     <button id="backToLogoutFromUser" class="btn btn-primary">Back</button>
                 </div>
             </div>
-        <% } else { %>
-            <div id="logInCard" class="card text-center mb-3" style="width: 18rem; display: none;">
-                <div class="card-body">
-                    <h5 class="card-title">LOGIN</h5>
-                    <form id="loginForm" action="/login" method="POST">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">User Name</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="User Name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form>
-                    <div id="loginError" style="color: red; display: none;"></div>
-                    <button id="showRegisterForm" class="btn btn-secondary">Register</button>
-                </div>
-            </div>
         <% } %>
-        <div id="registerCard" class="card text-center mb-3" style="width: 18rem; display: none;">
-            <div class="card-body">
-                <h5 class="card-title">REGISTER</h5>
-                <form id="registerForm" action="/register" method="POST">
-                    <div class="mb-3">
-                        <label for="firstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="lastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="registerUsername" class="form-label">User Name</label>
-                        <input type="text" class="form-control" id="registerUsername" name="username" placeholder="User Name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="registerPassword" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Register</button>
-                </form>
-                <div id="registerError" class="alert alert-danger" style="display: none;"></div>
-                <button id="backToLogin" class="btn btn-primary">Back to Login</button>
-            </div>
-        </div>
+        
     </div>
     
     <div id="container">
