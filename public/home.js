@@ -1,284 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Function to toggle login card visibility
-    function toggleLogInCard() {
-        let logInCard = document.getElementById('logInCard');
-        let cartCard = document.getElementById('cartCard');
-        
-        if (logInCard.style.display === 'block') {
-            logInCard.style.display = 'none';
-        } else {
-            logInCard.style.display = 'block';
-            // Close cartCard if it's open
-            if (cartCard.style.display === 'block') {
-                cartCard.style.display = 'none';
-            }
-        }
-    }
-
-    // Function to toggle cart visibility
-    function toggleCart() {
-        let cartCard = document.getElementById('cartCard');
-        let logInCard = document.getElementById('logInCard');
-        
-        if (cartCard.style.display === 'block') {
-            cartCard.style.display = 'none';
-        } else {
-            cartCard.style.display = 'block';
-            // Close logInCard if it's open
-            if (logInCard.style.display === 'block') {
-                logInCard.style.display = 'none';
-            }
-        }
-    }
-
-    // Add event listener to toggle login card visibility when clicking logInBtn
-    let logInBtn = document.getElementById('logInBtn');
-    logInBtn.addEventListener('click', function(event) {
-        toggleLogInCard();
-        event.stopPropagation(); // Prevent the click event from bubbling up to document
-    });
-
-    // Add event listener to toggle cart visibility when clicking cartBtn
-    let cartBtn = document.getElementById('cartBtn');
-    cartBtn.addEventListener('click', function(event) {
-        toggleCart();
-        event.stopPropagation(); // Prevent the click event from bubbling up to document
-    });
-
-    // Close logInCard and cartCard when clicking outside of them
-    document.addEventListener('click', function(event) {
-        let logInCard = document.getElementById('logInCard');
-        let cartCard = document.getElementById('cartCard');
-        let logInBtn = document.getElementById('logInBtn');
-        let cartBtn = document.getElementById('cartBtn');
-        
-        // Check if clicked element is outside logInCard and logInBtn
-        if (!logInCard.contains(event.target) && event.target !== logInBtn) {
-            logInCard.style.display = 'none';
-        }
-        
-        // Check if clicked element is outside cartCard and cartBtn
-        if (!cartCard.contains(event.target) && event.target !== cartBtn) {
-            cartCard.style.display = 'none';
-        }
-    });
-
-    // Add event listener to all 'Add to Cart' buttons
-    let addToCartButtons = document.querySelectorAll('.addto');
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Get product details
-            let productName = this.parentNode.querySelector('.card-title').textContent;
-            let productPrice = parseFloat(this.parentNode.querySelector('.card-text').textContent.replace('Price: $', ''));
-            
-            // Create a new list item for the cart
-            let cartItem = document.createElement('li');
-            cartItem.textContent = `${productName} - $${productPrice.toFixed(2)}`;
-            
-            // Add item to the cart
-            let cartItemsList = document.getElementById('cartItems');
-            cartItemsList.appendChild(cartItem);
-            
-            // Show the cart if it's hidden
-            document.getElementById('cartCard').style.display = 'block';
-            
-            // Hide empty cart message
-            document.getElementById('emptyCartMessage').style.display = 'none';
-            
-            // Close logInCard if it's open
-            let logInCard = document.getElementById('logInCard');
-            if (logInCard.style.display === 'block') {
-                logInCard.style.display = 'none';
-            }
-        });
-    });
-
-    // Check if cart is empty and show empty cart message initially
-    let cartItemsList = document.getElementById('cartItems');
-    if (cartItemsList.children.length === 0) {
-        document.getElementById('emptyCartMessage').style.display = 'block';
-    }
-});
-
-// window.addEventListener('scroll', function() {
-//     let topLine = document.getElementById('topLine');
-//     let top = document.getElementById('top');
-//     let topHeight = top.offsetHeight;
-//     if (window.scrollY > topHeight) {
-//         topLine.style.backgroundColor = 'rgba(250, 253, 255)';
-//     } else {
-//         topLine.style.backgroundColor = 'transparent';
-//     }
-// });
-
-
-// document.getElementById('logInBtn').addEventListener('click', function() {
-//     let menu = document.getElementById('logInCard');
-//     if (menu.style.display === 'block') {
-//         menu.style.display = 'none';
-//     } else {
-//         menu.style.display = 'block';
-//     }
-// });
-
-// document.getElementById('logInBtn').addEventListener('click', function() {
-//     let username = '<%= username %>';
-//     let loginCard = document.getElementById('logInCard');
-//     let logoutCard = document.getElementById('logoutCard');
-
-//     if (username && username !== 'Guest') {
-//         // המשתמש מחובר
-//         if (logoutCard.style.display === 'block') {
-//             logoutCard.style.display = 'none';
-//         } else {
-//             logoutCard.style.display = 'block';
-//         }
-//     } else {
-//         // המשתמש לא מחובר
-//         if (loginCard.style.display === 'block') {
-//             loginCard.style.display = 'none';
-//         } else {
-//             loginCard.style.display = 'block';
-//         }
-//     }
-// });
-
-
-
-// document.getElementById('showRegisterForm').addEventListener('click', function() {
-//     let registerForm = document.getElementById('registerCard');
-//     let loginForm = document.getElementById('logInCard');
-    
-//     if (registerForm.style.display === 'block') {
-//         registerForm.style.display = 'none';
-//         loginForm.style.display = 'block';
-//     } else {
-//         registerForm.style.display = 'block';
-//         loginForm.style.display = 'none';
-//     }
-// });
-
-// document.getElementById('backToLogin').addEventListener('click', function() {
-//     let registerForm = document.getElementById('registerCard');
-//     let loginForm = document.getElementById('logInCard');
-    
-//     registerForm.style.display = 'none';
-//     loginForm.style.display = 'block';
-// });
-
-document.getElementById('logInBtn').addEventListener('click', function () {
-    let loginCard = document.getElementById('logInCard');
-    let logoutCard = document.getElementById('logoutCard');
-
-    if (username && username !== 'Guest') {
-        // המשתמש מחובר
-        if (logoutCard.style.display === 'block') {
-            logoutCard.style.display = 'none';
-        } else {
-            logoutCard.style.display = 'block';
-        }
-    } else {
-        // המשתמש לא מחובר
-        if (loginCard.style.display === 'block') {
-            loginCard.style.display = 'none';
-        } else {
-            loginCard.style.display = 'block';
-        }
-    }
-});
-
-
-document.getElementById('showChangePassForm').addEventListener('click', function () {
-    let changePassForm = document.getElementById('changePassCard');
-    let logoutCard = document.getElementById('logoutCard');
-
-    if (changePassForm.style.display === 'block') {
-        changePassForm.style.display = 'none';
-        logoutCard.style.display = 'block';
-    } else {
-        changePassForm.style.display = 'block';
-        logoutCard.style.display = 'none';
-    }
-});
-
-document.getElementById('showChangeUserNameForm').addEventListener('click', function () {
-    let changeUserNameForm = document.getElementById('changeUserNameCard');
-    let logoutCard = document.getElementById('logoutCard');
-
-    if (changeUserNameForm.style.display === 'block') {
-        changeUserNameForm.style.display = 'none';
-        logoutCard.style.display = 'block';
-    } else {
-        changeUserNameForm.style.display = 'block';
-        logoutCard.style.display = 'none';
-    }
-});
-
-document.getElementById('backToLogoutFromPass').addEventListener('click', function () {
-    let changePassForm = document.getElementById('changePassCard');
-    let logoutCard = document.getElementById('logoutCard');
-
-    changePassForm.style.display = 'none';
-    logoutCard.style.display = 'block';
-});
-
-document.getElementById('backToLogoutFromUser').addEventListener('click', function () {
-    let changeUserNameForm = document.getElementById('changeUserNameCard');
-    let logoutCard = document.getElementById('logoutCard');
-
-    changeUserNameForm.style.display = 'none';
-    logoutCard.style.display = 'block';
-});
-
-
-document.getElementById('showRegisterForm').addEventListener('click', function () {
-    let registerForm = document.getElementById('registerCard');
-    let loginForm = document.getElementById('logInCard');
-
-    if (registerForm.style.display === 'block') {
-        registerForm.style.display = 'none';
-        loginForm.style.display = 'block';
-    } else {
-        registerForm.style.display = 'block';
-        loginForm.style.display = 'none';
-    }
-});
-
-document.getElementById('backToLogin').addEventListener('click', function () {
-    let registerForm = document.getElementById('registerCard');
-    let loginForm = document.getElementById('logInCard');
-
-    registerForm.style.display = 'none';
-    loginForm.style.display = 'block';
-});
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    // הקוד עבור כפתור ה-menu
-    const menuButton = document.getElementById('menuButton');
-    if (menuButton) {
-        menuButton.addEventListener('click', function() {
-            let menu = document.getElementById('menu');
-            if (menu.style.display === 'block') {
-                menu.style.display = 'none';
-            } else {
-                menu.style.display = 'block';
-            }
-        });
-    }
-
-    // הקוד עבור גלילת הדף
-    window.addEventListener('scroll', function() {
-        let topLine = document.getElementById('topLine');
-        let top = document.getElementById('top');
-        let topHeight = top.offsetHeight;
-        if (window.scrollY > topHeight) {
-            topLine.style.backgroundColor = 'rgba(250, 253, 255)';
-        } else {
-            topLine.style.backgroundColor = 'transparent';
-        }
-    });
-
     // הקוד עבור כפתור ה-logIn
     const logInBtn = document.getElementById('logInBtn');
     if (logInBtn) {
@@ -313,7 +32,30 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
- 
+    // const logInBtn = document.getElementById('logInBtn');
+    // if (logInBtn) {
+    //     logInBtn.addEventListener('click', function() {
+    //         let loginCard = document.getElementById('logInCard');
+    //         let logoutCard = document.getElementById('logoutCard');
+
+    //         if (username && username !== 'Guest') {
+    //             // המשתמש מחובר
+    //             if (logoutCard.style.display === 'block') {
+    //                 logoutCard.style.display = 'none';
+    //             } else {
+    //                 logoutCard.style.display = 'block';
+    //             }
+    //         } else {
+    //             // המשתמש לא מחובר
+    //             if (loginCard.style.display === 'block') {
+    //                 loginCard.style.display = 'none';
+    //             } else {
+    //                 loginCard.style.display = 'block';
+    //             }
+    //         }
+    //     });
+    // }
+
     // הקוד עבור כפתור ה-showRegisterForm
     const showRegisterForm = document.getElementById('showRegisterForm');
     if (showRegisterForm) {
@@ -561,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function navigateToCategory(selectedCategory) {
         window.location.href = `/products?category=${selectedCategory}`;
     }
-});
+
 
 // Replace 'YOUR_GOOGLE_MAPS_API_KEY' with your actual Google Maps API key
 const googleMapsApiKey = 'AIzaSyB6RNA9mZmst46xbC-wuiIEA7xIQAjO-Pw';
