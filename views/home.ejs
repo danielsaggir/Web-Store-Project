@@ -30,131 +30,122 @@
                 Hello Guest
             <% } %>
         </div>
-        <div>
-            <% if (username && username !== 'Guest') { %>
-                <div id="logoutCard" class="card text-center mb-3" style="width: 18rem; display: none;">
-                    <div class="card-body">
-                        <h5 class="card-title">See You Soon :)</h5>
-                        <form id="logoutForm" action="/logout" method="GET">
-                            <button type="submit" class="btn btn-primary">Log Out</button>
-                        </form>
-                        <h5 class="card-title">Already leaving? :(</h5>
-                        <form id="deleteForm" action="/deleteUser" method="GET">
-                            <input type="hidden" name="username" value="<%= username %>">
-                            <button type="submit" class="btn btn-primary">Delete User</button>
-                        </form>
-                        <h5 class="card-title">Identity crisis?</h5>
-                        <button id="showChangePassForm" class="btn btn-primary">Change Password</button>
-                        <button id="showChangeUserNameForm" class="btn btn-primary">Change User Name</button>
-                    </div>
-                </div>
-                
-                <div id="changePassCard" class="card text-center mb-3" style="width: 18rem; display: none;">
-                    <div class="card-body">
-                        <h5 class="card-title">Change Password</h5>
-                        <div id="changePassError" class="alert alert-danger" style="display: none;"></div>
-                        <form id="changePassForm" action="/changePass" method="POST">
-                            <input type="hidden" name="username" value="<%= username %>">
-                            <div class="mb-3">
-                                <label for="newPassword" class="form-label">New Password</label>
-                                <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="New Password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Change Password</button>
-                        </form>
-                        <button id="backToLogoutFromPass" class="btn btn-primary">Back</button>
-                    </div>
-                </div>
-                
-                <div id="changeUserNameCard" class="card text-center mb-3" style="width: 18rem; display: none;">
-                    <div class="card-body">
-                        <h5 class="card-title">Change User Name</h5>
-                        <div id="changeUserNameError" class="alert alert-danger" style="display: none;"></div>
-                        <form id="changeUserNameForm" action="/changeUserName" method="POST">
-                            <input type="hidden" name="username" value="<%= username %>">
-                            <div class="mb-3">
-                                <label for="newUserName" class="form-label">New User Name</label>
-                                <input type="text" class="form-control" id="newUserName" name="newUserName" placeholder="New User Name" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Change User Name</button>
-                        </form>
-                        <button id="backToLogoutFromUser" class="btn btn-primary">Back</button>
-                    </div>
-                </div>
-            <% } else { %>
-                <div id="logInCard" class="card text-center mb-3" style="width: 18rem; display: none;">
-                    <div class="card-body">
-                        <h5 class="card-title">LOGIN</h5>
-                        <form id="loginForm" action="/login" method="POST">
-                            <div class="mb-3">
-                                <label for="username" class="form-label">User Name</label>
-                                <input type="text" class="form-control" id="username" name="username" placeholder="User Name" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Login</button>
-                        </form>
-                        <div id="loginError" style="color: red; display: none;"></div>
-                        <button id="showRegisterForm" class="btn btn-secondary">Register</button>
-                    </div>
-                </div>
-            <% } %>
-            <div id="registerCard" class="card text-center mb-3" style="width: 18rem; display: none;">
-                <div class="card-body">
-                    <h5 class="card-title">REGISTER</h5>
-                    <form id="registerForm" action="/register" method="POST">
-                        <div class="mb-3">
-                            <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="registerUsername" class="form-label">User Name</label>
-                            <input type="text" class="form-control" id="registerUsername" name="username" placeholder="User Name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="registerPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Register</button>
-                    </form>
-                    <div id="registerError" class="alert alert-danger" style="display: none;"></div>
-                    <button id="backToLogin" class="btn btn-primary">Back to Login</button>
-                </div>
-            </div>
-        </div>
         <div id="menu">
-               <a id="homePage-link" href="/">Home</a>
-                <a id="ski-products-link" href="#">Ski Products</a>
-                <a id="clothes-link" href="#">Clothes</a>
-                <a id="accessories-link" href="#">Accessories</a>
-                <a id="manager-link" href="/manager">manager entry</a>
+            <a id="homePage-link" href="/">Home</a>
+            <a id="ski-products-link" href="#">Ski Products</a>
+            <a id="clothes-link" href="#">Clothes</a>
+            <a id="accessories-link" href="#">Accessories</a>
+            <% if (isAdmin === true) { %>
+                <a id="manager-link" href="/manager">Manager Entry</a>
+            <% } else { %>
+                <a id="personal-zone-link" href="/account">My Account</a>
+            <% } %>
         </div>
+        
         <div id="searchItem">
             <input type="text" id="searchBox" placeholder="Search for a product">
             <button id="searchButton" type="button">Search</button>
-        </div>
-            <ul>
-                <li><a id="ski-products-link" href="#">Ski Products</a></li>
-                <li><a id="clothes-link" href="#">Clothes</a></li>
-                <li><a id="accessories-link" href="#">Accessories</a></li>
-                <% if (isAdmin === true) { %>
-                    <li><a id="manager-link" href="/manager">Manager Entry</a></li>
-                <% } else { %>
-                    <li><a id="personal-zone-link" href="/account">My Account</a></li>
-                <% } %> 
-                <!-- <li><a id="manager-link" href="/manager">manager entry</a></li> -->
-                <!-- <li><a id="manager-link" href="/manager">manager entry</a></li> -->
-            </ul>
-        </div>
     </div>
 
     <div id="top"></div>
-
+    <div>
+        <% if (username && username !== 'Guest') { %>
+            <div id="logoutCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title">See You Soon :)</h5>
+                    <form id="logoutForm" action="/logout" method="GET">
+                        <button type="submit" class="btn btn-primary">Log Out</button>
+                    </form>
+                    <h5 class="card-title">Already leaving? :(</h5>
+                    <form id="deleteForm" action="/deleteUser" method="GET">
+                        <input type="hidden" name="username" value="<%= username %>">
+                        <button type="submit" class="btn btn-primary">Delete User</button>
+                    </form>
+                    <h5 class="card-title">Identity crisis?</h5>
+                    <button id="showChangePassForm" class="btn btn-primary">Change Password</button>
+                    <button id="showChangeUserNameForm" class="btn btn-primary">Change User Name</button>
+                </div>
+            </div>
+            
+            <div id="changePassCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title">Change Password</h5>
+                    <div id="changePassError" class="alert alert-danger" style="display: none;"></div>
+                    <form id="changePassForm" action="/changePass" method="POST">
+                        <input type="hidden" name="username" value="<%= username %>">
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="New Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Change Password</button>
+                    </form>
+                    <button id="backToLogoutFromPass" class="btn btn-primary">Back</button>
+                </div>
+            </div>
+            
+            <div id="changeUserNameCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title">Change User Name</h5>
+                    <div id="changeUserNameError" class="alert alert-danger" style="display: none;"></div>
+                    <form id="changeUserNameForm" action="/changeUserName" method="POST">
+                        <input type="hidden" name="username" value="<%= username %>">
+                        <div class="mb-3">
+                            <label for="newUserName" class="form-label">New User Name</label>
+                            <input type="text" class="form-control" id="newUserName" name="newUserName" placeholder="New User Name" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Change User Name</button>
+                    </form>
+                    <button id="backToLogoutFromUser" class="btn btn-primary">Back</button>
+                </div>
+            </div>
+        <% } else { %>
+            <div id="logInCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title">LOGIN</h5>
+                    <form id="loginForm" action="/login" method="POST">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">User Name</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="User Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <div id="loginError" style="color: red; display: none;"></div>
+                    <button id="showRegisterForm" class="btn btn-secondary">Register</button>
+                </div>
+            </div>
+        <% } %>
+        <div id="registerCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+            <div class="card-body">
+                <h5 class="card-title">REGISTER</h5>
+                <form id="registerForm" action="/register" method="POST">
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerUsername" class="form-label">User Name</label>
+                        <input type="text" class="form-control" id="registerUsername" name="username" placeholder="User Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+                <div id="registerError" class="alert alert-danger" style="display: none;"></div>
+                <button id="backToLogin" class="btn btn-primary">Back to Login</button>
+            </div>
+        </div>
+    </div>
+    
     <div id="container">
         <p id="subTitel">Top Products</p>
         <div id="TopCategories">
