@@ -1,6 +1,3 @@
-
-// google map API- AIzaSyDtEOV27s_9fpwiv7jXk4uY2YnDwjuawwQ
-
 document.addEventListener('DOMContentLoaded', function() {
     // Function to toggle login card visibility
     function toggleLogInCard() {
@@ -103,18 +100,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
-window.addEventListener('scroll', function() {
-    let topLine = document.getElementById('topLine');
-    let top = document.getElementById('top');
-    let topHeight = top.offsetHeight;
-    if (window.scrollY > topHeight) {
-        topLine.style.backgroundColor = 'rgba(250, 253, 255)';
-    } else {
-        topLine.style.backgroundColor = 'transparent';
-    }
-});
-
+// window.addEventListener('scroll', function() {
+//     let topLine = document.getElementById('topLine');
+//     let top = document.getElementById('top');
+//     let topHeight = top.offsetHeight;
+//     if (window.scrollY > topHeight) {
+//         topLine.style.backgroundColor = 'rgba(250, 253, 255)';
+//     } else {
+//         topLine.style.backgroundColor = 'transparent';
+//     }
+// });
 
 document.getElementById('logInBtn').addEventListener('click', function() {
     let menu = document.getElementById('logInCard');
@@ -204,16 +199,19 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  // Function to cycle through weather data every 5 seconds
-  setInterval(() => {
+ // Function to cycle through weather data every 5 seconds
+setInterval(() => {
     if (weatherData.length > 0) {
       currentIndex = (currentIndex + 1) % weatherData.length;
       displayWeather(weatherData[currentIndex]);
-// Add event listener to the search button
-document.getElementById('searchButton').addEventListener('click', function () {
-    const searchQuery = document.getElementById('searchBox').value;
-    if (searchQuery) {
-        window.location.href = `/SingleProduct?name=${encodeURIComponent(searchQuery)}`;
     }
   }, 5000);
+  
+  // Add event listener to the search button
+  document.getElementById('searchButton').addEventListener('click', function () {
+    const searchQuery = document.getElementById('searchBox').value;
+    if (searchQuery) {
+      window.location.href = `/SingleProduct?name=${encodeURIComponent(searchQuery)}`;
+    }
+  });
 });
