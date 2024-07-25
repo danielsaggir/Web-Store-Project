@@ -13,4 +13,7 @@ router.get('/SingleProduct', singleProductController.getSingleProduct);
 router.post('/check-size', singleProductController.checkSizeAvailability);
 
 
+// Route for checkout
+router.post('/checkout', singleProductController.checkout);
+
 module.exports = router;

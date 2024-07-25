@@ -2,8 +2,6 @@ const SkiProducts = require('../models/SkiProducts');
 const Clothes = require('../models/Clothes');
 const Accessories = require('../models/Accessories');
 
-let cart = [];
-
 exports.getSingleProduct = async (req, res) => {
     const { name, MyId, selectedCategory } = req.query;
 
@@ -90,14 +88,39 @@ exports.checkSizeAvailability = async (req, res) => {
     }
 };
 
+exports.checkout = async (req, res) => {
+    const { fullName, address, phone, email, items } = req.body;
 
+    try {
+        for (const item of items) {
+            const { productName, quantity } = item;
 
-exports.getCart = (req, res) => {
-    res.render('cart', { cart });
-};
+            // Find the product in all categories and update the quantity
+            let product = await SkiProducts.findOne({ name: productName });
+            if (!product) {
+                product = await Clothes.findOne({ name: productName });
+            }
+            if (!product) {
+                product = await Accessories.findOne({ name: productName });
+            }
 
-exports.addToCart = (req, res) => {
-    const product = req.body;
-    cart.push(product);
-    res.json({ success: true });
+            if (product) {
+                if (product.quantity < quantity) {
+                    return res.status(400).send(`Not enough stock for ${productName}`);
+                }
+                product.quantity -= quantity;
+                await product.save();
+            } else {
+                return res.status(404).send(`Product ${productName} not found`);
+            }
+        }
+
+        // Here you can add logic to save the order details and customer information if needed
+        console.log('Customer Information:', { fullName, address, phone, email });
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error during checkout:', error);
+        res.status(500).send('Internal Server Error');
+    }
 };
