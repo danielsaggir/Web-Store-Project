@@ -32,30 +32,7 @@
             }
         });
     }
-    // const logInBtn = document.getElementById('logInBtn');
-    // if (logInBtn) {
-    //     logInBtn.addEventListener('click', function() {
-    //         let loginCard = document.getElementById('logInCard');
-    //         let logoutCard = document.getElementById('logoutCard');
-
-    //         if (username && username !== 'Guest') {
-    //             // המשתמש מחובר
-    //             if (logoutCard.style.display === 'block') {
-    //                 logoutCard.style.display = 'none';
-    //             } else {
-    //                 logoutCard.style.display = 'block';
-    //             }
-    //         } else {
-    //             // המשתמש לא מחובר
-    //             if (loginCard.style.display === 'block') {
-    //                 loginCard.style.display = 'none';
-    //             } else {
-    //                 loginCard.style.display = 'block';
-    //             }
-    //         }
-    //     });
-    // }
-
+   
     // הקוד עבור כפתור ה-showRegisterForm
     const showRegisterForm = document.getElementById('showRegisterForm');
     if (showRegisterForm) {
