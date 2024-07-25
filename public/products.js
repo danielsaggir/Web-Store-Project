@@ -94,7 +94,26 @@ document.addEventListener('DOMContentLoaded', () => {
 /////////////////////////////////filter by size////////////////////////////////////
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    const colorCheckboxes = document.querySelectorAll('input[name="color"]');
+    const urlParams = new URLSearchParams(window.location.search);
+    const checkedColors = urlParams.get('color') ? urlParams.get('color').split(',') : [];
+    colorCheckboxes.forEach(checkbox => {
+        checkbox.checked = checkedColors.includes(checkbox.value);
+    });
+    colorCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            const updatedCheckedColors = Array.from(colorCheckboxes)
+                                             .filter(el => el.checked)
+                                             .map(el => el.value);
 
+            urlParams.set('color', updatedCheckedColors.join(','));
 
-
-
+            // If no colors are selected, remove the color parameter
+            if (updatedCheckedColors.length === 0) {
+                urlParams.delete('color');
+            }
+            window.location.href = `/products?${urlParams.toString()}`;
+        });
+    });
+});

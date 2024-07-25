@@ -51,7 +51,7 @@ exports.getProducts = async (req, res) => {
             return res.status(400).send('Invalid category');
     }
 
-    // Apply price filter if selected
+    // Apply price filter if selected (All categories)
     if (priceFilter) {
         switch (priceFilter) {
             case 'under300':
@@ -68,7 +68,7 @@ exports.getProducts = async (req, res) => {
         }
     }
 
-    // Define sorting criteria based on sort option
+  //Sorting by criteria
     let sortCriteria = {};
     switch (sortOption) {
         case 'price_asc':
