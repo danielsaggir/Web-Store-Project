@@ -4,6 +4,12 @@ const router = express.Router();
 const path = require('path');
 const Users = require('../models/users'); // Import the Users model
 
+router.get('/', async (req, res) => {
+    const username = req.session.username || 'Guest';
+    const isAdmin = req.session.isAdmin || false;
+    res.render('home', { username, isAdmin });
+});
+
 // Route for home
 // router.get('/', (req, res) => {
 //     const { username } = req.query;
@@ -11,16 +17,16 @@ const Users = require('../models/users'); // Import the Users model
 //     // res.render('home');
 // });
 
-router.get('/', async (req, res) => {
-    const { username } = req.query;
-    if (username) {
-        const user = await Users.findOne({ username });
-        if (user) {
-            return res.render('home', { username: user.username, isAdmin: user.isAdmin });
-        }
-    }
-    res.render('home', { username: 'Guest', isAdmin: false });
-});
+// router.get('/', async (req, res) => {
+//     const { username } = req.query;
+//     if (username) {
+//         const user = await Users.findOne({ username });
+//         if (user) {
+//             return res.render('home', { username: user.username, isAdmin: user.isAdmin });
+//         }
+//     }
+//     res.render('home', { username: 'Guest', isAdmin: false });
+// });
 
 
 module.exports = router;
