@@ -49,15 +49,17 @@
 
     <div id="container">
         <div>
-            <div id="cartCard" class="card text-center mb-3" style="width: 30rem;">
+            <div id="specific-cart">
+            <div id="cartCard" class="card text-center mb-3">
                 <div class="card-body">
                     <h5 class="card-title">YOUR SHOPING CART</h5>
                     <ul id="cartItems"></ul>
                     <p id="emptyCartMessage">Your cart is empty.</p>
                     <p id="totalAmount">Total: 0 ₪</p>
                 </div>
-                <button type="button" id="checkOut" class="btn btn-secondary btn-lg" ;">check out</button>
+                <button type="button" id="checkOut" class="btn btn-secondary btn-lg">check out</button>
             </div>
+        </div>
             <div id="logInCard" class="card text-center mb-3" style="width: 18rem; display: none;">
                 <div class="card-body">
                     <h5 class="card-title">LOGIN</h5>
@@ -76,16 +78,6 @@
                     <button id="showRegisterForm" class="btn btn-secondary">Register</button>
                 </div>
             </div>
-        </div>
-
-        <div>
-            <div id="cartCard" class="card text-center mb-3" style="width: 18rem; display: none;">
-                <div class="card-body">
-                    <h5 class="card-title">YOUR SHOPPING CART</h5>
-                    <ul id="cartItems"></ul>
-                    <p id="emptyCartMessage">Your cart is empty.</p>
-                </div>
-            </div>        
         </div>
 
         <div id="registerCard" class="card text-center mb-3" style="width: 18rem; display: none;">
@@ -189,6 +181,11 @@
                       <li><a class="dropdown-item" href="#">XX-Large</a></li>
                     </ul>
                 </div>
+            </div>
+            <div id="quantity-selector">
+                <button type="button" id="decrease" class="btn btn-light">-</button>
+                <input type="number" id="quantity" value="1" min="1" readonly>
+                <button type="button" id="increase" class="btn btn-light">+</button>
             </div>
             <button type="button" id="addto" class="btn btn-secondary btn-lg";" >Add to cart</button>
             
