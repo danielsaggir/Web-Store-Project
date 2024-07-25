@@ -30,15 +30,19 @@
                 </div>
                 <div id="menu">
                     <a id="homePage-link" href="/">Home</a>
-                    <a id="ski-products-link" href="#">Ski Products</a>
-                    <a id="clothes-link" href="#">Clothes</a>
-                    <a id="accessories-link" href="#">Accessories</a>
+                    <a id="ski-products-link" href="/products?category=Ski%20Products">Ski Products</a>
+                    <a id="clothes-link" href="/products?category=Clothes">Clothes</a>
+                    <a id="accessories-link" href="/products?category=Accessories">Accessories</a>
                     <% if (isAdmin === true) { %>
                         <a id="manager-link" href="/manager">Manager Entry</a>
                     <% } else { %>
                         <a id="personal-zone-link" href="/account">My Account</a>
                     <% } %>
                 </div>
+
+                <!-- <a id="ski-products-link" href="#">Ski Products</a>
+                    <a id="clothes-link" href="#">Clothes</a>
+                    <a id="accessories-link" href="#">Accessories</a> -->
                 
                 <div id="searchItem">
                     <input type="text" id="searchBox" placeholder="Search for a product">
