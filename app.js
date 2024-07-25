@@ -50,7 +50,7 @@ server.use((req, res, next) => {
 // Import routes
 const homeRoutes = require('./routes/home');
 const productRoutes = require('./routes/products');
-const singleProductRoutes = require('./routes/singleProduct');
+const singleProductRoutes = require('./routes/Singleproduct');
 const managerRoutes = require('./routes/manager');
 const userRoutes = require('./routes/users');
 const accountRoutes = require('./routes/account');
