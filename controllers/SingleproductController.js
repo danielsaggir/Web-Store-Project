@@ -48,6 +48,50 @@ exports.getSingleProduct = async (req, res) => {
     }
 };
 
+exports.checkSizeAvailability = async (req, res) => {
+    const { productId, selectedSize, selectedCategory } = req.body;
+
+    console.log('Checking size availability for product:', productId, 'with size:', selectedSize, 'in category:', selectedCategory); // לוג לבדיקה
+
+    let ProductModel;
+
+    switch (selectedCategory) {
+        case 'Ski Products':
+            ProductModel = SkiProducts;
+            break;
+        case 'Clothes':
+            ProductModel = Clothes;
+            break;
+        case 'Accessories':
+            ProductModel = Accessories;
+            break;
+        default:
+            return res.status(400).send('Invalid category');
+    }
+
+    try {
+        const product = await ProductModel.findOne({ MyId: parseInt(productId) });
+
+        if (!product) {
+            console.log('Product not found');
+            return res.status(404).send('Product not found');
+        }
+
+        console.log('Product found:', product);
+
+        if (product.size.includes(selectedSize)) {
+            return res.json({ available: true });
+        } else {
+            return res.json({ available: false });
+        }
+    } catch (error) {
+        console.error('Error checking size availability:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
+
 exports.getCart = (req, res) => {
     res.render('cart', { cart });
 };

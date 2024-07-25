@@ -33,29 +33,54 @@ document.getElementById('addto').addEventListener('click', function() {
         return;
     }
 
-    const totalPrice = (productPrice * quantity).toFixed(2);
+    // Extract MyId and selectedCategory from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('MyId');
+    const selectedCategory = urlParams.get('selectedCategory');
+    console.log(productId);
+    console.log(selectedCategory);
 
-    const cartItemHTML = `
-        <div class="order-details">
-            <img src="${productImage}" class="product-image">
-            <div class="order-info">
-                <p class="card-text">Name Product: ${productName}</p>
-                <p class="card-text">Description: ${productDescription}</p>
-                <p class="card-text">Size: ${selectedSize}</p>
-                <p class="card-text">Quantity: ${quantity}</p>
-                <p class="card-text">Price Order: ${productPrice} ₪</p>
-            </div>
-        </div>
-    `;
+    fetch('/check-size', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productId, selectedSize, selectedCategory })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.available) {
+            const totalPrice = (productPrice * quantity).toFixed(2);
 
-    const cartBody = document.querySelector('#cartCard .card-body');
-    cartBody.innerHTML = `
-        <h5 class="card-title">YOUR SHOPPING CART</h5>
-        ${cartItemHTML}
-        <p id="totalAmount" class="total-amount">Total: ${totalPrice} ₪</p>
-    `;
+            const cartItemHTML = `
+                <div class="order-details">
+                    <img src="${productImage}" class="product-image">
+                    <div class="order-info">
+                        <p class="card-text">Name Product: ${productName}</p>
+                        <p class="card-text">Description: ${productDescription}</p>
+                        <p class="card-text">Size: ${selectedSize}</p>
+                        <p class="card-text">Quantity: ${quantity}</p>
+                        <p class="card-text">Price Order: ${productPrice} ₪</p>
+                        <p class="card-text">Total Price: ${totalPrice} ₪</p>
+                    </div>
+                </div>
+            `;
 
-    document.getElementById('emptyCartMessage').style.display = 'none';
+            // Add the product to the cart
+            const cart = document.getElementById('cartItems');
+            cart.innerHTML += cartItemHTML;
+
+            // Update the total amount in the cart
+            const currentTotal = parseFloat(document.getElementById('totalAmount').textContent.replace('Total: ', '').replace(' ₪', '')) || 0;
+            const newTotal = (currentTotal + parseFloat(totalPrice)).toFixed(2);
+            document.getElementById('totalAmount').textContent = `Total: ${newTotal} ₪`;
+
+            alert('Product added to cart successfully');
+        } else {
+            alert('Selected size is not available.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
 });
 
 
