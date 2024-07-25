@@ -1,3 +1,7 @@
+const SkiProducts = require('../models/SkiProducts');
+const Clothes = require('../models/Clothes');
+const Accessories = require('../models/Accessories');
+
 let cart = [];
 
 exports.getSingleProduct = async (req, res) => {
