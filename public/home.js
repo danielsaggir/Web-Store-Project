@@ -129,10 +129,15 @@ const googleMapsApiKey = 'AIzaSyB6RNA9mZmst46xbC-wuiIEA7xIQAjO-Pw';
 // Replace 'YOUR_API_KEY' with your actual OpenWeather API key
 const apiKey = 'e9b3b2b154c9598738e429ab2b39f9ce';
 const cities = [
-  { name: 'Chamonix', country: 'FR', lat: 45.9237, lng: 6.8694 },
-  { name: 'Bansko', country: 'BG', lat: 41.8262, lng: 23.4857 },
-  { name: 'Val Thorens', country: 'FR', lat: 45.2970, lng: 6.5800 }
+  { name: 'Chamonix', country: 'FR' },
+  { name: 'Bansko', country: 'BG' },
+  { name: 'Val Thorens', country: 'FR' }
 ];
+// const cities = [
+//   { name: 'Chamonix', country: 'FR', lat: 45.9237, lng: 6.8694 },
+//   { name: 'Bansko', country: 'BG', lat: 41.8262, lng: 23.4857 },
+//   { name: 'Val Thorens', country: 'FR', lat: 45.2970, lng: 6.5800 }
+// ];
 
 let map;
 let markers = [];
@@ -141,19 +146,42 @@ let currentIndex = 0;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 5,
-    center: { lat: 45.0, lng: 10.0 }
+      zoom: 5,
+      center: { lat: 45.0, lng: 10.0 }
   });
 
-  cities.forEach(city => {
-    let marker = new google.maps.Marker({
-      position: { lat: city.lat, lng: city.lng },
-      map: map,
-      title: city.name
-    });
-    markers.push(marker);
-  });
+  // Fetch branches data from the API
+  fetch('/api/branches')
+      .then(response => response.json())
+      .then(branches => {
+          branches.forEach(branch => {
+              let marker = new google.maps.Marker({
+                  position: { lat: branch.lat, lng: branch.lng },
+                  map: map,
+                  title: branch.city
+              });
+              markers.push(marker);
+          });
+      })
+      .catch(error => console.error('Error fetching branches data:', error));
 }
+
+//may's option - from array
+// function initMap() {
+//   map = new google.maps.Map(document.getElementById('map'), {
+//     zoom: 5,
+//     center: { lat: 45.0, lng: 10.0 }
+//   });
+
+//   cities.forEach(city => {
+//     let marker = new google.maps.Marker({
+//       position: { lat: city.lat, lng: city.lng },
+//       map: map,
+//       title: city.name
+//     });
+//     markers.push(marker);
+//   });
+// }
 
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize Google Maps
