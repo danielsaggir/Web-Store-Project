@@ -1,4 +1,18 @@
-    // הקוד עבור כפתור ה-logIn
+   // Add event listener for cart button
+   const cartBtn = document.getElementById('cartBtn');
+   if (cartBtn) {
+       cartBtn.addEventListener('click', function() {
+           const cartCard = document.getElementById('cartCard');
+           if (cartCard.style.display === 'none' || cartCard.style.display === '') {
+               cartCard.style.display = 'block';
+           } else {
+               cartCard.style.display = 'none';
+           }
+       });
+   }
+
+   
+   // הקוד עבור כפתור ה-logIn
     const logInBtn = document.getElementById('logInBtn');
     if (logInBtn) {
         logInBtn.addEventListener('click', function() {
