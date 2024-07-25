@@ -92,3 +92,36 @@ exports.uploadProduct = async (req, res) => {
     }
 };
 
+exports.searchProduct = async (req, res) => {
+    try {
+        const { model, query } = req.query;
+        console.log(`Search query: ${query}, Model: ${model}`); // הודעת הדפסה לבדיקה
+
+        let ProductModel;
+
+        switch (model) {
+            case 'ski-products':
+                ProductModel = SkiProducts;
+                break;
+            case 'clothes':
+                ProductModel = Clothes;
+                break;
+            case 'accessories':
+                ProductModel = Accessories;
+                break;
+            default:
+                return res.status(400).send({ error: 'Invalid model type' });
+        }
+
+        const searchItem = { $or: [{ name: new RegExp(query, 'i') }, { MyId: parseInt(query) }] };
+        const products = await ProductModel.find(searchItem);
+
+        console.log('Found products:', products); // הודעת הדפסה לבדיקה
+
+        res.json(products);
+    } catch (err) {
+        console.error('Error searching products:', err); // הודעת הדפסה במקרה של שגיאה
+        res.status(500).send(err);
+    }
+};
+

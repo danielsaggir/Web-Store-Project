@@ -1,30 +1,18 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // הקוד עבור כפתור ה-menu
-    const menuButton = document.getElementById('menuButton');
-    if (menuButton) {
-        menuButton.addEventListener('click', function() {
-            let menu = document.getElementById('menu');
-            if (menu.style.display === 'block') {
-                menu.style.display = 'none';
-            } else {
-                menu.style.display = 'block';
-            }
-        });
-    }
+   // Add event listener for cart button
+   const cartBtn = document.getElementById('cartBtn');
+   if (cartBtn) {
+       cartBtn.addEventListener('click', function() {
+           const cartCard = document.getElementById('cartCard');
+           if (cartCard.style.display === 'none' || cartCard.style.display === '') {
+               cartCard.style.display = 'block';
+           } else {
+               cartCard.style.display = 'none';
+           }
+       });
+   }
 
-    // הקוד עבור גלילת הדף
-    window.addEventListener('scroll', function() {
-        let topLine = document.getElementById('topLine');
-        let top = document.getElementById('top');
-        let topHeight = top.offsetHeight;
-        if (window.scrollY > topHeight) {
-            topLine.style.backgroundColor = 'rgba(250, 253, 255)';
-        } else {
-            topLine.style.backgroundColor = 'transparent';
-        }
-    });
-
-    // הקוד עבור כפתור ה-logIn
+   
+   // הקוד עבור כפתור ה-logIn
     const logInBtn = document.getElementById('logInBtn');
     if (logInBtn) {
         logInBtn.addEventListener('click', function() {
@@ -58,30 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    // const logInBtn = document.getElementById('logInBtn');
-    // if (logInBtn) {
-    //     logInBtn.addEventListener('click', function() {
-    //         let loginCard = document.getElementById('logInCard');
-    //         let logoutCard = document.getElementById('logoutCard');
-
-    //         if (username && username !== 'Guest') {
-    //             // המשתמש מחובר
-    //             if (logoutCard.style.display === 'block') {
-    //                 logoutCard.style.display = 'none';
-    //             } else {
-    //                 logoutCard.style.display = 'block';
-    //             }
-    //         } else {
-    //             // המשתמש לא מחובר
-    //             if (loginCard.style.display === 'block') {
-    //                 loginCard.style.display = 'none';
-    //             } else {
-    //                 loginCard.style.display = 'block';
-    //             }
-    //         }
-    //     });
-    // }
-
+   
     // הקוד עבור כפתור ה-showRegisterForm
     const showRegisterForm = document.getElementById('showRegisterForm');
     if (showRegisterForm) {
@@ -329,8 +294,82 @@ document.addEventListener('DOMContentLoaded', () => {
     function navigateToCategory(selectedCategory) {
         window.location.href = `/products?category=${selectedCategory}`;
     }
+
+
+// Replace 'YOUR_GOOGLE_MAPS_API_KEY' with your actual Google Maps API key
+const googleMapsApiKey = 'AIzaSyB6RNA9mZmst46xbC-wuiIEA7xIQAjO-Pw';
+
+// Replace 'YOUR_API_KEY' with your actual OpenWeather API key
+const apiKey = 'e9b3b2b154c9598738e429ab2b39f9ce';
+const cities = [
+  { name: 'Chamonix', country: 'FR', lat: 45.9237, lng: 6.8694 },
+  { name: 'Bansko', country: 'BG', lat: 41.8262, lng: 23.4857 },
+  { name: 'Val Thorens', country: 'FR', lat: 45.2970, lng: 6.5800 }
+];
+
+let map;
+let markers = [];
+let weatherData = [];
+let currentIndex = 0;
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 5,
+    center: { lat: 45.0, lng: 10.0 }
+  });
+
+  cities.forEach(city => {
+    let marker = new google.maps.Marker({
+      position: { lat: city.lat, lng: city.lng },
+      map: map,
+      title: city.name
+    });
+    markers.push(marker);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize Google Maps
+  initMap();
+
+  const weatherDiv = document.getElementById('weather');
+
+  // Fetch weather data for each city
+  cities.forEach(city => {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.name},${city.country}&appid=${apiKey}&units=metric`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(`Weather in ${city.name}:`, data);
+        weatherData.push({ city: city.name, data });
+        
+        // Display the first city's weather data once it's fetched
+        if (weatherData.length === 1) {
+          displayWeather(weatherData[0]);
+        }
+      })
+      .catch(error => console.error('Error fetching weather data:', error));
+  });
+
+  // Function to display weather data
+  function displayWeather(weather) {
+    weatherDiv.innerHTML = `
+      <p>${weather.city} : Temperature ${weather.data.main.temp}°C ,  ${weather.data.weather[0].description} , Wind Speed: ${weather.data.wind.speed} m/s</p>
+    `;
+  }
+
+ // Function to cycle through weather data every 5 seconds
+setInterval(() => {
+    if (weatherData.length > 0) {
+      currentIndex = (currentIndex + 1) % weatherData.length;
+      displayWeather(weatherData[currentIndex]);
+    }
+  }, 5000);
+  
+  // Add event listener to the search button
+  document.getElementById('searchButton').addEventListener('click', function () {
+    const searchQuery = document.getElementById('searchBox').value;
+    if (searchQuery) {
+      window.location.href = `/SingleProduct?name=${encodeURIComponent(searchQuery)}`;
+    }
+  });
 });
-
-
-
-

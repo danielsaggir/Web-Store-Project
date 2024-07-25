@@ -21,10 +21,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    image: {
-        type: [String], // Array of strings for multiple images
-        required: true
-    },
+    // image: {
+    //     type: [String], // Array of strings for multiple images
+    //     required: true
+    // },
     gender: {
         type: String,
         enum: ['Men', 'Women', 'Unisex'],
@@ -50,10 +50,6 @@ const productSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    //     type: String, // Array of strings for multiple images
-    //     required: true
-    // },
-    
 });
 
 const Product = mongoose.model('Accessories', productSchema);

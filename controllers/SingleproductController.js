@@ -3,11 +3,8 @@ const Clothes = require('../models/Clothes');
 const Accessories = require('../models/Accessories');
 
 exports.getSingleProduct = async (req, res) => {
-    const myId = parseInt(req.query.MyId); // Corrected to match the query parameter case
-    const selectedCategory = req.query.selectedCategory; // Corrected to match the query parameter case
+    const { name, MyId, selectedCategory } = req.query;
 
-    // console.log(`Product MyId: ${myId}, Selected Category: ${selectedCategory}`);
-    console.log(`Product MyId: ${myId}, Selected Category: ${selectedCategory}`);
     let ProductModel;
 
     switch (selectedCategory) {
@@ -21,18 +18,25 @@ exports.getSingleProduct = async (req, res) => {
             ProductModel = Accessories;
             break;
         default:
-            return res.status(400).send('Invalid category');
+            ProductModel = SkiProducts; // Default model if selectedCategory is not provided
+            break;
     }
 
     try {
-        const product = await ProductModel.findOne({ MyId:myId });
+        let product;
+        if (name) {
+            product = await ProductModel.findOne({ name: new RegExp(name, 'i') });
+        } else if (MyId) {
+            product = await ProductModel.findOne({ MyId: parseInt(MyId) });
+        }
+
         if (!product) {
             return res.status(404).send('Product not found');
         }
 
-        console.log('Found product:', product); // Log the found product for verification
+        console.log('Found product:', product);
 
-        res.render('SingleProduct', {
+        res.render('singleProduct', {
             product,
             selectedCategory // Pass selectedCategory to the view
         });

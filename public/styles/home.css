@@ -1,26 +1,61 @@
-#top
-{
-    
+body {
     background-image: url('https://media.cntraveler.com/photos/6351664f9e488d3c598e3279/16:9/w_2240,c_limit/Ski_GettyImages-1400588475.jpg');
-    height: 100vh; /* Take the full viewport height */
-     background-attachment: fixed; /*Parallax effect */
+    background-attachment: fixed; /* Parallax effect */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    z-index: -2;
+    margin: 0; 
 }
 
-#topLine
-{
-    z-index: 3;
+/* Fixed top bar */
+#topDiv {
+    top: 0;
     position: fixed;
+    z-index: 10;
+    width: 100%;
+}
+
+/* Weather section */
+#weather {
+    background-color: #4A5C6A;
+    color: white;
+    width: 100%;
+    padding-top: 15px;
+    height: 30px;
+    display: flex;
+    justify-content: center; /* Center the content */
+    align-items: center;
+}
+
+/* Top line with flex alignment */
+#topLine {
     display: flex;
     align-items: center;
-    width: 100%;
     height: 50px;
+    background-color: rgb(238, 244, 249);
+    margin: 0; /* Remove margin to prevent gaps */
+    width: 100%;
 }
 
-#title{
+/* Menu styling */
+#menu {
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+}
+
+#menu a {
+    color: black; 
+    text-decoration: none; 
+    margin-left: 23px;
+}
+
+#menu a:hover {
+    text-decoration: underline; 
+}
+
+/* Title styling */
+#title {
     font-weight: bold;
     font-size: xx-large;
     position: absolute;
@@ -30,223 +65,166 @@
     left: 47%;
 }
 
-#container
-{
+/* Search item styling */
+#searchItem {
+    margin-left: 400px;
+    border-radius: 30px;
+}
+
+/* Main container styling */
+#container {
+    position: relative; /* Ensure it can act as a reference point for absolutely positioned children */
     display: flex;
     flex-direction: column;
     float: left;
     justify-content: space-between;
     align-items: center;
     background-size: cover;
-    background-position: center; 
+    background-position: center;
     margin-left: 215px;
-    margin-top: 10px;
-
+    margin-top: 100px;
 }
 
-#menuButton
-{
-    position: absolute;
-    z-index: 1;
-    margin-left: 20px;
-    background-color: rgba(240, 255, 253, 0.485);
-    font-size:x-large;
-    margin-top: 3px; 
-    padding: 4px;
-    padding-bottom: 0.2px;
-    padding-top: 0.2px;
-    border-radius: 15px;
-
-}
-/* #menuButton :hover{
-    background-color: rgba(240, 255, 253, 0.485);
-} */
-
-#logInBtn
-{
+/* Login button styling */
+#logInBtn {
     left: 95%;
-    /* margin-right: 20px; */
     position: absolute;
-    background-color: rgba(240, 255, 253, 0.485);
-    font-size:x-large;
+    font-size: x-large;
     margin-top: 3px; 
     padding: 4px;
-    padding-bottom: 0.2px;
-    padding-top: 0.2px;
     border-radius: 15px;
 }
+
+/* Card titles and margins */
 .card-title {
     margin-bottom: 15px;
     margin-top: 20px; /* Add top margin to separate from previous element */
 }
 
+/* Logout and form styling */
 #logoutCard form {
     margin-bottom: 20px; /* Add bottom margin to separate from next element */
+    z-index: 3;
 }
 
-#logoutForm, #deleteForm, #changePassForm, #changeUserNameForm, #backToLogoutFromPass, #backToLogoutFromUser
-{
+#logoutForm, #deleteForm, #changePassForm, #changeUserNameForm, #backToLogoutFromPass, #backToLogoutFromUser {
     margin-top: 15px;
-}
-/* 
-#deleteForm, #changePassForm, #changeUserNameForm, #backToLogoutFromPass, #backToLogoutFromUser
-{
-    margin-top: 15px;
+    z-index: 3;
 }
 
-#changePassForm, #changeUserNameForm, #backToLogoutFromPass, #backToLogoutFromUser
- {
-    margin-top: 15px;
+#showChangeUserNameForm {
+    margin-top: 18px;
 }
 
-#changeUserNameForm, #backToLogoutFromPass, #backToLogoutFromUser
- {
-    margin-top: 15px;
-} */
-
-#showChangeUserNameForm
-{
-    margin-top:18px;
+/* Register card styling */
+#registerCard {
+    display: none;
+    position: absolute;
+    /* left: 40%; */
+    transform: translate(350%, 0%);
+    border-radius: 15px;
+    background-color: rgb(253 253 253);
+    z-index: 1000;
 }
 
-#registerCard 
-{
+/* Common card styling */
+#logoutCard, #changePassCard, #changeUserNameCard {
     left: 71%;
     position: absolute;
     background-color: rgba(240, 255, 253, 0.485);
-    font-size:meduim;
+    font-size: medium;
     margin-top: 28px; 
     padding: 4px;
-    padding-bottom: 0.2px;
-    padding-top: 0.2px;
     border-radius: 15px;
+    z-index: 3;
 }
 
-#logoutCard, #changePassCard, #changeUserNameCard
-{
-    left: 71%;
-    position: absolute;
-    background-color: rgba(240, 255, 253, 0.485);
-    font-size:meduim;
-    margin-top: 28px; 
-    padding: 4px;
-    padding-bottom: 0.2px;
-    padding-top: 0.2px;
-    border-radius: 15px;
-}
-
-#lineUser{
+/* User line margin */
+#lineUser {
     margin-left: 71px;
     margin-top: 7px;
 }
 
-#cartBtn
-{
+/* Cart button styling */
+#cartBtn {
     left: 92%;
-    /* margin-right: 20px; */
     position: absolute;
-    background-color: rgba(240, 255, 253, 0.485);
-    font-size:x-large;
+    font-size: x-large;
     margin-top: 3px; 
     padding: 4px;
-    padding-bottom: 0.2px;
-    padding-top: 0.2px;
     border-radius: 15px;
 }
 
-#menu
-{
-    display: none;
-    position: absolute;
-    margin-top: 25%;
-    background-color: rgba(240, 248, 255, 0.60);
-    width: 180px;
-    height: 200px;
-    padding: 10px;
-
-}
-
-#menu ul {
-    margin-top: 30px;
-    margin-left: 10px;
-    padding: 0; 
-    list-style-type: none;
-}
-
-#menu li {
-    margin-bottom: 10px; 
-}
-
-#menu li :hover{
-    margin-bottom: 10px; 
-    background-color: rgba(240, 248, 255);
-}
-
-#menu a {
-    color: black; 
-    text-decoration: none; 
-}
-
-#menu a:hover {
-    text-decoration: underline; 
-}
-
-#TopCategories
-{
+/* Top categories styling */
+#TopCategories {
     display: flex;
     flex-direction: row;
     margin-right: 10px;
-
 }
 
-.card
-{
+/* Card general styling */
+.card {
     justify-content: space-between;
     margin-left: 20px;
 }
 
-#subTitel
-{
+/* Sub title styling */
+#subTitel {
     margin-top: 10px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-#cartCard
-{
+
+/* Cart card styling */
+#cartCard {
     display: none;
-    margin-top: 200px;
-    left: 365%;
+    margin-top: 0px;
+    position:fixed;
+    left:891px;
     border-radius: 15px;
     background-color: rgba(240, 248, 255, 0.60);
+    z-index: 1000;
+    width: 30rem;
 }
-#logInCard
-{
+
+/* Login card styling */
+#logInCard {
     display: none;
-    margin-top: 426px;
-    left: 306%;
+    position: absolute;
+    /* left: 40%; */
+    transform: translate(300%, 0%);
     border-radius: 15px;
-    background-color: rgba(240, 248, 255, 0.60);
+    background-color: rgb(253 253 253);
+    z-index: 1000;
 }
-#logInCard input
-{
+#logInCard input {
     margin-bottom: 7px;
     border-radius: 7px;
     border-width: 0.5px;
     padding-left: 10px;
 }
 
-#logInCard a
-{
+#logInCard a {
     margin-top: 10px;
-    background-color:white;
+    background-color: white;
     color: black;
     border-color: gray;
     width: 100px;
 }
-#logInCard a:hover{
-    background-color: rgba( 96, 206, 246, 0.153);
+
+#logInCard a:hover {
+    background-color: rgba(96, 206, 246, 0.153);
 }
 
-.card-text
-{
+/* Card text margin */
+.card-text {
     margin-left: 30%;
+}
+
+/* Map styling */
+#map {
+    margin-top: 20px;
+    margin-bottom: 60px;
+    height: 300px;
+    width: 700px;
+    border-radius: 20px;
 }
