@@ -1,3 +1,4 @@
+<<<<<<< HEAD
    // Add event listener for cart button
    const cartBtn = document.getElementById('cartBtn');
    if (cartBtn) {
@@ -13,6 +14,11 @@
 
    
    // הקוד עבור כפתור ה-logIn
+=======
+    
+    
+    // הקוד עבור כפתור ה-logIn
+>>>>>>> c9e2e81 (get changes from tomer)
     const logInBtn = document.getElementById('logInBtn');
     if (logInBtn) {
         logInBtn.addEventListener('click', function() {

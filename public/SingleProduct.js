@@ -5,6 +5,7 @@ document.querySelectorAll('.dropdown-item').forEach(item => {
         dropdownToggle.textContent = this.textContent.trim();
     });
 });
+<<<<<<< HEAD
 
 document.getElementById('increase').addEventListener('click', function() {
     const quantityInput = document.getElementById('quantity');
@@ -124,3 +125,69 @@ document.getElementById('addto').addEventListener('click', function() {
 //         }
 //     });
 // });
+=======
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to toggle cart visibility
+    function toggleCart() {
+        let cartCard = document.getElementById('cartCard');
+        
+        if (cartCard.style.display === 'block') {
+            cartCard.style.display = 'none';
+        } else {
+            cartCard.style.display = 'block';
+        }
+    }
+
+    // Add event listener to toggle cart visibility when clicking cartBtn
+    let cartBtn = document.getElementById('cartBtn');
+    if (cartBtn) {
+        cartBtn.addEventListener('click', function(event) {
+            toggleCart();
+            event.stopPropagation(); // Prevent the click event from bubbling up to document
+        });
+    }
+
+    // Close cartCard when clicking outside of it
+    document.addEventListener('click', function(event) {
+        let cartCard = document.getElementById('cartCard');
+        let cartBtn = document.getElementById('cartBtn');
+        
+        // Check if clicked element is outside cartCard and cartBtn
+        if (!cartCard.contains(event.target) && event.target !== cartBtn) {
+            cartCard.style.display = 'none';
+        }
+    });
+
+    // Add event listener to add product to cart when clicking addToCartBtn
+    let addToCartBtn = document.getElementById('addto');
+    if (addToCartBtn) {
+        addToCartBtn.addEventListener('click', function(event) {
+            let product = {
+                name: document.getElementById('name').innerText,
+                size: document.querySelector('.dropdown-toggle').innerText.trim(),
+                color: document.getElementById('productColor') ? document.getElementById('productColor').innerText : '',
+                oldPrice: parseFloat(document.getElementById('oldPrice') ? document.getElementById('oldPrice').innerText.replace('₪', '') : '0'),
+                newPrice: parseFloat(document.getElementById('price').innerText.replace('₪', '')),
+                imageUrl: document.querySelector('#productimg img').src
+            };
+
+            fetch('/add-to-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(product)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Product added to cart successfully');
+                } else {
+                    alert('Failed to add product to cart');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+});
+>>>>>>> c9e2e81 (get changes from tomer)

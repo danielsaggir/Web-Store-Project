@@ -52,7 +52,7 @@ const homeRoutes = require('./routes/home');
 const productRoutes = require('./routes/products');
 const singleProductRoutes = require('./routes/singleProduct');
 const managerRoutes = require('./routes/manager');
-const userRoutes = require('./routes/users'); // 
+const userRoutes = require('./routes/users');
 const accountRoutes = require('./routes/account');
 // Use routes
 server.use(homeRoutes);

@@ -177,6 +177,7 @@ body {
 /* Cart card styling */
 #cartCard {
     display: none;
+<<<<<<< HEAD
     margin-top: 0px;
     position:fixed;
     left:891px;
@@ -184,6 +185,14 @@ body {
     background-color: rgba(240, 248, 255, 0.60);
     z-index: 1000;
     width: 30rem;
+=======
+    position: absolute;
+    /* left: 40%; */
+    /* transform: translate(300%, 0%); */
+    border-radius: 15px;
+    background-color: rgb(253 253 253);
+    z-index: 1000;
+>>>>>>> c9e2e81 (get changes from tomer)
 }
 
 /* Login card styling */

@@ -1,6 +1,4 @@
-const SkiProducts = require('../models/SkiProducts');
-const Clothes = require('../models/Clothes');
-const Accessories = require('../models/Accessories');
+let cart = [];
 
 exports.getSingleProduct = async (req, res) => {
     const { name, MyId, selectedCategory } = req.query;
@@ -44,4 +42,14 @@ exports.getSingleProduct = async (req, res) => {
         console.error('Error fetching product:', error);
         res.status(500).send('Internal Server Error');
     }
+};
+
+exports.getCart = (req, res) => {
+    res.render('cart', { cart });
+};
+
+exports.addToCart = (req, res) => {
+    const product = req.body;
+    cart.push(product);
+    res.json({ success: true });
 };
