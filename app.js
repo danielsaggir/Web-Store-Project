@@ -5,6 +5,7 @@ const path = require('path');
 const Accessories = require('./models/Accessories');
 const Clothes = require('./models/Clothes');
 const SkiProducts = require('./models/SkiProducts');
+const Branch = require('./models/Branch'); // להוסיף את המודל של Branch
 
 // MongoDB Atlas
 const mongoURI = 'mongodb+srv://admin:admin@cluster0.hrynjzk.mongodb.net/';
