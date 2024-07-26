@@ -228,3 +228,26 @@ body {
     width: 700px;
     border-radius: 20px;
 }
+#specific-cart{
+    margin-top:-105px;
+}
+
+#cartCard .order-details {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Ensure the items align to the left */
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+#cartCard .product-image {
+    width: 100px;
+    height: auto;
+    border-radius: 8px;
+    margin-right: 15px;
+}
+
+#cartCard .order-info p {
+    margin: 5px 0;
+    text-align: left; /* Ensure text is aligned to the left*/
+}

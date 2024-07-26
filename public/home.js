@@ -1,3 +1,85 @@
+
+// Function to check if the user is logged in
+function isLoggedIn() {
+    // Example logic to check if the user is logged in
+    return typeof username !== 'undefined' && username && username !== 'Guest';
+}
+
+// Function to fetch and display cart items
+async function updateCartDisplay() {
+    if (!isLoggedIn()) return; // Ensure user is logged in
+
+    try {
+        const response = await fetch(`/getCartItems?username=${username}`);
+        if (!response.ok) throw new Error('Failed to fetch cart items');
+        
+        const cartItems = await response.json();
+        
+        const cartBody = document.querySelector('#cartCard .card-body');
+        if (!cartBody) {
+            console.error('Cart body not found');
+            return;
+        }
+
+        let cartHTML = '';
+
+        cartItems.forEach(item => {
+            cartHTML += `
+                <div class="order-details">
+                    <img src="${item.productImage}" class="product-image">
+                    <div class="order-info">
+                        <p class="card-text">Name Product: ${item.productName}</p>
+                        <p class="card-text">Description: ${item.productDescription}</p>
+                        <p class="card-text">Size: ${item.selectedSize}</p>
+                        <p class="card-text">Quantity: ${item.quantity}</p>
+                        <p class="card-text">Price Order: ${item.productPrice} ₪</p>
+                        <button class="btn btn-danger remove-item">Remove</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        const totalAmount = cartItems.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0).toFixed(2);
+
+        cartBody.innerHTML = `
+            <h5 class="card-title">YOUR SHOPPING CART</h5>
+            ${cartHTML}
+            <p id="totalAmount" class="total-amount">Total: ${totalAmount} ₪</p>
+        `;
+
+        const emptyCartMessage = document.getElementById('emptyCartMessage');
+        if (emptyCartMessage) {
+            emptyCartMessage.style.display = cartItems.length === 0 ? 'block' : 'none';
+        } else {
+            console.error('Empty cart message element not found');
+        }
+
+        // Add event listeners for remove buttons
+        document.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', async function() {
+                const itemId = this.closest('.order-details').dataset.itemId;
+                await removeCartItem(itemId);
+            });
+        });
+    } catch (error) {
+        console.error('Failed to fetch cart items:', error);
+    }
+}
+
+// Run `updateCartDisplay` on page load
+document.addEventListener('DOMContentLoaded', () => {
+    if (isLoggedIn()) {
+        updateCartDisplay();
+    }
+});
+
+// Define the isLoggedIn function
+function isLoggedIn() {
+    // Implement the logic to check if the user is logged in
+    // This could be a check for a session, token, or cookie, etc.
+    return username && username !== 'Guest';  // Example logic
+}
+   
    // Add event listener for cart button
    const cartBtn = document.getElementById('cartBtn');
    if (cartBtn) {

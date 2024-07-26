@@ -1,31 +1,49 @@
-// nececery for chose a size
+// Global variable to store selected size
+let selectedSize = 'Select Size'; // Default value
+
+// Function to check if the user is logged in
+function isLoggedIn() {
+    return typeof username !== 'undefined' && username && username !== 'Guest';
+}
+
+// Handle size selection
 document.querySelectorAll('.dropdown-item').forEach(item => {
     item.addEventListener('click', function() {
         const dropdownToggle = this.closest('.dropdown').querySelector('.dropdown-toggle');
-        dropdownToggle.textContent = this.textContent.trim();
+        if (dropdownToggle) {
+            dropdownToggle.textContent = this.textContent.trim();
+        }
+        selectedSize = this.textContent.trim();
     });
 });
 
+// Handle quantity increase
 document.getElementById('increase').addEventListener('click', function() {
     const quantityInput = document.getElementById('quantity');
-    quantityInput.value = parseInt(quantityInput.value) + 1;
+    if (quantityInput) {
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+    }
 });
 
+// Handle quantity decrease
 document.getElementById('decrease').addEventListener('click', function() {
     const quantityInput = document.getElementById('quantity');
-    if (parseInt(quantityInput.value) > 1) {
+    if (quantityInput && parseInt(quantityInput.value) > 1) {
         quantityInput.value = parseInt(quantityInput.value) - 1;
     }
 });
 
-// take information of the specific product
-// save this on the html i want to see
-document.getElementById('addto').addEventListener('click', function() {
+// Add item to cart
+document.getElementById('addto').addEventListener('click', async function() {
+    if (!isLoggedIn()) {
+        alert('You need to log in to add items to your cart.');
+        return;
+    }
+
     const productName = document.getElementById('name').textContent;
     const productDescription = document.getElementById('info').textContent;
     const productPrice = parseFloat(document.getElementById('price').textContent.replace(' ₪', ''));
     const productImage = document.querySelector('#productimg img').src;
-    const selectedSize = document.querySelector('.dropdown-toggle').textContent.trim();
     const quantity = parseInt(document.getElementById('quantity').value);
 
     if (selectedSize === 'Select Size') {
@@ -35,92 +53,117 @@ document.getElementById('addto').addEventListener('click', function() {
 
     const totalPrice = (productPrice * quantity).toFixed(2);
 
-    const cartItemHTML = `
-        <div class="order-details">
-            <img src="${productImage}" class="product-image">
-            <div class="order-info">
-                <p class="card-text">Name Product: ${productName}</p>
-                <p class="card-text">Description: ${productDescription}</p>
-                <p class="card-text">Size: ${selectedSize}</p>
-                <p class="card-text">Quantity: ${quantity}</p>
-                <p class="card-text">Price Order: ${productPrice} ₪</p>
-            </div>
-        </div>
-    `;
+    try {
+        const response = await fetch('/addCartItem', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username, // Assuming `username` is globally available
+                cartItem: {
+                    productName,
+                    productDescription,
+                    productPrice,
+                    productImage,
+                    selectedSize,
+                    quantity,
+                    totalPrice
+                }
+            })
+        });
 
-    const cartBody = document.querySelector('#cartCard .card-body');
-    cartBody.innerHTML = `
-        <h5 class="card-title">YOUR SHOPPING CART</h5>
-        ${cartItemHTML}
-        <p id="totalAmount" class="total-amount">Total: ${totalPrice} ₪</p>
-    `;
-
-    document.getElementById('emptyCartMessage').style.display = 'none';
+        if (response.ok) {
+            alert('Item added to cart successfully!');
+            updateCartDisplay();
+        } else {
+            throw new Error('Failed to add item to cart');
+        }
+    } catch (error) {
+        alert(error.message);
+    }
 });
 
+// Function to remove an item from the cart
+async function removeCartItem(itemId) {
+    try {
+        const response = await fetch('/removeCartItem', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, itemId })
+        });
 
-// document.addEventListener('DOMContentLoaded', function() {
-//     // Function to toggle login card visibility
-//     function toggleLogInCard() {
-//         let logInCard = document.getElementById('logInCard');
-//         let cartCard = document.getElementById('cartCard');
+        if (!response.ok) {
+            throw new Error('Failed to remove item from cart');
+        }
+        updateCartDisplay(); // Refresh the cart display after removal
+    } catch (error) {
+        console.error('Failed to remove item from cart:', error);
+    }
+}
+
+// Function to fetch and display cart items
+async function updateCartDisplay() {
+    if (!isLoggedIn()) return; // Ensure user is logged in
+
+    try {
+        const response = await fetch(`/getCartItems?username=${username}`);
+        if (!response.ok) throw new Error('Failed to fetch cart items');
         
-//         if (logInCard.style.display === 'block') {
-//             logInCard.style.display = 'none';
-//         } else {
-//             logInCard.style.display = 'block';
-//             // Close cartCard if it's open
-//             if (cartCard.style.display === 'block') {
-//                 cartCard.style.display = 'none';
-//             }
-//         }
-//     }
-
-//     // Function to toggle cart visibility
-//     function toggleCart() {
-//         let cartCard = document.getElementById('cartCard');
-//         let logInCard = document.getElementById('logInCard');
+        const cartItems = await response.json();
         
-//         if (cartCard.style.display === 'block') {
-//             cartCard.style.display = 'none';
-//         } else {
-//             cartCard.style.display = 'block';
-//             // Close logInCard if it's open
-//             if (logInCard.style.display === 'block') {
-//                 logInCard.style.display = 'none';
-//             }
-//         }
-//     }
+        const cartBody = document.querySelector('#cartCard .card-body');
+        if (!cartBody) {
+            console.error('Cart body not found');
+            return;
+        }
 
-//     // Add event listener to toggle login card visibility when clicking logInBtn
-//     let logInBtn = document.getElementById('logInBtn');
-//     logInBtn.addEventListener('click', function(event) {
-//         toggleLogInCard();
-//         event.stopPropagation(); // Prevent the click event from bubbling up to document
-//     });
+        let cartHTML = '';
 
-//     // Add event listener to toggle cart visibility when clicking cartBtn
-//     let cartBtn = document.getElementById('cartBtn');
-//     cartBtn.addEventListener('click', function(event) {
-//         toggleCart();
-//         event.stopPropagation(); // Prevent the click event from bubbling up to document
-//     });
+        cartItems.forEach(item => {
+            cartHTML += `
+                <div class="order-details" data-item-id="${item._id}">
+                    <img src="${item.productImage}" class="product-image">
+                    <div class="order-info">
+                        <p class="card-text">Name Product: ${item.productName}</p>
+                        <p class="card-text">Description: ${item.productDescription}</p>
+                        <p class="card-text">Size: ${item.selectedSize}</p>
+                        <p class="card-text">Quantity: ${item.quantity}</p>
+                        <p class="card-text">Price Order: ${item.productPrice} ₪</p>
+                        <button class="btn btn-danger remove-item">Remove</button>
+                    </div>
+                </div>
+            `;
+        });
 
-//     // Close logInCard and cartCard when clicking outside of them
-//     document.addEventListener('click', function(event) {
-//         let logInCard = document.getElementById('logInCard');
-//         let cartCard = document.getElementById('cartCard');
-//         let logInBtn = document.getElementById('logInBtn');
-//         let cartBtn = document.getElementById('cartBtn');
-        
-//         // Check if clicked element is outside logInCard and logInBtn
-//         if (!logInCard.contains(event.target) && event.target !== logInBtn) {
-//             logInCard.style.display = 'none';
-//         }
-        
-//         // Check if clicked element is outside cartCard and cartBtn
-//         if (!cartCard.contains(event.target) && event.target !== cartBtn) {
-//             cartCard.style.display = 'none';
-//         }
-//     });
-// });
+        const totalAmount = cartItems.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0).toFixed(2);
+
+        cartBody.innerHTML = `
+            <h5 class="card-title">YOUR SHOPPING CART</h5>
+            ${cartHTML}
+            <p id="totalAmount" class="total-amount">Total: ${totalAmount} ₪</p>
+        `;
+
+        const emptyCartMessage = document.getElementById('emptyCartMessage');
+        if (emptyCartMessage) {
+            emptyCartMessage.style.display = cartItems.length === 0 ? 'block' : 'none';
+        } else {
+            console.error('Empty cart message element not found');
+        }
+
+        // Add event listeners for remove buttons
+        document.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', async function() {
+                const itemId = this.closest('.order-details').dataset.itemId;
+                await removeCartItem(itemId);
+            });
+        });
+    } catch (error) {
+        console.error('Failed to fetch cart items:', error);
+    }
+}
+
+// Run `updateCartDisplay` on page load
+document.addEventListener('DOMContentLoaded', updateCartDisplay);

@@ -8,6 +8,7 @@ const Accessories = require('./models/Accessories');
 const Clothes = require('./models/Clothes');
 const SkiProducts = require('./models/SkiProducts');
 const Users = require('./models/users');
+const CartList = require('./models/cartList');
 
 // MongoDB Atlas
 const mongoURI = 'mongodb+srv://admin:admin@cluster0.hrynjzk.mongodb.net/';
@@ -54,6 +55,8 @@ const singleProductRoutes = require('./routes/singleProduct');
 const managerRoutes = require('./routes/manager');
 const userRoutes = require('./routes/users'); // 
 const accountRoutes = require('./routes/account');
+const cartRouts = require('./routes/cartRouts');
+
 // Use routes
 server.use(homeRoutes);
 server.use(productRoutes);
@@ -61,6 +64,7 @@ server.use(singleProductRoutes);
 server.use(managerRoutes);
 server.use(userRoutes);
 server.use(accountRoutes);
+server.use(cartRouts);
 
 
 // Start the server
