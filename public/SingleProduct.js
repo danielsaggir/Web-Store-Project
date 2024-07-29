@@ -165,5 +165,23 @@ async function updateCartDisplay() {
     }
 }
 
+// Function to clear the cart when logging out
+async function clearCartOnLogout() {
+    try {
+        const response = await fetch('/logout', {
+            method: 'GET',
+        });
+
+        if (response.ok) {
+            alert('Logged out and cart cleared!');
+            window.location.href = '/'; // Redirect to homepage or login page
+        } else {
+            throw new Error('Failed to log out');
+        }
+    } catch (error) {
+        console.error('Failed to log out:', error);
+    }
+}
+
 // Run `updateCartDisplay` on page load
 document.addEventListener('DOMContentLoaded', updateCartDisplay);
