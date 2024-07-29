@@ -83,42 +83,77 @@
             <% }) %>
         </div>
 
-    <div class="filter-box">
-        <h1 id="header_main">Filter By</h1>
+        <div class="filter-box">
+            <h1 id="header_main">Filter By</h1>
         
-        <div class="filter-section">
-            <h4 id="header">Color</h4>
-            <ul class="filter-options">
-                <li><label><input type="checkbox" name="color" value="Red"> Red</label></li>
-                <li><label><input type="checkbox" name="color" value="Blue"> Blue</label></li>
-                <li><label><input type="checkbox" name="color" value="Green"> Green</label></li>
-                <li><label><input type="checkbox" name="color" value="Yellow"> Yellow</label></li>
-                <li><label><input type="checkbox" name="color" value="Black"> Black</label></li>
-                <li><label><input type="checkbox" name="color" value="White"> White</label></li>
-            </ul>
+            <% if (selectedCategory === 'Clothes' || selectedCategory === 'Accessories') { %>
+            <div class="filter-section">
+                <h4 id="header">Color</h4>
+                <ul class="filter-options">
+                    <li><label><input type="checkbox" name="color" value="Red"> Red</label></li>
+                    <li><label><input type="checkbox" name="color" value="Blue"> Blue</label></li>
+                    <li><label><input type="checkbox" name="color" value="Green"> Green</label></li>
+                    <li><label><input type="checkbox" name="color" value="Yellow"> Yellow</label></li>
+                    <li><label><input type="checkbox" name="color" value="Black"> Black</label></li>
+                    <li><label><input type="checkbox" name="color" value="White"> White</label></li>
+                </ul>
+            </div>
+        
+            <div class="filter-section">
+                <h4 id="header">Size</h4>
+                <ul class="filter-options">
+                    <li><label><input type="checkbox" name="size" value="small"> Small</label></li>
+                    <li><label><input type="checkbox" name="size" value="medium"> Medium</label></li>
+                    <li><label><input type="checkbox" name="size" value="large"> Large</label></li>
+                </ul>
+            </div>
+
+            <div class="filter-section">
+                <h4 id="header">Price</h4>
+                <select name="price" id="price-filter">
+                    <option value="allprices">All Prices</option>
+                    <option value="under300">Under 300</option>
+                    <option value="300to800">300 - 800</option>
+                    <option value="800andabove">800 +</option>
+                </select>
+            </div>
+            <% } %>
+        
+            <% if (selectedCategory === 'Ski Products') { %>
+            <div class="filter-section">
+                <h4 id="header">Color</h4>
+                <ul class="filter-options">
+                    <li><label><input type="checkbox" name="color" value="Red"> Red</label></li>
+                    <li><label><input type="checkbox" name="color" value="Blue"> Blue</label></li>
+                    <li><label><input type="checkbox" name="color" value="Green"> Green</label></li>
+                    <li><label><input type="checkbox" name="color" value="Yellow"> Yellow</label></li>
+                    <li><label><input type="checkbox" name="color" value="Black"> Black</label></li>
+                    <li><label><input type="checkbox" name="color" value="White"> White</label></li>
+                </ul>
+            </div>
+
+            <div class="filter-section">
+                <h4 id="header">Category</h4>
+                <ul class="filter-options">
+                    <li><label><input type="checkbox" name="skiCategory" value="Poles"> Poles</label></li>
+                    <li><label><input type="checkbox" name="skiCategory" value="Snowboards"> Snowboards</label></li>
+                    <li><label><input type="checkbox" name="skiCategory" value="Boots"> Boots</label></li>
+                </ul>
+            </div>
+            
+
+            <div class="filter-section">
+                <h4 id="header">Price</h4>
+                <select name="price" id="price-filter">
+                    <option value="allprices">All Prices</option>
+                    <option value="under300">Under 300</option>
+                    <option value="300to800">300 - 800</option>
+                    <option value="800andabove">800 +</option>
+                </select>
+            </div>
+            <% } %>
         </div>
-        
-        
-        <div class="filter-section">
-            <h4 id="header">Size</h4>
-            <ul class="filter-options">
-                <li><label><input type="checkbox" name="size" value="small"> Small</label></li>
-                <li><label><input type="checkbox" name="size" value="medium"> Medium</label></li>
-                <li><label><input type="checkbox" name="size" value="large"> Large</label></li>
-            </ul>
-        </div>
-        
-        <div class="filter-section">
-            <h4 id="header"></h4>
-            <select name="price" id="price-filter">
-                <option value="allprices">All Prices</option>
-                <option value="under300">Under 300</option>
-                <option value="300to800">300 - 800</option>
-                <option value="800andabove">800 +</option>
-            </select>
-        </div>
-    </div>
-    </div>
+   </div>
     <div class="footer-container">
         <div class="footer-columns">
           <div class="footer-item first-column">

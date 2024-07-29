@@ -1,4 +1,4 @@
-
+// Dropdown handling
 document.querySelectorAll('.dropdown-item').forEach(item => {
     item.addEventListener('click', function() {
         const dropdownToggle = this.closest('.dropdown').querySelector('.dropdown-toggle');
@@ -6,6 +6,7 @@ document.querySelectorAll('.dropdown-item').forEach(item => {
     });
 });
 
+// Product link handling
 document.querySelectorAll('.product-link').forEach(link => {
     link.addEventListener('click', function(event) {
         event.preventDefault();
@@ -15,17 +16,11 @@ document.querySelectorAll('.product-link').forEach(link => {
     });
 });
 
-
-
-
-/////////////////////////////////filter by price range////////////////////////////////////
-
-
+// Filter by price range
 document.addEventListener('DOMContentLoaded', function() {
     const priceRange = document.getElementById('price-filter');
 
     if (priceRange) {
-        // Set the initial value of the select box based on the URL parameter
         const urlParams = new URLSearchParams(window.location.search);
         const priceFilter = urlParams.get('price');
         if (priceFilter) {
@@ -39,14 +34,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
 
             if (selectedPriceFilter === 'allprices') {
-                // Remove the price parameter if "All Prices" is selected
                 urlParams.delete('price');
             } else {
-                // Set the price parameter to the selected value
                 urlParams.set('price', selectedPriceFilter);
             }
 
-            // Redirect to the new URL with updated parameters
             window.location.href = `/products?${urlParams.toString()}`;
         });
     } else {
@@ -54,30 +46,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
-/////////////////////////////////filter by price range////////////////////////////////////
-
-
-
-
-
-
-
-/////////////////////////////////filter by size////////////////////////////////////
-
+// Filter by size
 document.addEventListener('DOMContentLoaded', () => {
     const sizeCheckboxes = document.querySelectorAll('input[name="size"]');
     const urlParams = new URLSearchParams(window.location.search);
     const checkedSizes = urlParams.get('size') ? urlParams.get('size').split(',') : [];
 
-    // Set the checkboxes based on URL parameters
     sizeCheckboxes.forEach(checkbox => {
         if (checkedSizes.includes(checkbox.value.charAt(0).toUpperCase() + checkbox.value.slice(1).toLowerCase())) {
             checkbox.checked = true;
         }
     });
 
-    // Add event listener to update URL parameters on checkbox change
     sizeCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
             const updatedCheckedSizes = Array.from(sizeCheckboxes)
@@ -90,10 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
-/////////////////////////////////filter by size////////////////////////////////////
-
-
+// Filter by color
 document.addEventListener('DOMContentLoaded', () => {
     const colorCheckboxes = document.querySelectorAll('input[name="color"]');
     const urlParams = new URLSearchParams(window.location.search);
@@ -109,10 +86,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
             urlParams.set('color', updatedCheckedColors.join(','));
 
-            // If no colors are selected, remove the color parameter
             if (updatedCheckedColors.length === 0) {
                 urlParams.delete('color');
             }
+            window.location.href = `/products?${urlParams.toString()}`;
+        });
+    });
+});
+
+// Filter by ski category
+document.addEventListener('DOMContentLoaded', () => {
+    const categoryCheckboxes = document.querySelectorAll('input[name="skiCategory"]');
+    const urlParams = new URLSearchParams(window.location.search);
+    const checkedCategories = urlParams.get('skiCategory') ? urlParams.get('skiCategory').split(',') : [];
+
+    // Set the checkboxes based on URL parameters
+    categoryCheckboxes.forEach(checkbox => {
+        checkbox.checked = checkedCategories.includes(checkbox.value);
+    });
+
+    // Add event listener to update URL parameters on checkbox change
+    categoryCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            const updatedCheckedCategories = Array.from(categoryCheckboxes)
+                .filter(el => el.checked)
+                .map(el => el.value);
+
+            urlParams.set('skiCategory', updatedCheckedCategories.join(','));
+
+            if (updatedCheckedCategories.length === 0) {
+                urlParams.delete('skiCategory');
+            }
+
             window.location.href = `/products?${urlParams.toString()}`;
         });
     });

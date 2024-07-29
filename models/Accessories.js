@@ -47,10 +47,6 @@ const productSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    //     type: String, // Array of strings for multiple images
-    //     required: true
-    // },
-    
 });
 
 const Product = mongoose.model('Accessories', productSchema);
