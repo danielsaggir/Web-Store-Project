@@ -37,8 +37,8 @@ document.getElementById('addto').addEventListener('click', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('MyId');
     const selectedCategory = urlParams.get('selectedCategory');
-    console.log(productId);
-    console.log(selectedCategory);
+    console.log('productId:', productId);
+    console.log('selectedCategory:', selectedCategory);
 
     fetch('/check-size', {
         method: 'POST',
@@ -53,7 +53,7 @@ document.getElementById('addto').addEventListener('click', function() {
             const totalPrice = (productPrice * quantity).toFixed(2);
 
             const cartItemHTML = `
-                <div class="order-details">
+                <div class="order-details" data-product-id="${productId}" data-selected-category="${selectedCategory}">
                     <img src="${productImage}" class="product-image">
                     <div class="order-info">
                         <p class="card-text">Name Product: ${productName}</p>
@@ -112,17 +112,21 @@ document.getElementById('checkoutForm').addEventListener('submit', function(even
 
     const items = [];
     cartItems.forEach(item => {
-        const productName = item.querySelector('.order-info .card-text').textContent.split(': ')[1];
+        const productId = item.getAttribute('data-product-id');
+        const selectedCategory = item.getAttribute('data-selected-category');
         const quantity = parseInt(item.querySelector('.order-info .card-text:nth-child(4)').textContent.split(': ')[1]);
-        items.push({ productName, quantity });
+        items.push({ productId, quantity, selectedCategory });
     });
+
+    const checkoutData = { fullName, address, phone, email, items };
+    console.log('Checkout data:', checkoutData);
 
     fetch('/checkout', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ fullName, address, phone, email, items })
+        body: JSON.stringify(checkoutData)
     })
     .then(response => response.json())
     .then(data => {
@@ -130,11 +134,10 @@ document.getElementById('checkoutForm').addEventListener('submit', function(even
             alert('Checkout successful');
             document.getElementById('cartItems').innerHTML = '';
             document.getElementById('totalAmount').textContent = 'Total: 0 ₪';
-            document.getElementById('checkoutFormContainer').style.display = 'none';
             const checkoutModal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
             checkoutModal.hide();
         } else {
-            alert('Checkout failed');
+            alert(`Checkout failed: ${data.error}`);
         }
     })
     .catch(error => console.error('Error:', error));
