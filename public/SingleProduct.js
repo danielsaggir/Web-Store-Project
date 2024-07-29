@@ -1,5 +1,11 @@
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
 // Global variable to store selected size
 let selectedSize = 'Select Size'; // Default value
+let category = ''; // Global variable for category
 
 // Function to check if the user is logged in
 function isLoggedIn() {
@@ -33,6 +39,29 @@ document.getElementById('decrease').addEventListener('click', function() {
     }
 });
 
+// Function to check availability of the item
+async function checkAvailability(productId, quantity, size) {
+    try {
+        const response = await fetch('/checkAvailability', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productId, quantity, size })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to check availability');
+        }
+
+        const data = await response.json();
+        return data.available;
+    } catch (error) {
+        console.error('Failed to check availability:', error);
+        return false;
+    }
+}
+
 // Add item to cart
 document.getElementById('addto').addEventListener('click', async function() {
     if (!isLoggedIn()) {
@@ -40,14 +69,39 @@ document.getElementById('addto').addEventListener('click', async function() {
         return;
     }
 
-    const productName = document.getElementById('name').textContent;
-    const productDescription = document.getElementById('info').textContent;
-    const productPrice = parseFloat(document.getElementById('price').textContent.replace(' ₪', ''));
-    const productImage = document.querySelector('#productimg img').src;
-    const quantity = parseInt(document.getElementById('quantity').value);
+    const productId = getQueryParam('MyId');
+    const productName = document.getElementById('name')?.textContent.trim();
+    const productDescription = document.getElementById('info')?.textContent.trim();
+    const productPrice = parseFloat(document.getElementById('price')?.textContent.replace(' ₪', ''));
+    const productImage = document.querySelector('#productimg img')?.src;
+    const quantity = parseInt(document.getElementById('quantity')?.value);
+
+    // Retrieve category from DOM
+    category = document.getElementById('category')?.textContent.trim();
+
+    // Log values to check their presence and correctness
+    console.log('Product ID:', productId);
+    console.log('Product Name:', productName);
+    console.log('Product Description:', productDescription);
+    console.log('Product Price:', productPrice);
+    console.log('Product Image:', productImage);
+    console.log('Quantity:', quantity);
+    console.log('Selected Size:', selectedSize);
+    console.log('Category:', category);
 
     if (selectedSize === 'Select Size') {
         alert('You need to select a size.');
+        return;
+    }
+
+    if (!productId || !productName || !productPrice || !productImage || isNaN(quantity)) {
+        alert('Failed to retrieve product details.');
+        return;
+    }
+
+    const isAvailable = await checkAvailability(productId, quantity, selectedSize);
+    if (!isAvailable) {
+        alert('The selected quantity is not available.');
         return;
     }
 
