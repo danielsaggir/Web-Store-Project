@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
             body: JSON.stringify({
                 message: message,
                 access_token: accessToken,
-                app_id: app_id
+                app_id: app_id,
             })
         })
         .then(response => response.json())
