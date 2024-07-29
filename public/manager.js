@@ -211,28 +211,5 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Error:', error));
     }
 
-    function postToFacebook(message) {
-        fetch('/post-to-facebook', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message: message })
-        })
-        .then(response => response.text())
-        .then(data => {
-            console.log('Post successful:', data);
-            alert('Post successful!');
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert(`Error: ${error.message}`);
-        });
-    }
-    
-    document.getElementById('postToFacebookButton').addEventListener('click', function() {
-        const message = document.getElementById('facebookPostMessage').value;
-        postToFacebook(message);
-    });
 
 });
