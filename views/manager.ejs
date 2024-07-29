@@ -237,12 +237,11 @@
     </div>
 
      <!-- פוסט לפייסבוק -->
-     <div class="card text-center mx-auto card-container">
+     <div class="card text-center mx-auto" style="width: 30rem; margin-top: 2rem;">
         <div class="card-body">
             <h5 class="card-title">Post to Facebook</h5>
-            <input type="text" id="message" placeholder="Enter your message">
-            <button onclick="postToFacebook()">Post to Facebook</button>
-            <p id="response"></p>
+            <textarea id="facebookPostMessage" class="form-control" rows="3" placeholder="Write your post here..."></textarea>
+            <button id="postToFacebookButton" class="btn btn-primary" style="margin-top: 1rem;">Post</button>
         </div>
     </div>
 
