@@ -2,9 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 
+
+
 const Accessories = require('./models/Accessories');
 const Clothes = require('./models/Clothes');
 const SkiProducts = require('./models/SkiProducts');
+const Users = require('./models/users');
 
 // MongoDB Atlas
 const mongoURI = 'mongodb+srv://admin:admin@cluster0.hrynjzk.mongodb.net/';
@@ -30,12 +33,12 @@ server.use(express.json());
 // Import routes
 const homeRoutes = require('./routes/home');
 const productRoutes = require('./routes/products');
-const SingleproductRoutes = require('./routes/Singleproduct');
+const SingleProductRoutes = require('./routes/SingleProduct');
 const managerRoutes = require('./routes/manager');
 // Use routes
 server.use(homeRoutes);
 server.use(productRoutes);
-server.use(SingleproductRoutes);
+server.use(SingleProductRoutes);
 server.use(managerRoutes);
 
 
@@ -48,4 +51,5 @@ server.listen(PORT, () => {
 // app.listen(80, () => {
 //     console.log('Server is running on http://localhost');
 // });
+
 

@@ -104,7 +104,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ski-products-link').addEventListener('click', () => {
         navigateToCategory('Ski Products');
@@ -192,3 +191,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 5000);
 });
+// Add event listener to the search button
+document.getElementById('searchButton').addEventListener('click', function () {
+    const searchQuery = document.getElementById('searchBox').value;
+    if (searchQuery) {
+        window.location.href = `/SingleProduct?name=${encodeURIComponent(searchQuery)}`;
+    }
+});
+
