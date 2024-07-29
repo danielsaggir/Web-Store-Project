@@ -212,4 +212,32 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+    //facebook post
+    document.getElementById('postToFacebookButton').addEventListener('click', function () {
+        const message = document.getElementById('facebookPostMessage').value;
+        if (message) {
+            fetch('/manager/api/facebook-post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Post was successfully made on Facebook.');
+                } else {
+                    alert('Failed to post on Facebook.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while posting on Facebook.');
+            });
+        } else {
+            alert('Please write a message before posting.');
+        }
+    });
+
 });
