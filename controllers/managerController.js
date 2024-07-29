@@ -2,7 +2,6 @@ const SkiProducts = require('../models/SkiProducts');
 const Clothes = require('../models/Clothes');
 const Accessories = require('../models/Accessories');
 // const Users = require('../models/Users');
-const axios = require('axios');
 
 
 exports.getSkiProducts = async (req, res) => {
@@ -129,28 +128,6 @@ exports.searchProduct = async (req, res) => {
 
 
 
-exports.postToFacebook = async (req, res) => {
-    const { message } = req.body;
-    const PAGE_ACCESS_TOKEN = 'EAAFsNm6cRrsBO6fM9rhwimDG2vdO1FxkZCHN2E5ydqV5eNgVF16eRI4ABDfPwLYN8bAjz4FPlwL0lejXYHGZBIY9mSMaiaz3IGkH8hyG2kppD92QDyVT8AvvYR5THqAfSOmsR7sxBmFocd1aoZBlYgyXPZCBfc28gLCVE3kTsH0JDz9AZC7gDKoSx5ckZC2Wiw6ZA0UwS638DZBvs0zlMzfwql6b'; // שים כאן את ה-TOKEN שלך
-    const PAGE_ID = '334940566378514'; // שים כאן את המספר דף שלך
-
-    try {
-        const response = await axios.post(`https://graph.facebook.com/${PAGE_ID}/feed`, {
-            message,
-            access_token: PAGE_ACCESS_TOKEN
-        });
-
-        if (response.data.error) {
-            console.error('Error posting to Facebook:', response.data.error);
-            return res.status(500).json({ success: false, error: response.data.error });
-        }
-
-        res.json({ success: true });
-    } catch (error) {
-        console.error('Error posting to Facebook:', error);
-        res.status(500).json({ success: false, error: error.message });
-    }
-};
 
 
 

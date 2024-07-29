@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const path = require('path');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const axios = require('axios');
 
 const Accessories = require('./models/Accessories');
 const Clothes = require('./models/Clothes');

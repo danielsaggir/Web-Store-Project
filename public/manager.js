@@ -211,27 +211,81 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Error:', error));
     }
 
-    // Facebook post
-    async function postToFacebook() {
-        const message = document.getElementById('message').value;
-        const accessToken = '<%= accessToken %>'; // Ensure access token is safely managed
+    
+    
 
-        try {
-            const response = await fetch('<%= url_for('/api/post-to-facebook') %>', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message: message,
-                    accessToken: accessToken,
-                }),
-            });
 
-            const result = await response.json();
-            document.getElementById('response').textContent = JSON.stringify(result, null, 2);
-        } catch (error) {
-            document.getElementById('response').textContent = 'Error: ' + error.message;
-        }
+    // הוספת הפונקציות לעדכון בפייסבוק
+    // function postToFacebook(message) {
+    //     const pageId = '334940566378514'; // העמוד שלך
+    //     const accessToken = 'EAAFsNm6cRrsBO6fM9rhwimDG2vdO1FxkZCHN2E5ydqV5eNgVF16eRI4ABDfPwLYN8bAjz4FPlwL0lejXYHGZBIY9mSMaiaz3IGkH8hyG2kppD92QDyVT8AvvYR5THqAfSOmsR7sxBmFocd1aoZBlYgyXPZCBfc28gLCVE3kTsH0JDz9AZC7gDKoSx5ckZC2Wiw6ZA0UwS638DZBvs0zlMzfwql6b';
+
+    //     console.log('Posting to Facebook:', message); // הוספת הודעת הדפסה לפני הפרסום
+
+    //     fetch(`https://graph.facebook.com/${pageId}/feed`, {
+    //         method: 'POST',
+    //         body: new URLSearchParams({
+    //             message: message,
+    //             access_token: accessToken
+    //         })
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if (data.error) {
+    //             console.error('Error posting to Facebook:', data.error);
+    //             alert(`Error posting to Facebook: ${data.error.message}`); // הוספת הודעת שגיאה למשתמש
+    //         } else {
+    //             console.log('Post successful:', data);
+    //             alert('Post successful!'); // הוספת הודעת הצלחה למשתמש
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error('Error:', error);
+    //         alert(`Error: ${error.message}`); // הוספת הודעת שגיאה למשתמש
+    //     });
+    // }
+
+    // document.getElementById('postToFacebookButton').addEventListener('click', function() {
+    //     const message = document.getElementById('facebookPostMessage').value;
+    //     postToFacebook(message);
+    // });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('postToFacebookButton').addEventListener('click', function() {
+        const message = document.getElementById('facebookPostMessage').value;
+        postToFacebook(message);
+    });
+
+    function postToFacebook(message) {
+        const accessToken = 'EAAFsNm6cRrsBO0Fa2dWAOVLZA5Op6TRNsMmreZATYXyuqZAdQf6EMov5BmKFzmvHwBs1u87TLERRxhrqjbsnjU1ZBU4J9rmuzt1AYXKiSTPiPBh354fkHfhKrGvDUg7W5q58UIEwSZCenFtYgiorkDBjE2YfmYSVWXo1f9ldQMWwdDWUhS1QW0wZBpUjg9qUQpKkqajPqH7hVH0tjJYVoTSZCSY'; // Your Page Access Token
+        const page_id = '334940566378514'; 
+        const app_id = '400456016479931'; // Your Facebook App ID
+
+        fetch(`https://graph.facebook.com/v20.0/${page_id}/feed`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: message,
+                access_token: accessToken,
+                app_id: app_id
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error posting to Facebook:', data.error.message);
+                document.getElementById('response').innerText = 'Error: ' + data.error.message;
+            } else {
+                document.getElementById('response').innerText = 'Post was successful!';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('response').innerText = 'Error: ' + error;
+        });
     }
 });
