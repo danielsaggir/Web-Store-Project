@@ -6,10 +6,17 @@ const CartList = require('../models/cartList');
 router.post('/addCartItem', async (req, res) => {
     try {
         const { username, cartItem } = req.body;
+
+        // Check if all required fields are provided
+        if (!username || !cartItem) {
+            return res.status(400).json({ message: 'Username and cart item details are required' });
+        }
+
         const newCartItem = new CartList({
             username,
             ...cartItem
         });
+
         await newCartItem.save();
         res.status(201).json({ message: 'Item added to cart' });
     } catch (error) {
@@ -22,7 +29,13 @@ router.post('/addCartItem', async (req, res) => {
 router.get('/getCartItems', async (req, res) => {
     try {
         const { username } = req.query;
+
+        if (!username) {
+            return res.status(400).json({ message: 'Username is required' });
+        }
+
         const cartItems = await CartList.find({ username });
+
         res.json(cartItems);
     } catch (error) {
         console.error('Error fetching cart items:', error);
@@ -34,8 +47,13 @@ router.get('/getCartItems', async (req, res) => {
 router.delete('/removeCartItem', async (req, res) => {
     try {
         const { username, itemId } = req.body;
+
+        if (!username || !itemId) {
+            return res.status(400).json({ message: 'Username and item ID are required' });
+        }
+
         // Find the cart item by username and itemId and remove it
-        const result = await CartList.findOneAndDelete({ username: username, _id: itemId });
+        const result = await CartList.findOneAndDelete({ username, _id: itemId });
 
         if (result) {
             res.status(200).json({ message: 'Item removed from cart' });
