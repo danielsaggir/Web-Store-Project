@@ -31,7 +31,7 @@ exports.getSingleProduct = async (req, res) => {
         }
 
         if (!product) {
-            return res.status(404).send('Product not found');
+            return res.status(404).json({ error: 'Product not found' });
         }
 
         console.log('Found product:', product);
@@ -42,7 +42,7 @@ exports.getSingleProduct = async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching product:', error);
-        res.status(500).send('Internal Server Error');
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 
@@ -64,7 +64,7 @@ exports.checkSizeAvailability = async (req, res) => {
             ProductModel = Accessories;
             break;
         default:
-            return res.status(400).send('Invalid category');
+            return res.status(400).json({ error: 'Invalid category' });
     }
 
     try {
@@ -72,7 +72,7 @@ exports.checkSizeAvailability = async (req, res) => {
 
         if (!product) {
             console.log('Product not found');
-            return res.status(404).send('Product not found');
+            return res.status(404).json({ error: 'Product not found' });
         }
 
         console.log('Product found:', product);
@@ -84,43 +84,57 @@ exports.checkSizeAvailability = async (req, res) => {
         }
     } catch (error) {
         console.error('Error checking size availability:', error);
-        res.status(500).send('Internal Server Error');
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 
 exports.checkout = async (req, res) => {
     const { fullName, address, phone, email, items } = req.body;
 
+    console.log('Checkout request received:', { fullName, address, phone, email, items });
+
     try {
         for (const item of items) {
-            const { productName, quantity } = item;
+            const { productId, quantity, selectedCategory } = item;
+            console.log(`Processing item with productId: ${productId}, quantity: ${quantity}, selectedCategory: ${selectedCategory}`);
 
-            // Find the product in all categories and update the quantity
-            let product = await SkiProducts.findOne({ name: productName });
-            if (!product) {
-                product = await Clothes.findOne({ name: productName });
+            let ProductModel;
+            switch (selectedCategory) {
+                case 'Ski Products':
+                    ProductModel = SkiProducts;
+                    break;
+                case 'Clothes':
+                    ProductModel = Clothes;
+                    break;
+                case 'Accessories':
+                    ProductModel = Accessories;
+                    break;
+                default:
+                    return res.status(400).json({ error: 'Invalid category' });
             }
-            if (!product) {
-                product = await Accessories.findOne({ name: productName });
-            }
+
+            const product = await ProductModel.findOne({ MyId: parseInt(productId) });
 
             if (product) {
                 if (product.quantity < quantity) {
-                    return res.status(400).send(`Not enough stock for ${productName}`);
+                    console.log(`Not enough stock for product ID ${productId}`);
+                    return res.status(400).json({ error: `Not enough stock for product ID ${productId}` });
                 }
                 product.quantity -= quantity;
+                console.log('Updating product:', product);
                 await product.save();
+                console.log('Updated product:', product);
             } else {
-                return res.status(404).send(`Product ${productName} not found`);
+                console.log(`Product with ID ${productId} not found`);
+                return res.status(404).json({ error: `Product with ID ${productId} not found` });
             }
         }
 
-        // Here you can add logic to save the order details and customer information if needed
-        console.log('Customer Information:', { fullName, address, phone, email });
+        console.log('Checkout successful:', { fullName, address, phone, email });
 
         res.json({ success: true });
     } catch (error) {
         console.error('Error during checkout:', error);
-        res.status(500).send('Internal Server Error');
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
