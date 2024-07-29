@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const path = require('path');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const axios = require('axios');
+const userController = require('./controllers/usersController'); // עדכני בהתאם למיקום הקובץ
 
 const Accessories = require('./models/Accessories');
 const Clothes = require('./models/Clothes');
@@ -62,6 +64,48 @@ server.use(managerRoutes);
 server.use(userRoutes);
 server.use(accountRoutes);
 
+
+
+
+server.post('/login',userController.loginUser);
+
+server.post('/post-to-facebook', (req, res) => {
+    if (!req.session.userAccessToken) {
+        return res.status(401).send('User not logged in');
+    }
+
+    const userAccessToken = req.session.userAccessToken;
+    const pageId = '380185848509976'; // הכניסי כאן את ה-Page ID שלך
+    const message = req.body.message;
+
+    // תחילה נקבל את ה-Page Access Token
+    axios.get('https://graph.facebook.com/v12.0/me/accounts', {
+        params: {
+            access_token: userAccessToken
+        }
+    })
+    .then(response => {
+        if (response.data && response.data.data && response.data.data.length > 0) {
+            const pages = response.data.data;
+            const pageAccessToken = pages[0].access_token;
+
+            // לאחר קבלת ה-Page Access Token, נבצע את קריאת ה-POST להעלאת הפוסט
+            return axios.post(`https://graph.facebook.com/${pageId}/feed`, {
+                message: message,
+                access_token: pageAccessToken
+            });
+        } else {
+            throw new Error('No pages found or insufficient permissions.');
+        }
+    })
+    .then(response => {
+        res.send(`Post successful: ${response.data}`);
+    })
+    .catch(error => {
+        console.error('Error posting to Facebook:', error.response ? error.response.data : error.message);
+        res.status(500).send('Error posting to Facebook.');
+    });
+});
 
 // Start the server
 const PORT = process.env.PORT || 80;

@@ -69,6 +69,7 @@ exports.loginUser = async (req, res) => {
         req.session.username = user.username;
         req.session.isAdmin = user.isAdmin;
         res.redirect(`/?username=${username}`);
+        req.session.userAccessToken = 'EAAWfVJXEbSABO9wCpXD475FAuK4VGJKex8KjgrjkhFaZCk3WQInwIKgNEhK3AgCQrCGkqAgRcHV9TZC5k2j4oWUUoj8kVOXp0f3IQa9Prx4rZAaH5JaP3GywxJxhEkQx9xsA5q27GdGMszrAcbZACwkv52WUsiBxxSKIw7Kv3e1uxEcPWvSFLxXV'; // החלף במפתח האמיתי שלך
         // res.render('home', { username: user.username, isAdmin: user.isAdmin });
     } catch (error) {
         console.error('Server error:', error);

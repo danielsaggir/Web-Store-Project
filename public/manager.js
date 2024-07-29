@@ -211,41 +211,28 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Error:', error));
     }
 
-    
-      // הוספת הפונקציות לעדכון בפייסבוק
-      function postToFacebook(message) {
-        const pageId = '380185848509976'; // העמוד שלך
-        const accessToken = '1582560522300704|ncqa6-QEKWXifW0DylIiX5WrPK8';
-
-        console.log('Posting to Facebook:', message); // הוספת הודעת הדפסה לפני הפרסום
-
-        fetch(`https://graph.facebook.com/${pageId}/feed`, {
+    function postToFacebook(message) {
+        fetch('/post-to-facebook', {
             method: 'POST',
-            body: new URLSearchParams({
-                message: message,
-                access_token: accessToken
-            })
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: message })
         })
-        .then(response => response.json())
+        .then(response => response.text())
         .then(data => {
-            if (data.error) {
-                console.error('Error posting to Facebook:', data.error);
-                alert(`Error posting to Facebook: ${data.error.message}`); // הוספת הודעת שגיאה למשתמש
-            } else {
-                console.log('Post successful:', data);
-                alert('Post successful!'); // הוספת הודעת הצלחה למשתמש
-            }
+            console.log('Post successful:', data);
+            alert('Post successful!');
         })
         .catch(error => {
             console.error('Error:', error);
-            alert(`Error: ${error.message}`); // הוספת הודעת שגיאה למשתמש
+            alert(`Error: ${error.message}`);
         });
     }
-
+    
     document.getElementById('postToFacebookButton').addEventListener('click', function() {
         const message = document.getElementById('facebookPostMessage').value;
         postToFacebook(message);
     });
-
 
 });
