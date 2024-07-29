@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             console.log('Upload successful:', data);
-            fetchData(currentModel); // רענון הטבלה עם המוצר החדש
+            fetchData(currentModel); // Refresh table with new item
             const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
             uploadModal.hide();
         })
@@ -83,13 +83,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('searchButton1').addEventListener('click', () => {
         const searchQuery = document.getElementById('searchBox1').value;
-        console.log(`Search query: ${searchQuery}`); // הודעת הדפסה לבדיקה
+        console.log(`Search query: ${searchQuery}`); // Debug log
         if (searchQuery) {
             fetch(`/manager/api/search?model=${currentModel}&query=${encodeURIComponent(searchQuery)}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Search result:', data); // הודעת הדפסה לבדיקה
-                    updateTable(data); // עדכון הטבלה עם התוצאות של החיפוש
+                    console.log('Search result:', data); // Debug log
+                    updateTable(data); // Update table with search results
                 })
                 .catch(error => console.error('Error:', error));
         }
@@ -97,9 +97,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('searchBox1').addEventListener('input', () => {
         const searchQuery = document.getElementById('searchBox1').value;
-        console.log(`Search input changed: ${searchQuery}`); // הודעת הדפסה לבדיקה
+        console.log(`Search input changed: ${searchQuery}`); // Debug log
         if (!searchQuery) {
-            fetchData(currentModel); // אם תיבת החיפוש ריקה, נטען את כל הנתונים מחדש
+            fetchData(currentModel); // Reload all data if search box is empty
         }
     });
 
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch(`/manager/api/${model}`)
             .then(response => response.json())
             .then(data => {
-                console.log('Fetched data:', data); // הודעת הדפסה לבדיקה
+                console.log('Fetched data:', data); // Debug log
                 updateTable(data);
             })
             .catch(error => console.error('Error:', error));
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         data.forEach(item => {
-            console.log('Adding item to table:', item); // הודעת הדפסה לבדיקה
+            console.log('Adding item to table:', item); // Debug log
             const row = table.insertRow();
             const fieldsToDisplay = ['MyId', 'name', 'price', 'quantity', 'category', 'color', 'description'];
 
@@ -211,33 +211,27 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Error:', error));
     }
 
+    // Facebook post
+    async function postToFacebook() {
+        const message = document.getElementById('message').value;
+        const accessToken = '<%= accessToken %>'; // Ensure access token is safely managed
 
-    //facebook post
-    document.getElementById('postToFacebookButton').addEventListener('click', function () {
-        const message = document.getElementById('facebookPostMessage').value;
-        if (message) {
-            fetch('/manager/api/facebook-post', {
+        try {
+            const response = await fetch('<%= url_for('/api/post-to-facebook') %>', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ message })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Post was successfully made on Facebook.');
-                } else {
-                    alert('Failed to post on Facebook.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while posting on Facebook.');
+                body: JSON.stringify({
+                    message: message,
+                    accessToken: accessToken,
+                }),
             });
-        } else {
-            alert('Please write a message before posting.');
-        }
-    });
 
+            const result = await response.json();
+            document.getElementById('response').textContent = JSON.stringify(result, null, 2);
+        } catch (error) {
+            document.getElementById('response').textContent = 'Error: ' + error.message;
+        }
+    }
 });

@@ -29,6 +29,6 @@ router.get('/manager/api/search', managerController.searchProduct);
 //facebook post
 router.post('/api/facebook-post', managerController.postToFacebook);
 
-
 module.exports = router;
+
 
