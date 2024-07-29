@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function postToFacebook(message) {
         const accessToken = 'EAAFsNm6cRrsBO0Fa2dWAOVLZA5Op6TRNsMmreZATYXyuqZAdQf6EMov5BmKFzmvHwBs1u87TLERRxhrqjbsnjU1ZBU4J9rmuzt1AYXKiSTPiPBh354fkHfhKrGvDUg7W5q58UIEwSZCenFtYgiorkDBjE2YfmYSVWXo1f9ldQMWwdDWUhS1QW0wZBpUjg9qUQpKkqajPqH7hVH0tjJYVoTSZCSY'; // Your Page Access Token
         const page_id = '334940566378514'; 
-        const app_id = '400456016479931'; // Your Facebook App ID
+        // const app_id = '400456016479931'; // Your Facebook App ID
 
         fetch(`https://graph.facebook.com/v20.0/${page_id}/feed`, {
             method: 'POST',
@@ -270,8 +270,8 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({
                 message: message,
-                access_token: accessToken,
-                app_id: app_id,
+                access_token: accessToken
+                // app_id: app_id,
             })
         })
         .then(response => response.json())
