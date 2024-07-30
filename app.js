@@ -4,13 +4,14 @@ const path = require('path');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
-
-
 const Accessories = require('./models/Accessories');
 const Clothes = require('./models/Clothes');
 const SkiProducts = require('./models/SkiProducts');
 const Users = require('./models/users');
 const Branch = require('./models/Branch'); // להוסיף את המודל של Branch
+const CartList = require('./models/cartList');
+const Orders = require('./models/orders');
+
 
 // MongoDB Atlas
 const mongoURI = 'mongodb+srv://admin:admin@cluster0.hrynjzk.mongodb.net/';
@@ -54,9 +55,14 @@ server.use((req, res, next) => {
 const homeRoutes = require('./routes/home');
 const productRoutes = require('./routes/products');
 const singleProductRoutes = require('./routes/Singleproduct');
+const singleProductRoutes = require('./routes/singleProduct');
 const managerRoutes = require('./routes/manager');
 const userRoutes = require('./routes/users');
 const accountRoutes = require('./routes/account');
+const cartRouts = require('./routes/cartRouts');
+const orderRoutes = require('./routes/orders'); // Added Orders routes
+
+
 // Use routes
 server.use(homeRoutes);
 server.use(productRoutes);
@@ -65,6 +71,8 @@ server.use(managerRoutes);
 server.use(userRoutes);
 server.use(accountRoutes);
 
+server.use(cartRouts);
+server.use( orderRoutes);
 
 
 // Start the server

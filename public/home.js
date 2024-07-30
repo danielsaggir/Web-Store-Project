@@ -1,80 +1,161 @@
-   // Add event listener for cart button
-   const cartBtn = document.getElementById('cartBtn');
-   if (cartBtn) {
-       cartBtn.addEventListener('click', function() {
-           const cartCard = document.getElementById('cartCard');
-           if (cartCard.style.display === 'none' || cartCard.style.display === '') {
-               cartCard.style.display = 'block';
-           } else {
-               cartCard.style.display = 'none';
-           }
-       });
-   }
+// Function to check if the user is logged in
+function isLoggedIn() {
+    return typeof username !== 'undefined' && username && username !== 'Guest';
+}
 
-   
-   // הקוד עבור כפתור ה-logIn
-    const logInBtn = document.getElementById('logInBtn');
-    if (logInBtn) {
-        logInBtn.addEventListener('click', function() {
-            let loginCard = document.getElementById('logInCard');
-            let logoutCard = document.getElementById('logoutCard');
-            let changePassCard = document.getElementById('changePassCard');
-            let changeUserNameCard = document.getElementById('changeUserNameCard');
+// Function to fetch and display cart items
+async function updateCartDisplay() {
+    if (!isLoggedIn()) return; // Ensure user is logged in
 
-            // סגירת כל התיבות הפתוחות
-            if (changePassCard && changePassCard.style.display === 'block') {
-                changePassCard.style.display = 'none';
-            }
-            if (changeUserNameCard && changeUserNameCard.style.display === 'block') {
-                changeUserNameCard.style.display = 'none';
-            }
+    try {
+        const response = await fetch(`/getCartItems?username=${username}`);
+        if (!response.ok) throw new Error('Failed to fetch cart items');
+        
+        const cartItems = await response.json();
+        
+        const cartBody = document.querySelector('#cartCard .card-body');
+        if (!cartBody) {
+            console.error('Cart body not found');
+            return;
+        }
 
-            if (username && username !== 'Guest') {
-                // המשתמש מחובר
-                if (logoutCard.style.display === 'block') {
-                    logoutCard.style.display = 'none';
-                } else {
-                    logoutCard.style.display = 'block';
-                }
-            } else {
-                // המשתמש לא מחובר
-                if (loginCard.style.display === 'block') {
-                    loginCard.style.display = 'none';
-                } else {
-                    loginCard.style.display = 'block';
-                }
-            }
+        let cartHTML = '';
+
+        cartItems.forEach(item => {
+            cartHTML += `
+                <div class="order-details" data-item-id="${item._id}">
+                    <img src="${item.productImage}" class="product-image">
+                    <div class="order-info">
+                        <p class="card-text">Name Product: ${item.productName}</p>
+                        <p class="card-text">Description: ${item.productDescription}</p>
+                        <p class="card-text">Size: ${item.selectedSize}</p>
+                        <p class="card-text">Quantity: ${item.quantity}</p>
+                        <p class="card-text">Price Order: ${item.productPrice} ₪</p>
+                        <button class="btn btn-danger remove-item">Remove</button>
+                    </div>
+                </div>
+            `;
         });
-    }
-   
-    // הקוד עבור כפתור ה-showRegisterForm
-    const showRegisterForm = document.getElementById('showRegisterForm');
-    if (showRegisterForm) {
-        showRegisterForm.addEventListener('click', function() {
-            let registerForm = document.getElementById('registerCard');
-            let loginForm = document.getElementById('logInCard');
-            
-            if (registerForm.style.display === 'block') {
-                registerForm.style.display = 'none';
-                loginForm.style.display = 'block';
-            } else {
-                registerForm.style.display = 'block';
-                loginForm.style.display = 'none';
-            }
-        });
-    }
 
-    // הקוד עבור כפתור ה-backToLogin
-    const backToLogin = document.getElementById('backToLogin');
-    if (backToLogin) {
-        backToLogin.addEventListener('click', function() {
-            let registerForm = document.getElementById('registerCard');
-            let loginForm = document.getElementById('logInCard');
-            
+        const totalAmount = cartItems.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0).toFixed(2);
+
+        cartBody.innerHTML = `
+            <h5 class="card-title">YOUR SHOPPING CART</h5>
+            ${cartHTML}
+            <p id="totalAmount" class="total-amount">Total: ${totalAmount} ₪</p>
+        `;
+
+        const emptyCartMessage = document.getElementById('emptyCartMessage');
+        if (emptyCartMessage) {
+            emptyCartMessage.style.display = cartItems.length === 0 ? 'block' : 'none';
+        } else {
+            console.error('Empty cart message element not found');
+        }
+
+        // Add event listeners for remove buttons
+        document.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', async function() {
+                const itemId = this.closest('.order-details').dataset.itemId;
+                await removeCartItem(itemId);
+            });
+        });
+    } catch (error) {
+        console.error('Failed to fetch cart items:', error);
+    }
+}
+
+// Define the removeCartItem function
+async function removeCartItem(itemId) {
+    try {
+        const response = await fetch('/removeCartItem', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, itemId })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to remove item from cart');
+        }
+
+        // Update the cart display after removing the item
+        updateCartDisplay();
+    } catch (error) {
+        console.error('Failed to remove item from cart:', error);
+    }
+}
+
+// Run `updateCartDisplay` on page load
+document.addEventListener('DOMContentLoaded', () => {
+    if (isLoggedIn()) {
+        updateCartDisplay();
+    }
+});
+
+// Add event listener for cart button
+const cartBtn = document.getElementById('cartBtn');
+if (cartBtn) {
+    cartBtn.addEventListener('click', function() {
+        const cartCard = document.getElementById('cartCard');
+        if (cartCard.style.display === 'none' || cartCard.style.display === '') {
+            cartCard.style.display = 'block';
+        } else {
+            cartCard.style.display = 'none';
+        }
+    });
+}
+
+// Add other event listeners for the login and form buttons
+const logInBtn = document.getElementById('logInBtn');
+if (logInBtn) {
+    logInBtn.addEventListener('click', function() {
+        let loginCard = document.getElementById('logInCard');
+        let logoutCard = document.getElementById('logoutCard');
+        let changePassCard = document.getElementById('changePassCard');
+        let changeUserNameCard = document.getElementById('changeUserNameCard');
+
+        // Close any open cards
+        if (changePassCard && changePassCard.style.display === 'block') {
+            changePassCard.style.display = 'none';
+        }
+        if (changeUserNameCard && changeUserNameCard.style.display === 'block') {
+            changeUserNameCard.style.display = 'none';
+        }
+
+        if (username && username !== 'Guest') {
+            // User is logged in
+            if (logoutCard.style.display === 'block') {
+                logoutCard.style.display = 'none';
+            } else {
+                logoutCard.style.display = 'block';
+            }
+        } else {
+            // User is not logged in
+            if (loginCard.style.display === 'block') {
+                loginCard.style.display = 'none';
+            } else {
+                loginCard.style.display = 'block';
+            }
+        }
+    });
+}
+
+const showRegisterForm = document.getElementById('showRegisterForm');
+if (showRegisterForm) {
+    showRegisterForm.addEventListener('click', function() {
+        let registerForm = document.getElementById('registerCard');
+        let loginForm = document.getElementById('logInCard');
+        
+        if (registerForm.style.display === 'block') {
             registerForm.style.display = 'none';
             loginForm.style.display = 'block';
-        });
-    }
+        } else {
+            registerForm.style.display = 'block';
+            loginForm.style.display = 'none';
+        }
+    });
+}
 
     // הקוד עבור כפתור ה-showChangePassForm
     const showChangePassForm = document.getElementById('showChangePassForm');
@@ -116,57 +197,96 @@
         backToLogoutFromPass.addEventListener('click', function() {
             let changePassForm = document.getElementById('changePassCard');
             let logoutCard = document.getElementById('logoutCard');
-
+          });
+        }
+const showChangePassForm = document.getElementById('showChangePassForm');
+if (showChangePassForm) {
+    showChangePassForm.addEventListener('click', function() {
+        let changePassForm = document.getElementById('changePassCard');
+        let logoutCard = document.getElementById('logoutCard');
+        
+        if (changePassForm.style.display === 'block') {
             changePassForm.style.display = 'none';
             logoutCard.style.display = 'block';
-        });
-    }
+        } else {
+            changePassForm.style.display = 'block';
+            logoutCard.style.display = 'none';
+        }
+    });
+}
 
-    // הקוד עבור כפתור ה-backToLogoutFromUser
-    const backToLogoutFromUser = document.getElementById('backToLogoutFromUser');
-    if (backToLogoutFromUser) {
-        backToLogoutFromUser.addEventListener('click', function() {
-            let changeUserNameForm = document.getElementById('changeUserNameCard');
-            let logoutCard = document.getElementById('logoutCard');
-
+const showChangeUserNameForm = document.getElementById('showChangeUserNameForm');
+if (showChangeUserNameForm) {
+    showChangeUserNameForm.addEventListener('click', function() {
+        let changeUserNameForm = document.getElementById('changeUserNameCard');
+        let logoutCard = document.getElementById('logoutCard');
+        
+        if (changeUserNameForm.style.display === 'block') {
             changeUserNameForm.style.display = 'none';
             logoutCard.style.display = 'block';
-        });
-    }
+        } else {
+            changeUserNameForm.style.display = 'block';
+            logoutCard.style.display = 'none';
+        }
+    });
+}
 
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
+const backToLogoutFromPass = document.getElementById('backToLogoutFromPass');
+if (backToLogoutFromPass) {
+    backToLogoutFromPass.addEventListener('click', function() {
+        let changePassForm = document.getElementById('changePassCard');
+        let logoutCard = document.getElementById('logoutCard');
 
-            const formData = new FormData(loginForm);
-            const data = {
-                username: formData.get('username'),
-                password: formData.get('password')
-            };
+        changePassForm.style.display = 'none';
+        logoutCard.style.display = 'block';
+    });
+}
 
-            try {
-                const response = await fetch('/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
+const backToLogoutFromUser = document.getElementById('backToLogoutFromUser');
+if (backToLogoutFromUser) {
+    backToLogoutFromUser.addEventListener('click', function() {
+        let changeUserNameForm = document.getElementById('changeUserNameCard');
+        let logoutCard = document.getElementById('logoutCard');
 
-                if (response.ok) {
-                    window.location.href = `/?username=${data.username}`;
-                } else {
-                    const result = await response.json();
-                    const loginError = document.getElementById('loginError');
-                    loginError.textContent = result.error;
-                    loginError.style.display = 'block';
-                }
-            } catch (error) {
-                console.error('Error:', error);
+        changeUserNameForm.style.display = 'none';
+        logoutCard.style.display = 'block';
+    });
+}
+
+const loginForm = document.getElementById('loginForm');
+if (loginForm) {
+    loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(loginForm);
+        const data = {
+            username: formData.get('username'),
+            password: formData.get('password')
+        };
+
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                window.location.href = `/?username=${data.username}`;
+            } else {
+                const result = await response.json();
+                const loginError = document.getElementById('loginError');
+                loginError.textContent = result.error;
+                loginError.style.display = 'block';
             }
-        });
-    }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
 
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {

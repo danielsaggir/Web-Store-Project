@@ -16,11 +16,7 @@ const productSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true
-    },
-    image: {
-        type: [String], // Array of strings for multiple images
-        required: true
-    },
+    },  
     category: {
         type: String,
         enum: ['Helmets', 'Gloves', 'Goggles', 'Masks'], // Restrict to these values
