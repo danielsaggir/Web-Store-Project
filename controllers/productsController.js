@@ -5,18 +5,18 @@ const Accessories = require('../models/Accessories');
 exports.getProducts = async (req, res) => {
     const selectedCategory = req.query.category;
     const sortOption = req.query.sort;
-    // const colorFilters = req.query.color ? req.query.color.split(',') : []; // Convert to array if multiple
-    // const sizeFilters = req.query.size ? req.query.size.split(',') : [];   // Convert to array if multiple
-    // const priceFilter = req.query.price;  // Price range filter value
+    const colorFilters = req.query.color ? req.query.color.split(',') : []; // Convert to array if multiple
+    const sizeFilters = req.query.size ? req.query.size.split(',') : [];   // Convert to array if multiple
+    const priceFilter = req.query.price;  // Price range filter value
 
     console.log('Selected Category:', selectedCategory);
     console.log('Sort Option:', sortOption);
     console.log('Color Filters:', colorFilters);
     console.log('Size Filters:', sizeFilters);
     console.log('Price Filter:', priceFilter);
-    const colorFilters = req.query.color ? req.query.color.split(',') : [];
-    const sizeFilters = req.query.size ? req.query.size.split(',') : [];
-    const priceFilter = req.query.price;
+    // const colorFilters = req.query.color ? req.query.color.split(',') : [];
+    // const sizeFilters = req.query.size ? req.query.size.split(',') : [];
+    // const priceFilter = req.query.price;
     const skiCategoryFilter = req.query.skiCategory ? req.query.skiCategory.split(',') : []; // Handle multiple categories
 
     let ProductModel;

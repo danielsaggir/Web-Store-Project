@@ -234,28 +234,27 @@ body {
     width: 700px;
     border-radius: 20px;
 }
-/* Ensure the footer sticks to the bottom of the content */
-html, body {
-    height: 100%;
-    margin: 0;
+.body-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 #container {
+    flex: 1;
     min-height: 50vh; /* Ensure container takes at least the full height of the viewport */
 }
 
-
 .footer-container {
-    width:100%;
-    background: linear-gradient(to right, #f8f9fa, #e9ecef); /* Gradient background for a modern look */
+    width: 100%;
+    /* background: linear-gradient(to right, #f8f9fa, #e9ecef); Gradient background for a modern look */
     border-top: 4px solid #007bff; /* Bold border color for a standout effect */
     padding: 7px 20px; /* Increased padding for a more spacious feel */
     box-sizing: border-box; /* Include padding and border in element's total width and height */
-    margin: 100px auto 0; /* Space above the footer, centered horizontally */
+    margin: 0 auto 0; /* Space above the footer, centered horizontally */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     position: relative; /* Ensure relative positioning for possible additional effects */
 }
-
 .footer-email-signup {
     margin-bottom: 10px; /* Increased margin for more spacing */
     text-align: center; /* Center the text and form */
