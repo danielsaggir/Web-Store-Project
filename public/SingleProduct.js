@@ -70,7 +70,7 @@ document.getElementById('addto').addEventListener('click', async function() {
         return;
     }
 
-    const productId = getQueryParam('MyId');
+    // const productId = getQueryParam('MyId');
     const productName = document.getElementById('name')?.textContent.trim();
     const productDescription = document.getElementById('info')?.textContent.trim();
     const productPrice = parseFloat(document.getElementById('price')?.textContent.replace(' ₪', ''));
