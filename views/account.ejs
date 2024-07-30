@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,10 @@
     <link rel="stylesheet" href="/styles/home.css">
     <link rel="stylesheet" href="/styles/account.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
 </head>
+
 <body>
     <div id="content">
         <div id="topDiv">
@@ -17,55 +20,67 @@
                 <p id="title"> SkiDis </p>
                 <button id="cartBtn" type="button" class="btn btn-light">
                     <i class="bi bi-cart"></i>
-                </button>  
+                </button>
                 <button id="logInBtn" type="button" class="btn btn-light">
-                <i class="bi bi-person-circle"></i>
+                    <i class="bi bi-person-circle"></i>
                 </button>
                 <div id="lineUser">
                     <% if (username) { %>
                         Hello <%= username %>
-                    <% } else { %>
-                        Hello Guest
-                    <% } %>
+                            <% } else { %>
+                                Hello Guest
+                                <% } %>
                 </div>
                 <div id="menu">
                     <a id="homePage-link" href="/">Home</a>
                     <a id="ski-products-link" href="/products?category=Ski%20Products">Ski Products</a>
                     <a id="clothes-link" href="/products?category=Clothes">Clothes</a>
                     <a id="accessories-link" href="/products?category=Accessories">Accessories</a>
-                    <% if (isAdmin === true) { %>
+                    <% if (isAdmin===true) { %>
                         <a id="manager-link" href="/manager">Manager Entry</a>
-                    <% } else { %>
-                        <a id="personal-zone-link" href="/account">My Account</a>
-                    <% } %>
+                        <% } else { %>
+                            <a id="personal-zone-link" href="/account">My Account</a>
+                            <% } %>
                 </div>
-
-                <!-- <a id="ski-products-link" href="#">Ski Products</a>
-                    <a id="clothes-link" href="#">Clothes</a>
-                    <a id="accessories-link" href="#">Accessories</a> -->
-                
                 <div id="searchItem">
                     <input type="text" id="searchBox" placeholder="Search for a product">
                     <button id="searchButton" type="button">Search</button>
                 </div>
             </div>
         </div>
-    <div id="container">
-        <div id="accountName"><h6>Hello username</h6></div>
-        <i class="bi bi-trash"> Clear History</i>
-        <i class="bi bi-pen"> Bring Back to the store</i>
-        <div class="card text-center mx-auto">
-            <div class="card-body">
-              <div class="order-details">
-                <img src="/Images/Clothing/brandit-luis-vintage-short-sleeve-shirt.jpg" class="product-image">
-                <div class="order-info">
-                  <h5 class="header orders">Order No. X</h5>
-                  <p class="card-text">Name Product : product</p>
-                  <p class="card-text">Name User : username</p>
-                  <p class="card-text">Total Order : price</p>
-                </div>
-              </div>
+        <div id="container">
+            <div id="accountName">
+                <h6>Hello <%= username %>
+                </h6>
             </div>
+            <i class="bi bi-trash"> Clear History</i>
+            <i class="bi bi-pen"> Bring Back to the store</i>
+            <% orders.forEach(order=> { %>
+                <% order.products.forEach(product=> { %>
+                    <div class="card text-center mx-auto">
+                        <div class="card-body">
+                            <div class="order-details">
+                                <img src="/Images/Clothing/brandit-luis-vintage-short-sleeve-shirt.jpg"
+                                    class="product-image" alt="<%= product.productName %>">
+                                <div class="order-info">
+                                    <h5 class="header orders">Order No. <%= order.orderNumber %>
+                                    </h5>
+                                    <p class="card-text">Name Product: <%= product.productName %>
+                                    </p>
+                                    <p class="card-text">Name User: <%= order.username %>
+                                    </p>
+                                    <p class="card-text">Total Order: <%= order.totalPrice %>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                        <% }); %>
+        </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/scripts/account.js"></script>
 </body>
+
 </html>

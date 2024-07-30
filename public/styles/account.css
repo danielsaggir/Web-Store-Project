@@ -29,6 +29,8 @@ body {
     padding: 15px;
     border-radius: 15px;
     margin-bottom: 40px;
+    overflow-y: auto; /* Enable vertical scroll */
+
 }
 
 #title {
@@ -51,9 +53,12 @@ body {
 }
 .card.text-center.mx-auto{
     border-radius:25px;
+    margin-bottom: 15px;
+    width:100%;
+
 }
 .card-body {
-    width: 820px;
+    width: 100px;
     height: auto; /* Allow height to adjust based on content */
     /* display: flex;
     align-items: center;
@@ -66,7 +71,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 20px; /* Space between image and text */
+    gap: 146p; /* Space between image and text */
 }
 
 .header.orders{
@@ -77,6 +82,7 @@ body {
     width: 100px;
     height: auto;
     border-radius: 8px;
+
 }
 
 .order-info {
