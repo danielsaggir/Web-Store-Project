@@ -45,6 +45,13 @@ document.addEventListener('DOMContentLoaded', function () {
         updateCategoryOptions(currentModel);
     });
 
+    document.getElementById('users-link1').addEventListener('click', function () {
+        currentModel = 'users';
+        fetchData(currentModel);
+        document.getElementById('upload-product').style.display = 'none'; // הסתר כפתור העלאת מוצר עבור משתמשים
+        document.getElementById('searchItem1').style.display = 'block';
+    });
+
     document.getElementById('upload-product').addEventListener('click', function () {
         generateUploadForm(currentModel);
         const uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
@@ -144,12 +151,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     opt.textContent = option;
                     select.appendChild(opt);
                 });
+                select.value = field.value;
                 div.appendChild(select);
             } else {
                 const input = document.createElement('input');
                 input.type = field.type;
                 input.className = 'form-control';
                 input.id = field.id;
+                input.value = field.value;
                 div.appendChild(input);
             }
             uploadForm.appendChild(div);
@@ -160,7 +169,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const searchQuery = document.getElementById('searchBox1').value;
         console.log(`Search query: ${searchQuery}`); // Debug log
         if (searchQuery) {
-            fetch(`/manager/api/search?model=${currentModel}&query=${encodeURIComponent(searchQuery)}`)
+            const searchUrl = currentModel === 'users' ? '/manager/api/search-user' : '/manager/api/search';
+            fetch(`${searchUrl}?model=${currentModel}&query=${encodeURIComponent(searchQuery)}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log('Search result:', data); // Debug log
@@ -200,6 +210,8 @@ document.addEventListener('DOMContentLoaded', function () {
             headers.splice(3, 0, 'Quantity');
         } else if (currentModel === 'clothes' || currentModel === 'accessories') {
             headers.splice(3, 0, 'Large', 'Medium', 'Small');
+        } else if (currentModel === 'users') {
+            headers = ['Username', 'First Name', 'Last Name', 'Admin', 'Edit', 'Delete'];
         }
 
         headers.forEach(headerText => {
@@ -211,12 +223,14 @@ document.addEventListener('DOMContentLoaded', function () {
         data.forEach(item => {
             console.log('Adding item to table:', item); // Debug log
             const row = table.insertRow();
-            const fieldsToDisplay = ['MyId', 'name', 'price', 'category', 'color', 'description'];
+            let fieldsToDisplay = ['MyId', 'name', 'price', 'category', 'color', 'description'];
 
             if (currentModel === 'ski-products') {
                 fieldsToDisplay.splice(3, 0, 'quantity');
             } else if (currentModel === 'clothes' || currentModel === 'accessories') {
                 fieldsToDisplay.splice(3, 0, 'Large', 'Medium', 'Small');
+            } else if (currentModel === 'users') {
+                fieldsToDisplay = ['username', 'firstName', 'lastName', 'isAdmin'];
             }
 
             fieldsToDisplay.forEach(field => {
@@ -237,8 +251,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const deleteButton = document.createElement('i');
             deleteButton.classList.add('bi', 'bi-trash');
             deleteButton.addEventListener('click', () => {
-                if (confirm(`Are you sure you want to delete item: ${item.name}?`)) {
-                    deleteItem(item.MyId);
+                if (confirm(`Are you sure you want to delete item: ${item.name || item.username}?`)) {
+                    deleteItem(item.MyId || item.username);
                 }
             });
             deleteCell.appendChild(deleteButton);
@@ -248,23 +262,33 @@ document.addEventListener('DOMContentLoaded', function () {
     function openEditModal(item) {
         const editForm = document.getElementById('editForm');
         editForm.innerHTML = '';
-
-        const fields = [
-            { label: 'Name', id: 'editName', type: 'text', value: item.name },
-            { label: 'Price', id: 'editPrice', type: 'number', value: item.price },
-            { label: 'Description', id: 'editDescription', type: 'textarea', value: item.description },
-            { label: 'Category', id: 'editCategory', type: 'select', options: categoryOptions[currentModel], value: item.category },
-            { label: 'Color', id: 'editColor', type: 'select', options: ['Red', 'Blue', 'Green', 'Black', 'White', 'Yellow'], value: item.color }
-        ];
-
-        if (currentModel === 'ski-products') {
-            fields.push({ label: 'Quantity', id: 'editQuantity', type: 'number', value: item.quantity });
-        } else if (currentModel === 'clothes' || currentModel === 'accessories') {
-            fields.push({ label: 'Large', id: 'editLarge', type: 'number', value: item.Large });
-            fields.push({ label: 'Medium', id: 'editMedium', type: 'number', value: item.Medium });
-            fields.push({ label: 'Small', id: 'editSmall', type: 'number', value: item.Small });
+    
+        let fields;
+        if (currentModel === 'users') {
+            fields = [
+                { label: 'Username', id: 'editUsername', type: 'text', value: item.username, readonly: true },
+                { label: 'First Name', id: 'editFirstName', type: 'text', value: item.firstName, readonly: true },
+                { label: 'Last Name', id: 'editLastName', type: 'text', value: item.lastName, readonly: true },
+                { label: 'Admin', id: 'editIsAdmin', type: 'checkbox', value: item.isAdmin }
+            ];
+        } else {
+            fields = [
+                { label: 'Name', id: 'editName', type: 'text', value: item.name },
+                { label: 'Price', id: 'editPrice', type: 'number', value: item.price },
+                { label: 'Description', id: 'editDescription', type: 'textarea', value: item.description },
+                { label: 'Category', id: 'editCategory', type: 'select', options: categoryOptions[currentModel], value: item.category },
+                { label: 'Color', id: 'editColor', type: 'select', options: ['Red', 'Blue', 'Green', 'Black', 'White', 'Yellow'], value: item.color }
+            ];
+    
+            if (currentModel === 'ski-products') {
+                fields.push({ label: 'Quantity', id: 'editQuantity', type: 'number', value: item.quantity });
+            } else if (currentModel === 'clothes' || currentModel === 'accessories') {
+                fields.push({ label: 'Large', id: 'editLarge', type: 'number', value: item.Large });
+                fields.push({ label: 'Medium', id: 'editMedium', type: 'number', value: item.Medium });
+                fields.push({ label: 'Small', id: 'editSmall', type: 'number', value: item.Small });
+            }
         }
-
+    
         fields.forEach(field => {
             const div = document.createElement('div');
             div.className = 'mb-3';
@@ -272,12 +296,13 @@ document.addEventListener('DOMContentLoaded', function () {
             label.className = 'form-label';
             label.textContent = field.label;
             div.appendChild(label);
-
+    
             if (field.type === 'textarea') {
                 const textarea = document.createElement('textarea');
                 textarea.className = 'form-control';
                 textarea.id = field.id;
                 textarea.value = field.value;
+                textarea.readOnly = field.readonly || false;
                 div.appendChild(textarea);
             } else if (field.type === 'select') {
                 const select = document.createElement('select');
@@ -290,41 +315,71 @@ document.addEventListener('DOMContentLoaded', function () {
                     select.appendChild(opt);
                 });
                 select.value = field.value;
+                select.disabled = field.readonly || false;
                 div.appendChild(select);
+            } else if (field.type === 'checkbox') {
+                const input = document.createElement('input');
+                input.type = 'checkbox';
+                input.className = 'form-check-input';
+                input.id = field.id;
+                input.checked = field.value;
+                input.readOnly = field.readonly || false;
+                const divCheckbox = document.createElement('div');
+                divCheckbox.className = 'form-check';
+                divCheckbox.appendChild(input);
+                const labelCheckbox = document.createElement('label');
+                labelCheckbox.className = 'form-check-label';
+                labelCheckbox.setAttribute('for', field.id);
+                labelCheckbox.textContent = 'Admin';
+                divCheckbox.appendChild(labelCheckbox);
+                div.appendChild(divCheckbox);
             } else {
                 const input = document.createElement('input');
                 input.type = field.type;
                 input.className = 'form-control';
                 input.id = field.id;
                 input.value = field.value;
+                input.readOnly = field.readonly || false;
                 div.appendChild(input);
             }
             editForm.appendChild(div);
         });
-
+    
         const editModal = new bootstrap.Modal(document.getElementById('editModal'));
         editModal.show();
     }
+    
 
     document.getElementById('updateButton').addEventListener('click', () => {
         if (currentItem) {
-            const updatedItem = {
-                name: document.getElementById('editName').value,
-                price: document.getElementById('editPrice').value,
-                description: document.getElementById('editDescription').value,
-                category: document.getElementById('editCategory').value,
-                color: document.getElementById('editColor').value
-            };
+            let updatedItem;
+            if (currentModel === 'users') {
+                updatedItem = {
+                    username: document.getElementById('editUsername').value,
+                    firstName: document.getElementById('editFirstName').value,
+                    lastName: document.getElementById('editLastName').value,
+                    isAdmin: document.getElementById('editIsAdmin').checked
+                };
+            } else {
+                updatedItem = {
+                    name: document.getElementById('editName').value,
+                    price: document.getElementById('editPrice').value,
+                    description: document.getElementById('editDescription').value,
+                    category: document.getElementById('editCategory').value,
+                    color: document.getElementById('editColor').value
+                };
 
-            if (currentModel === 'ski-products') {
-                updatedItem.quantity = document.getElementById('editQuantity').value;
-            } else if (currentModel === 'clothes' || currentModel === 'accessories') {
-                updatedItem.Large = document.getElementById('editLarge').value;
-                updatedItem.Medium = document.getElementById('editMedium').value;
-                updatedItem.Small = document.getElementById('editSmall').value;
+                if (currentModel === 'ski-products') {
+                    updatedItem.quantity = document.getElementById('editQuantity').value;
+                } else if (currentModel === 'clothes' || currentModel === 'accessories') {
+                    updatedItem.Large = document.getElementById('editLarge').value;
+                    updatedItem.Medium = document.getElementById('editMedium').value;
+                    updatedItem.Small = document.getElementById('editSmall').value;
+                }
             }
 
-            fetch(`/manager/api/update/${currentItem.MyId}`, {
+            const updateUrl = currentModel === 'users' ? `/manager/api/update-user/${currentItem.username}` : `/manager/api/update/${currentItem.MyId}`;
+            fetch(updateUrl, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -343,7 +398,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function deleteItem(itemId) {
-        fetch(`/manager/api/delete/${itemId}`, {
+        const deleteUrl = currentModel === 'users' ? `/manager/api/delete-user/${itemId}` : `/manager/api/delete/${itemId}`;
+        
+        fetch(deleteUrl, {
             method: 'DELETE'
         })
         .then(response => response.json())
