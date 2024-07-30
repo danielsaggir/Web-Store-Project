@@ -24,85 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('searchItem1').style.display = 'block';
     }
 
-    document.getElementById('ski-products-link1').addEventListener('click', function () {
-        currentModel = 'ski-products';
-        fetchData(currentModel);
-        showSearchAndUploadButtons();
-        updateCategoryOptions(currentModel);
-    });
-
-    document.getElementById('clothes-link1').addEventListener('click', function () {
-        currentModel = 'clothes';
-        fetchData(currentModel);
-        showSearchAndUploadButtons();
-        updateCategoryOptions(currentModel);
-    });
-
-    document.getElementById('accessories-link1').addEventListener('click', function () {
-        currentModel = 'accessories';
-        fetchData(currentModel);
-        showSearchAndUploadButtons();
-        updateCategoryOptions(currentModel);
-    });
-
-    document.getElementById('upload-product').addEventListener('click', function () {
-        const uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
-        uploadModal.show();
-    });
-
-    document.getElementById('saveUploadButton').addEventListener('click', () => {
-        const newItem = {
-            MyId: document.getElementById('uploadMyId').value,
-            name: document.getElementById('uploadName').value,
-            price: document.getElementById('uploadPrice').value,
-            quantity: document.getElementById('uploadQuantity').value,
-            description: document.getElementById('uploadDescription').value,
-            gender: document.getElementById('uploadGender').value,
-            category: document.getElementById('uploadCategory').value,
-            color: document.getElementById('uploadColor').value,
-            size: document.getElementById('uploadSize').value,
-            imageUrl: document.getElementById('uploadImgUrl').value
-        };
-
-        fetch(`/manager/api/upload/${currentModel}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newItem)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Upload successful:', data);
-            fetchData(currentModel); // Refresh table with new item
-            const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
-            uploadModal.hide();
-        })
-        .catch(error => console.error('Error:', error));
-    });
-
-    document.getElementById('searchButton1').addEventListener('click', () => {
-        const searchQuery = document.getElementById('searchBox1').value;
-        console.log(`Search query: ${searchQuery}`); // Debug log
-        if (searchQuery) {
-            fetch(`/manager/api/search?model=${currentModel}&query=${encodeURIComponent(searchQuery)}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Search result:', data); // Debug log
-                    updateTable(data); // Update table with search results
-                })
-                .catch(error => console.error('Error:', error));
-        }
-    });
-
-    document.getElementById('searchBox1').addEventListener('input', () => {
-        const searchQuery = document.getElementById('searchBox1').value;
-        console.log(`Search input changed: ${searchQuery}`); // Debug log
-        if (!searchQuery) {
-            fetchData(currentModel); // Reload all data if search box is empty
-        }
-    });
-
     function fetchData(model) {
         fetch(`/manager/api/${model}`)
             .then(response => response.json())
@@ -170,6 +91,120 @@ document.addEventListener('DOMContentLoaded', function () {
         editModal.show();
     }
 
+    document.getElementById('upload-product').addEventListener('click', function () {
+        const uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
+        uploadModal.show();
+    });
+
+    document.getElementById('saveUploadButton').addEventListener('click', () => {
+        const newItem = {
+            MyId: document.getElementById('uploadMyId').value,
+            name: document.getElementById('uploadName').value,
+            price: document.getElementById('uploadPrice').value,
+            quantity: document.getElementById('uploadQuantity').value,
+            description: document.getElementById('uploadDescription').value,
+            gender: document.getElementById('uploadGender').value,
+            category: document.getElementById('uploadCategory').value,
+            color: document.getElementById('uploadColor').value,
+            size: document.getElementById('uploadSize').value,
+            imageUrl: document.getElementById('uploadImgUrl').value
+        };
+
+        fetch(`/manager/api/upload/${currentModel}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newItem)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Upload successful:', data);
+            fetchData(currentModel); // Refresh table with new item
+            const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
+            uploadModal.hide();
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    document.getElementById('searchButton1').addEventListener('click', () => {
+        const searchQuery = document.getElementById('searchBox1').value;
+        console.log(`Search query: ${searchQuery}`); // Debug log
+        if (searchQuery) {
+            fetch(`/manager/api/search?model=${currentModel}&query=${encodeURIComponent(searchQuery)}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Search result:', data); // Debug log
+                    updateTable(data); // Update table with search results
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    });
+
+    document.getElementById('searchBox1').addEventListener('input', () => {
+        const searchQuery = document.getElementById('searchBox1').value;
+        console.log(`Search input changed: ${searchQuery}`); // Debug log
+        if (!searchQuery) {
+            fetchData(currentModel); // Reload all data if search box is empty
+        }
+    });
+
+    document.getElementById('postButton').addEventListener('click', () => {
+        const message = document.getElementById('message').value;
+    
+        fetch('/manager/api/postToFacebook', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message })
+        })
+        
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(`HTTP error! Status: ${response.status}. Response: ${text}`);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                document.getElementById('response').textContent = 'Post successful!';
+            } else {
+                document.getElementById('response').textContent = `Error: ${data.error.message}`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('response').textContent = `Error: ${error.message}`;
+        });
+    });
+    
+    
+    
+
+    document.getElementById('ski-products-link1').addEventListener('click', function () {
+        currentModel = 'ski-products';
+        fetchData(currentModel);
+        showSearchAndUploadButtons();
+        updateCategoryOptions(currentModel);
+    });
+
+    document.getElementById('clothes-link1').addEventListener('click', function () {
+        currentModel = 'clothes';
+        fetchData(currentModel);
+        showSearchAndUploadButtons();
+        updateCategoryOptions(currentModel);
+    });
+
+    document.getElementById('accessories-link1').addEventListener('click', function () {
+        currentModel = 'accessories';
+        fetchData(currentModel);
+        showSearchAndUploadButtons();
+        updateCategoryOptions(currentModel);
+    });
+
     document.getElementById('updateButton').addEventListener('click', () => {
         if (currentItem) {
             const updatedItem = {
@@ -209,29 +244,5 @@ document.addEventListener('DOMContentLoaded', function () {
             fetchData(currentModel);
         })
         .catch(error => console.error('Error:', error));
-    }
-
-    // Facebook post
-    async function postToFacebook() {
-        const message = document.getElementById('message').value;
-        const accessToken = '<%= accessToken %>'; // Ensure access token is safely managed
-
-        try {
-            const response = await fetch('<%= url_for('/api/post-to-facebook') %>', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message: message,
-                    accessToken: accessToken,
-                }),
-            });
-
-            const result = await response.json();
-            document.getElementById('response').textContent = JSON.stringify(result, null, 2);
-        } catch (error) {
-            document.getElementById('response').textContent = 'Error: ' + error.message;
-        }
     }
 });

@@ -129,10 +129,11 @@ exports.searchProduct = async (req, res) => {
 
 
 
+
 exports.postToFacebook = async (req, res) => {
     const { message } = req.body;
-    const PAGE_ACCESS_TOKEN = 'EAAFsNm6cRrsBO6fM9rhwimDG2vdO1FxkZCHN2E5ydqV5eNgVF16eRI4ABDfPwLYN8bAjz4FPlwL0lejXYHGZBIY9mSMaiaz3IGkH8hyG2kppD92QDyVT8AvvYR5THqAfSOmsR7sxBmFocd1aoZBlYgyXPZCBfc28gLCVE3kTsH0JDz9AZC7gDKoSx5ckZC2Wiw6ZA0UwS638DZBvs0zlMzfwql6b'; // שים כאן את ה-TOKEN שלך
-    const PAGE_ID = '334940566378514'; // שים כאן את המספר דף שלך
+    const PAGE_ACCESS_TOKEN = 'EAAFsNm6cRrsBOz88UVcPN1oyHaeLoFx2q62TmTZCDZCa7PJN9N1pZC8TlqfYcdflHmny1q64SCbI75w4YCHGO9ewfqZC6ZCZAMEcmfxXg9ZBBIT18P1HvpDkxgDUGV84g9ijw3KVYjZCNAmSvZCYbUYvoRODcQnUYEMaoJKT0ktgZBZBZC5g8KRnkjLKHLElnswLHuKo'; // Replace with your actual Page Access Token
+    const PAGE_ID = 334940566378514; // Replace with your actual Page ID
 
     try {
         const response = await axios.post(`https://graph.facebook.com/${PAGE_ID}/feed`, {
@@ -151,7 +152,3 @@ exports.postToFacebook = async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 };
-
-
-
-

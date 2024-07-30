@@ -27,7 +27,7 @@ router.post('/manager/api/upload/:model', managerController.uploadProduct);
 router.get('/manager/api/search', managerController.searchProduct);
 
 //facebook post
-router.post('/api/facebook-post', managerController.postToFacebook);
+router.post('manager/api/postToFacebook', managerController.postToFacebook);
 
 module.exports = router;
 
