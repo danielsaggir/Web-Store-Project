@@ -4,6 +4,8 @@ const path = require('path');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
+
+
 const Accessories = require('./models/Accessories');
 const Clothes = require('./models/Clothes');
 const SkiProducts = require('./models/SkiProducts');
