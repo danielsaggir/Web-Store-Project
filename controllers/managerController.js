@@ -3,7 +3,6 @@ const Clothes = require('../models/Clothes');
 const Accessories = require('../models/Accessories');
 // const Users = require('../models/Users');
 
-
 exports.getSkiProducts = async (req, res) => {
     try {
         const skiProducts = await SkiProducts.find();
@@ -48,7 +47,16 @@ exports.updateProduct = async (req, res) => {
         console.log('Received data for update:', updatedData); // הדפסת הנתונים שהתקבלו
         console.log('Updating product with MyId:', productId); // הדפסת ה-ID של המוצר
 
-        const updatedProduct = await SkiProducts.findOneAndUpdate({ MyId: productId }, updatedData, { new: true });
+        let updatedProduct;
+        if (updatedData.quantity !== undefined) {
+            updatedProduct = await SkiProducts.findOneAndUpdate({ MyId: productId }, updatedData, { new: true });
+        } else if (updatedData.Large !== undefined || updatedData.Medium !== undefined || updatedData.Small !== undefined) {
+            updatedProduct = await Clothes.findOneAndUpdate({ MyId: productId }, updatedData, { new: true });
+            if (!updatedProduct) {
+                updatedProduct = await Accessories.findOneAndUpdate({ MyId: productId }, updatedData, { new: true });
+            }
+        }
+
         res.json(updatedProduct);
     } catch (err) {
         console.error('Error updating product:', err); // הדפסת השגיאה
@@ -59,7 +67,9 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
     try {
         const productId = req.params.id;
-        const deletedProduct = await SkiProducts.findOneAndDelete({ MyId: productId });
+        const deletedProduct = await SkiProducts.findOneAndDelete({ MyId: productId }) ||
+                               await Clothes.findOneAndDelete({ MyId: productId }) ||
+                               await Accessories.findOneAndDelete({ MyId: productId });
         res.json({ message: 'Product deleted successfully', product: deletedProduct });
     } catch (err) {
         res.status(500).send(err);
@@ -125,10 +135,3 @@ exports.searchProduct = async (req, res) => {
         res.status(500).send(err);
     }
 };
-
-
-
-
-
-
-

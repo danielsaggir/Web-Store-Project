@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const categoryOptions = {
         'ski-products': ['Snowboards', 'Poles', 'Boots', 'Masks'],
-        'clothes': ['Jackets', 'Pants', 'Gloves'],
+        'clothes': ['Shirts', 'Jackets', 'Pants', 'Socks', 'Underwear', 'Facemasks', 'Hats'],
         'accessories': ['Helmets', 'Goggles', 'Gloves']
     };
 
@@ -46,23 +46,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('upload-product').addEventListener('click', function () {
+        generateUploadForm(currentModel);
         const uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
         uploadModal.show();
     });
 
     document.getElementById('saveUploadButton').addEventListener('click', () => {
-        const newItem = {
-            MyId: document.getElementById('uploadMyId').value,
-            name: document.getElementById('uploadName').value,
-            price: document.getElementById('uploadPrice').value,
-            quantity: document.getElementById('uploadQuantity').value,
-            description: document.getElementById('uploadDescription').value,
-            gender: document.getElementById('uploadGender').value,
-            category: document.getElementById('uploadCategory').value,
-            color: document.getElementById('uploadColor').value,
-            size: document.getElementById('uploadSize').value,
-            imageUrl: document.getElementById('uploadImgUrl').value
-        };
+        const newItem = generateNewItem(currentModel);
 
         fetch(`/manager/api/upload/${currentModel}`, {
             method: 'POST',
@@ -80,6 +70,91 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => console.error('Error:', error));
     });
+
+    function generateNewItem(model) {
+        if (model === 'ski-products') {
+            return {
+                MyId: document.getElementById('uploadMyId').value,
+                name: document.getElementById('uploadName').value,
+                price: document.getElementById('uploadPrice').value,
+                quantity: document.getElementById('uploadQuantity').value,
+                description: document.getElementById('uploadDescription').value,
+                category: document.getElementById('uploadCategory').value,
+                color: document.getElementById('uploadColor').value,
+                imageUrl: document.getElementById('uploadImgUrl').value
+            };
+        } else if (model === 'clothes' || model === 'accessories') {
+            return {
+                MyId: document.getElementById('uploadMyId').value,
+                name: document.getElementById('uploadName').value,
+                price: document.getElementById('uploadPrice').value,
+                Large: document.getElementById('uploadLarge').value,
+                Medium: document.getElementById('uploadMedium').value,
+                Small: document.getElementById('uploadSmall').value,
+                description: document.getElementById('uploadDescription').value,
+                category: document.getElementById('uploadCategory').value,
+                color: document.getElementById('uploadColor').value,
+                imageUrl: document.getElementById('uploadImgUrl').value
+            };
+        }
+    }
+
+    function generateUploadForm(model) {
+        const uploadForm = document.getElementById('uploadForm');
+        uploadForm.innerHTML = '';
+
+        const fields = [
+            { label: 'ID', id: 'uploadMyId', type: 'number' },
+            { label: 'Name', id: 'uploadName', type: 'text' },
+            { label: 'Price', id: 'uploadPrice', type: 'number' },
+            { label: 'Description', id: 'uploadDescription', type: 'textarea' },
+            { label: 'Category', id: 'uploadCategory', type: 'select', options: categoryOptions[model] },
+            { label: 'Color', id: 'uploadColor', type: 'select', options: ['Red', 'Blue', 'Green', 'Black', 'White', 'Yellow'] },
+            { label: 'Image URL', id: 'uploadImgUrl', type: 'text' }
+        ];
+
+        if (model === 'ski-products') {
+            fields.push({ label: 'Quantity', id: 'uploadQuantity', type: 'number' });
+        } else if (model === 'clothes' || model === 'accessories') {
+            fields.push({ label: 'Large', id: 'uploadLarge', type: 'number' });
+            fields.push({ label: 'Medium', id: 'uploadMedium', type: 'number' });
+            fields.push({ label: 'Small', id: 'uploadSmall', type: 'number' });
+        }
+
+        fields.forEach(field => {
+            const div = document.createElement('div');
+            div.className = 'mb-3';
+            const label = document.createElement('label');
+            label.className = 'form-label';
+            label.textContent = field.label;
+            div.appendChild(label);
+
+            if (field.type === 'textarea') {
+                const textarea = document.createElement('textarea');
+                textarea.className = 'form-control';
+                textarea.id = field.id;
+                div.appendChild(textarea);
+            } else if (field.type === 'select') {
+                const select = document.createElement('select');
+                select.className = 'form-control';
+                select.id = field.id;
+                field.options.forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option;
+                    opt.textContent = option;
+                    select.appendChild(opt);
+                });
+                div.appendChild(select);
+            } else {
+                const input = document.createElement('input');
+                input.type = field.type;
+                input.className = 'form-control';
+                input.id = field.id;
+                div.appendChild(input);
+            }
+            uploadForm.appendChild(div);
+        });
+    }
 
     document.getElementById('searchButton1').addEventListener('click', () => {
         const searchQuery = document.getElementById('searchBox1').value;
@@ -119,7 +194,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const header = table.createTHead();
         const headerRow = header.insertRow();
-        const headers = ['ID', 'Name', 'Price', 'Quantity', 'Category', 'Color', 'Description', 'Edit', 'Delete'];
+        let headers = ['ID', 'Name', 'Price', 'Category', 'Color', 'Description', 'Edit', 'Delete'];
+
+        if (currentModel === 'ski-products') {
+            headers.splice(3, 0, 'Quantity');
+        } else if (currentModel === 'clothes' || currentModel === 'accessories') {
+            headers.splice(3, 0, 'Large', 'Medium', 'Small');
+        }
 
         headers.forEach(headerText => {
             const th = document.createElement('th');
@@ -130,7 +211,13 @@ document.addEventListener('DOMContentLoaded', function () {
         data.forEach(item => {
             console.log('Adding item to table:', item); // Debug log
             const row = table.insertRow();
-            const fieldsToDisplay = ['MyId', 'name', 'price', 'quantity', 'category', 'color', 'description'];
+            const fieldsToDisplay = ['MyId', 'name', 'price', 'category', 'color', 'description'];
+
+            if (currentModel === 'ski-products') {
+                fieldsToDisplay.splice(3, 0, 'quantity');
+            } else if (currentModel === 'clothes' || currentModel === 'accessories') {
+                fieldsToDisplay.splice(3, 0, 'Large', 'Medium', 'Small');
+            }
 
             fieldsToDisplay.forEach(field => {
                 const cell = row.insertCell();
@@ -159,12 +246,61 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function openEditModal(item) {
-        document.getElementById('editName').value = item.name;
-        document.getElementById('editPrice').value = item.price;
-        document.getElementById('editQuantity').value = item.quantity;
-        document.getElementById('editCategory').value = item.category;
-        document.getElementById('editColor').value = item.color;
-        document.getElementById('editDescription').value = item.description;
+        const editForm = document.getElementById('editForm');
+        editForm.innerHTML = '';
+
+        const fields = [
+            { label: 'Name', id: 'editName', type: 'text', value: item.name },
+            { label: 'Price', id: 'editPrice', type: 'number', value: item.price },
+            { label: 'Description', id: 'editDescription', type: 'textarea', value: item.description },
+            { label: 'Category', id: 'editCategory', type: 'select', options: categoryOptions[currentModel], value: item.category },
+            { label: 'Color', id: 'editColor', type: 'select', options: ['Red', 'Blue', 'Green', 'Black', 'White', 'Yellow'], value: item.color }
+        ];
+
+        if (currentModel === 'ski-products') {
+            fields.push({ label: 'Quantity', id: 'editQuantity', type: 'number', value: item.quantity });
+        } else if (currentModel === 'clothes' || currentModel === 'accessories') {
+            fields.push({ label: 'Large', id: 'editLarge', type: 'number', value: item.Large });
+            fields.push({ label: 'Medium', id: 'editMedium', type: 'number', value: item.Medium });
+            fields.push({ label: 'Small', id: 'editSmall', type: 'number', value: item.Small });
+        }
+
+        fields.forEach(field => {
+            const div = document.createElement('div');
+            div.className = 'mb-3';
+            const label = document.createElement('label');
+            label.className = 'form-label';
+            label.textContent = field.label;
+            div.appendChild(label);
+
+            if (field.type === 'textarea') {
+                const textarea = document.createElement('textarea');
+                textarea.className = 'form-control';
+                textarea.id = field.id;
+                textarea.value = field.value;
+                div.appendChild(textarea);
+            } else if (field.type === 'select') {
+                const select = document.createElement('select');
+                select.className = 'form-control';
+                select.id = field.id;
+                field.options.forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option;
+                    opt.textContent = option;
+                    select.appendChild(opt);
+                });
+                select.value = field.value;
+                div.appendChild(select);
+            } else {
+                const input = document.createElement('input');
+                input.type = field.type;
+                input.className = 'form-control';
+                input.id = field.id;
+                input.value = field.value;
+                div.appendChild(input);
+            }
+            editForm.appendChild(div);
+        });
 
         const editModal = new bootstrap.Modal(document.getElementById('editModal'));
         editModal.show();
@@ -175,11 +311,18 @@ document.addEventListener('DOMContentLoaded', function () {
             const updatedItem = {
                 name: document.getElementById('editName').value,
                 price: document.getElementById('editPrice').value,
-                quantity: document.getElementById('editQuantity').value,
+                description: document.getElementById('editDescription').value,
                 category: document.getElementById('editCategory').value,
-                color: document.getElementById('editColor').value,
-                description: document.getElementById('editDescription').value
+                color: document.getElementById('editColor').value
             };
+
+            if (currentModel === 'ski-products') {
+                updatedItem.quantity = document.getElementById('editQuantity').value;
+            } else if (currentModel === 'clothes' || currentModel === 'accessories') {
+                updatedItem.Large = document.getElementById('editLarge').value;
+                updatedItem.Medium = document.getElementById('editMedium').value;
+                updatedItem.Small = document.getElementById('editSmall').value;
+            }
 
             fetch(`/manager/api/update/${currentItem.MyId}`, {
                 method: 'PUT',
@@ -210,9 +353,8 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => console.error('Error:', error));
     }
+});
 
-    
-    
 
 
     // הוספת הפונקציות לעדכון בפייסבוק
@@ -249,7 +391,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //     const message = document.getElementById('facebookPostMessage').value;
     //     postToFacebook(message);
     // });
-});
+
 
 
 document.addEventListener('DOMContentLoaded', function() {
