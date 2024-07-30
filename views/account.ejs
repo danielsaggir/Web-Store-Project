@@ -48,13 +48,10 @@
                 </div>
             </div>
         </div>
+        <!-- <div id="accountName">
+            <h6>Hello <%= username %></h6>
+        </div> -->
         <div id="container">
-            <div id="accountName">
-                <h6>Hello <%= username %>
-                </h6>
-            </div>
-            <i class="bi bi-trash"> Clear History</i>
-            <i class="bi bi-pen"> Bring Back to the store</i>
             <% orders.forEach(order=> { %>
                 <% order.products.forEach(product=> { %>
                     <div class="card text-center mx-auto">
@@ -63,14 +60,12 @@
                                 <img src="/Images/Clothing/brandit-luis-vintage-short-sleeve-shirt.jpg"
                                     class="product-image" alt="<%= product.productName %>">
                                 <div class="order-info">
-                                    <h5 class="header orders">Order No. <%= order.orderNumber %>
-                                    </h5>
-                                    <p class="card-text">Name Product: <%= product.productName %>
-                                    </p>
-                                    <p class="card-text">Name User: <%= order.username %>
-                                    </p>
-                                    <p class="card-text">Total Order: <%= order.totalPrice %>
-                                    </p>
+                                    <h5 class="header orders">Order No. <%= order.orderNumber %></h5>
+                                    <p class="card-text">Name Product: <%= product.productName %> </p>
+                                    <p class="card-text">Name User: <%= order.username %></p>
+                                    <p class="card-text">Total Order: <%= order.totalPrice %> </p>
+                                    <i class="bi bi-trash">Bring Back to the store</i><br>
+                                    <i class="bi bi-pen">Update Order</i>
                                 </div>
                             </div>
                         </div>

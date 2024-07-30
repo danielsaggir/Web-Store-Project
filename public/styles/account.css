@@ -37,45 +37,42 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-#accountName h6 {
+/* #accountName h6 {
     margin-bottom: 20px;
     margin-top: -140px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-}
-
+} */
+/* 
 .bi.bi-trash, .bi.bi-pen{
    margin-right:961px;
    margin-bottom:25px
-}
+} */
 .card-header {
     font-size: 1.25rem; /* Adjusted font size */
     font-weight: bold;
 }
+
 .card.text-center.mx-auto{
     border-radius:25px;
     margin-bottom: 15px;
     width:77%;
-
+    padding:15px;
 }
 .card-body {
-    width: 100px;
+    /* width: 100px; */
+    margin-top:13px;
     height: auto; /* Allow height to adjust based on content */
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
-    /* border-radius:25px; */
-    background-color: rgb(187 213 226 / 80%);
+    /* background-color: rgb(187 213 226 / 80%); */
 }
 
 .order-details {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    gap: 146p; /* Space between image and text */
+    /* justify-content: flex-start; */
 }
 
 .header.orders{
-    margin-right:210px;
+    margin-right:220px;
 }
 
 .product-image {
@@ -88,10 +85,6 @@ body {
 .order-info {
     flex: 1; /* Take up remaining space */
 }
-
-/* #logInBtn {
-    transition: background-color 0.3s ease, transform 0.3s ease;
-} */
 
 #logInBtn:hover {
     transform: scale(1.1);
