@@ -41,14 +41,14 @@ document.getElementById('decrease').addEventListener('click', function() {
 });
 
 // Function to check availability of the item
-async function checkAvailability(productId, quantity, size) {
+async function checkAvailability(productName, quantity, size) {
     try {
         const response = await fetch('/checkAvailability', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ productId, quantity, size })
+            body: JSON.stringify({ productName, quantity, size })
         });
 
         if (!response.ok) {
@@ -100,7 +100,56 @@ document.getElementById('addto').addEventListener('click', async function() {
         return;
     }
 
-    const isAvailable = await checkAvailability(productId, quantity, selectedSize);
+    let cartItems = [];
+    try {
+        const response = await fetch(`/getCartItems?username=${username}`);
+        if (!response.ok) throw new Error('Failed to fetch cart items');
+        cartItems = await response.json();
+    } catch (error) {
+        console.error('Failed to fetch cart items:', error);
+    }
+
+    // Check if the item already exists in the cart
+    const existingItem = cartItems.find(item => item.productName === productName);
+    const existingItemsize = cartItems.find(item => item.selectedSize === selectedSize);
+    if (existingItem && existingItemsize) {
+        existingItem.quantity += quantity;
+
+        try {
+            const response = await fetch('/updateCartItem', {
+                method: 'PUT', // Use PUT to update an existing item
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username, // Assuming `username` is globally available
+                    cartItem: {
+                        productId: existingItem.productId, // Update item with existing productId
+                        productName: existingItem.productName,
+                        productDescription: existingItem.productDescription,
+                        productPrice: existingItem.productPrice,
+                        productImage: existingItem.productImage,
+                        selectedSize: existingItem.selectedSize,
+                        quantity: existingItem.quantity,
+                        totalPrice: (existingItem.productPrice * existingItem.quantity).toFixed(2),
+                        category: existingItem.category // Ensure to update the category as well
+                    }
+                })
+            });
+
+            if (response.ok) {
+                alert('Item quantity updated in the cart');
+                updateCartDisplay();
+            } else {
+                throw new Error('Failed to update item in the cart');
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+        return;
+    }
+
+    const isAvailable = await checkAvailability(productName, quantity, selectedSize);
     if (!isAvailable) {
         alert('The selected quantity is not available.');
         return;
@@ -140,6 +189,7 @@ document.getElementById('addto').addEventListener('click', async function() {
         alert(error.message);
     }
 });
+
 
 // Function to remove an item from the cart
 async function removeCartItem(itemId) {
@@ -257,6 +307,14 @@ document.getElementById('checkOut').addEventListener('click', async function() {
         if (cartItems.length === 0) {
             alert('Your cart is empty!');
             return;
+        }
+        // Check availability of each item
+        for (const item of cartItems) {
+            const Avail = await checkAvailability(item.productName, item.quantity, item.selectedSize);
+            if (!Avail) {
+                alert(`The item "${item.productName}" with size "${item.selectedSize}" is not available in the selected quantity.`);
+                return; // Stop checkout if any item is not available
+            }
         }
 
         const totalPrice = cartItems.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0).toFixed(2);

@@ -17,12 +17,12 @@ const Ski = require('../models/SkiProducts'); // Adjust path as needed
 router.get('/products', productController.getProducts);
 // Check availability of a product
 router.post('/checkAvailability', async (req, res) => {
-    const { productId, quantity, size } = req.body;
+    const { productName, quantity, size } = req.body;
 
     try {
-        const product = await Product.findOne({ MyId: productId }) || 
-                        await Clothes.findOne({ MyId: productId }) || 
-                        await Ski.findOne({ MyId: productId });
+        const product = await Product.findOne({ name: productName }) || 
+                        await Clothes.findOne({ name: productName}) || 
+                        await Ski.findOne({ name: productName });
 
         if (!product) {
             return res.status(404).json({ available: false });
