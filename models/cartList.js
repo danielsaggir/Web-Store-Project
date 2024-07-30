@@ -11,7 +11,8 @@ const cartListSchema = new mongoose.Schema({
     productImage: String,
     selectedSize: String,
     quantity: Number,
-    totalPrice: Number
+    totalPrice: Number,
+    category: String
 });
 
 const CartList = mongoose.model('CartList', cartListSchema); // Correct name

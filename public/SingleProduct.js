@@ -1,3 +1,4 @@
+// Function to get query parameter from URL
 function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
@@ -76,8 +77,8 @@ document.getElementById('addto').addEventListener('click', async function() {
     const productImage = document.querySelector('#productimg img')?.src;
     const quantity = parseInt(document.getElementById('quantity')?.value);
 
-    // Retrieve category from DOM
-    category = document.getElementById('category')?.textContent.trim();
+    // Retrieve category from DOM or URL
+    const category = getQueryParam('selectedCategory');
 
     // Log values to check their presence and correctness
     console.log('Product ID:', productId);
@@ -116,13 +117,15 @@ document.getElementById('addto').addEventListener('click', async function() {
             body: JSON.stringify({
                 username: username, // Assuming `username` is globally available
                 cartItem: {
+                    productId, // Add productId to cart item
                     productName,
                     productDescription,
                     productPrice,
                     productImage,
                     selectedSize,
                     quantity,
-                    totalPrice
+                    totalPrice,
+                    category // Add category to cart item
                 }
             })
         });
@@ -237,5 +240,68 @@ async function clearCartOnLogout() {
     }
 }
 
-// Run `updateCartDisplay` on page load
-document.addEventListener('DOMContentLoaded', updateCartDisplay);
+// Handle checkout process
+document.getElementById('checkOut').addEventListener('click', async function() {
+    if (!isLoggedIn()) {
+        alert('You need to log in to proceed with checkout.');
+        return;
+    }
+
+    try {
+        // Get cart items
+        const response = await fetch(`/getCartItems?username=${username}`);
+        if (!response.ok) throw new Error('Failed to fetch cart items');
+        
+        const cartItems = await response.json();
+        console.log(`cartitems is:${JSON.stringify(cartItems)}`);
+        if (cartItems.length === 0) {
+            alert('Your cart is empty!');
+            return;
+        }
+
+        const totalPrice = cartItems.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0).toFixed(2);
+        const orderNumber = new Date().getTime(); // Simple order number based on timestamp
+
+        const orderResponse = await fetch('/createOrder', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username,
+                orderNumber,
+                totalPrice,
+                products: cartItems.map(item => ({
+                    productId: item.productId, // Include productId in the order
+                    productName: item.productName,
+                    productPrice: item.productPrice,
+                    quantity: item.quantity,
+                    selectedSize: item.selectedSize,
+                    category: item.category // Include category in the order
+                }))
+            })
+        });
+
+        if (!orderResponse.ok) throw new Error('Failed to create order');
+        
+        // Empty the cart
+        await fetch('/emptyCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username })
+        });
+
+        alert('Order placed successfully!');
+        updateCartDisplay(); // Refresh the cart display
+    } catch (error) {
+        console.error('Failed to complete checkout:', error);
+        alert('Failed to complete checkout. Please try again.');
+    }
+});
+
+// Call updateCartDisplay() on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartDisplay();
+});
