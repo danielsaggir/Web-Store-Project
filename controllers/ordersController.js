@@ -21,7 +21,7 @@ exports.createOrder = async (req, res) => {
 
         // Remove items from cart and update product quantities
         for (const item of products) {
-            await CartItem.deleteOne({ username, productId: item.productId, selectedSize: item.selectedSize });
+            await CartItem.deleteOne({ username, productId: item.productId, selectedSize: item.selectedSize});
 
             
             let product;

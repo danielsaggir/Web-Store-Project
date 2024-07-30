@@ -277,6 +277,7 @@ document.getElementById('checkOut').addEventListener('click', async function() {
                     productPrice: item.productPrice,
                     quantity: item.quantity,
                     selectedSize: item.selectedSize,
+                    productImage: item.productImage,
                     category: item.category // Include category in the order
                 }))
             })
