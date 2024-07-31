@@ -1,10 +1,20 @@
 body {
+position: relative; /* כדי שה-overlay יהיה מעל ה-body */
+}
+
+#backgroundOverlay {
     background-image: url('https://media.cntraveler.com/photos/6351664f9e488d3c598e3279/16:9/w_2240,c_limit/Ski_GettyImages-1400588475.jpg');
-    background-attachment: fixed; /* אפקט פראלקס */
+    background-attachment: fixed; /* Parallax effect */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    margin: 0; 
+    position: fixed; /* כדי שה-overlay יכסה את כל העמוד */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6; /* שקיפות של 50% */
+    z-index: -1; /* מתחת לכל התוכן */
 }
 
 /* Fixed top bar */
@@ -153,12 +163,12 @@ body {
 
   }
 
-  .input-search:focus ~ .btn-search,
-.btn-search:focus,
-.btn-search:active {
-  color: #4a5d6a; /* שמור על הצבע של הכפתור */
-  /* background-color: #666666; Change button background color to white */
-}
+    .input-search:focus ~ .btn-search,
+    .btn-search:focus,
+    .btn-search:active {
+    color: #4a5d6a; /* שמור על הצבע של הכפתור */
+    /* background-color: #666666; Change button background color to white */
+    }
 
 /* Login button styling */
 #logInBtn {
@@ -168,6 +178,7 @@ body {
     margin-top: 3px; 
     padding: 4px;
     border-radius: 15px;
+    background-color: transparent;
 }
 
 /* Cart button styling */
@@ -178,6 +189,7 @@ body {
     margin-top: 3px; 
     padding: 4px;
     border-radius: 15px;
+    background-color: transparent;
 }
 
 /* Responsive styling */
@@ -291,17 +303,100 @@ body {
 #cartCard {
     
     display: none;
-    margin-top: 1%;
-    position: fixed;
+    margin-top: 3%;
     left: 62%;
     border-radius: 5px;
-    background-color: rgba(240, 248, 255, 0.60);
-    z-index: 1000;
-    width: 30rem;
+    width: 28rem;
     position: absolute;
     background-color: rgb(253 253 253);
     z-index: 1000;
-    box-shadow: #ced4da;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#checkOut
+{
+    width: 250px;
+    font-weight: 200;
+    margin-bottom: 15px;
+    background-color: #6c757d;
+}
+
+#logInCard {
+    display: none;
+    margin-top: 4%;
+    left: 75%;
+    border-radius: 5px;
+    width: 28rem;
+    position: absolute;
+    background-color: rgb(253 253 253);
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#submit
+{
+    width: 220px;
+    font-weight: 200;
+    margin-bottom: 15px;
+    background-color:#6c757d ;
+    border-color: #333;
+}
+
+#showRegisterForm
+{
+    width: 220px;
+    font-weight: 200;
+    background-color:#6c757d ;
+    border-color: #333;
+}
+
+#logInCard input {
+    margin-bottom: 7px;
+    border-radius: 7px;
+    border-width: 0.5px;
+    padding-left: 10px;
+}
+
+#logInCard a {
+    margin-top: 10px;
+    background-color: white;
+    color: black;
+    border-color: gray;
+    width: 100px;
+}
+
+#logInCard a:hover {
+    background-color: rgba(96, 206, 246, 0.153);
+}
+
+
+/* Register card styling */
+#registerCard {
+    display: none;
+    margin-top: 4%;
+    left: 75%;
+    border-radius: 5px;
+    width: 28rem;
+    position: absolute;
+    background-color: rgb(253 253 253);
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#registerSubmit
+{
+    width: 220px;
+    font-weight: 200;
+    background-color:#6c757d ;
+    border-color: #333;
+    margin-bottom: 10px;
+}
+
+#backToLogin
+{
+    width: 220px;
+    font-weight: 200;
+    background-color:#6c757d ;
+    border-color: #333;
 }
 
 /* cart Card titles and margins */
@@ -325,15 +420,6 @@ body {
     margin-top: 18px;
 }
 
-/* Register card styling */
-#registerCard {
-    display: none;
-    position: absolute;
-    transform: translate(300%, 0%);
-    border-radius: 15px;
-    background-color: rgb(253 253 253);
-    z-index: 1000;
-}
 
 /* Common card styling */
 #logoutCard, #changePassCard, #changeUserNameCard {
@@ -352,53 +438,40 @@ body {
 #TopCategories {
     display: flex;
     flex-direction: row;
-    margin-right: 10px;
+    justify-content: center;
+}
+
+#TopCategories a{
+    color: black; 
+    text-decoration: none; 
 }
 
 /* Card general styling */
 .card {
     justify-content: space-between;
-    margin-left: 20px;
+    margin-left: 40px;
+    margin-bottom: 7%;
 }
 
 /* Sub title styling */
 #subTitel {
+    
     margin-top: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-
-/* Login card styling */
-#logInCard {
-    display: none;
-    position: absolute;
-    transform: translate(300%, 0%);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: xx-large;
+    font-weight: bold;
+    /* background-color: #f2f0ee; */
+    color: #4b5b6a;
     border-radius: 15px;
-    background-color: rgb(253 253 253);
-    z-index: 1000;
-}
-#logInCard input {
-    margin-bottom: 7px;
-    border-radius: 7px;
-    border-width: 0.5px;
-    padding-left: 10px;
-}
-
-#logInCard a {
-    margin-top: 10px;
-    background-color: white;
-    color: black;
-    border-color: gray;
-    width: 100px;
-}
-
-#logInCard a:hover {
-    background-color: rgba(96, 206, 246, 0.153);
+    width: 1000px;
+    display: flex;
+    justify-content: center;
 }
 
 /* Card text margin */
 .card-text {
-    margin-left: 30%;
+    display: flex;
+    justify-content: center;
 }
 
 /* Map styling */
