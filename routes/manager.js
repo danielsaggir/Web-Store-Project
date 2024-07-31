@@ -26,5 +26,6 @@ router.post('/manager/api/upload/:model', managerController.uploadProduct);
 //search product
 router.get('/manager/api/search', managerController.searchProduct);
 
+
 module.exports = router;
 
