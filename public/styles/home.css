@@ -1,6 +1,6 @@
 body {
     background-image: url('https://media.cntraveler.com/photos/6351664f9e488d3c598e3279/16:9/w_2240,c_limit/Ski_GettyImages-1400588475.jpg');
-    background-attachment: fixed; /* Parallax effect */
+    background-attachment: fixed; /* אפקט פראלקס */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -35,19 +35,29 @@ body {
     background-color: rgb(238, 244, 249);
     margin: 0; /* Remove margin to prevent gaps */
     width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* User line margin */
+#lineUser {
+    font-weight: 500;
+    position: relative;
+    left: 1.5%;
 }
 
 /* Menu styling */
 #menu {
     display: flex;
     flex-direction: row;
-    margin-left: 20px;
+    gap: 14px;
+    position: relative;
+    left: 2.5%;
 }
 
 #menu a {
     color: black; 
     text-decoration: none; 
-    margin-left: 23px;
 }
 
 #menu a:hover {
@@ -65,10 +75,198 @@ body {
     left: 47%;
 }
 
-/* Search item styling */
-#searchItem {
-    margin-left: 400px;
-    border-radius: 30px;
+*{
+    box-sizing: border-box;
+  }
+  
+  .search-container {
+    margin: 0px;
+    padding: 0px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1b1376;
+    font-family: 'Lato' !important;
+  }
+  
+  .search-box {
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    left: 20%;
+  }
+  
+  .input-search {
+    height: 40px;
+    width: 40px;
+    border-style: none;
+    padding: 8px;
+    font-size: 16px;
+    letter-spacing: 2px;
+    outline: none;
+    border-radius: 20px;
+    transition: all .5s ease-in-out;
+    background-color: #4a5d6a;
+    padding-right: 35px;
+    color: #4a5d6a;
+  }
+  
+  .input-search::placeholder {
+    color: #4a5d6a;
+    font-size: 16px;
+    letter-spacing: 2px;
+    font-weight: 100;
+  }
+  
+  .btn-search {
+    width: 40px;
+    height: 40px;
+    border-style: none;
+    font-size: 18px;
+    font-weight: bold;
+    outline: none;
+    cursor: pointer;
+    border-radius: 50%;
+    position: absolute;
+    right: 1px;
+    color: #ffffff;
+    background-color: transparent;
+    pointer-events: painted;
+  }
+  
+  .btn-search:focus ~ .input-search {
+    width: 250px;
+    border-radius: 0px;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(108, 108, 108, 0.5);
+    transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+  }
+  
+  .input-search:focus {
+    width: 250px;
+    border-radius: 0px;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(126, 125, 125, 0.5);
+    transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+
+  }
+
+  .input-search:focus ~ .btn-search,
+.btn-search:focus,
+.btn-search:active {
+  color: #4a5d6a; /* שמור על הצבע של הכפתור */
+  /* background-color: #666666; Change button background color to white */
+}
+
+
+  
+/* Login button styling */
+#logInBtn {
+    position: absolute;
+    left: 95%;
+    font-size: x-large;
+    margin-top: 3px; 
+    padding: 4px;
+    border-radius: 15px;
+}
+
+/* Cart button styling */
+#cartBtn {
+    position: absolute;
+    left: 92%;
+    font-size: x-large;
+    margin-top: 3px; 
+    padding: 4px;
+    border-radius: 15px;
+}
+
+/* Responsive styling */
+@media (max-width: 1200px) {
+    #title {
+        font-size: large;
+    }
+    
+    #searchItem {
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    #topLine {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding: 10px;
+    }
+    
+    #title {
+        font-size: large;
+        margin: 10px 0;
+    }
+    
+    #menu {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+    
+    #menu a {
+        margin: 5px 0;
+    }
+    
+    #searchItem {
+        display: flex;
+        align-items: center;
+        border-radius: 30px;
+        position: relative;
+        left: 25%;
+    }
+    
+    #searchBox {
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        outline: none;
+    }
+    
+    #searchButton {
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-left: none; /* Remove border between input and button */
+        cursor: pointer;
+    }
+    
+    #logInBtn, #cartBtn {
+        margin-top: 10px;
+        font-size: large;
+    }
+
+    #lineUser {
+        display: none; /* Hide the user line for small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    #title {
+        font-size: medium;
+    }
+
+    #searchItem input {
+        width: calc(100% - 20px); /* Make input full width with padding */
+    }
+    
+    #menu {
+        display: none; /* Hide the menu for very small screens */
+    }
+
+    #logInBtn, #cartBtn {
+        font-size: medium;
+    }
 }
 
 /* Main container styling */
@@ -82,16 +280,6 @@ body {
     background-position: center;
     margin-top: 100px;
     flex: 1;
-}
-
-/* Login button styling */
-#logInBtn {
-    left: 95%;
-    position: absolute;
-    font-size: x-large;
-    margin-top: 3px; 
-    padding: 4px;
-    border-radius: 15px;
 }
 
 /* Card titles and margins */
@@ -137,21 +325,6 @@ body {
     z-index: 3;
 }
 
-/* User line margin */
-#lineUser {
-    margin-left: 71px;
-    margin-top: 7px;
-}
-
-/* Cart button styling */
-#cartBtn {
-    left: 92%;
-    position: absolute;
-    font-size: x-large;
-    margin-top: 3px; 
-    padding: 4px;
-    border-radius: 15px;
-}
 
 /* Top categories styling */
 #TopCategories {
