@@ -390,7 +390,9 @@ let weatherData = [];
 let currentIndex = 0;
 
 function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
+    const mapDivElement= document.getElementById('map');
+    console.log(`map div element is: ${mapDivElement}`)
+  map = new google.maps.Map(mapDivElement, {
       zoom: 5,
       center: { lat: 45.0, lng: 10.0 }
   });

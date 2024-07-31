@@ -21,7 +21,7 @@ router.put('/manager/api/update/:id', managerController.updateProduct);
 router.delete('/manager/api/delete/:id', managerController.deleteProduct);
 
 //upload product
-router.post('/manager/api/upload/:model', managerController.uploadProduct);
+router.post('/manager/api/upload-product/:model', managerController.uploadProduct);
 
 //search product
 router.get('/manager/api/search', managerController.searchProduct);
@@ -38,8 +38,11 @@ router.delete('/manager/api/delete-user/:username', managerController.deleteUser
 //get orders
 router.get('/manager/api/orders', managerController.getOrders);
 
-// נתיב להחזרת רשימת סניפים
-router.get('/api/branches', managerController.getBranches);
+router.get('/manager/api/branches', managerController.getBranches);
+router.put('/manager/api/update-branch/:id', managerController.updateBranch);
+router.delete('/manager/api/delete-branch/:id', managerController.deleteBranch);
+router.post('/manager/api/upload/branches', managerController.uploadBranch);
+
 
 module.exports = router;
 
