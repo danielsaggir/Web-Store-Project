@@ -2,6 +2,8 @@ const SkiProducts = require('../models/SkiProducts');
 const Clothes = require('../models/Clothes');
 const Accessories = require('../models/Accessories');
 const Users = require('../models/users');
+const Order = require('../models/orders');
+
 
 exports.getSkiProducts = async (req, res) => {
     try {
@@ -175,6 +177,15 @@ exports.searchUser = async (req, res) => {
         res.json(users);
     } catch (err) {
         console.error('Error searching users:', err); // הודעת הדפסה במקרה של שגיאה
+        res.status(500).send(err);
+    }
+};
+
+exports.getOrders = async (req, res) => {
+    try {
+        const orders = await Order.find();
+        res.json(orders);
+    } catch (err) {
         res.status(500).send(err);
     }
 };

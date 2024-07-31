@@ -10,18 +10,85 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateCategoryOptions(model) {
         const uploadCategory = document.getElementById('uploadCategory');
-        uploadCategory.innerHTML = '';
-        categoryOptions[model].forEach(option => {
-            const opt = document.createElement('option');
-            opt.value = option;
-            opt.textContent = option;
-            uploadCategory.appendChild(opt);
-        });
+        if (uploadCategory) {
+            uploadCategory.innerHTML = '';
+            categoryOptions[model].forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option;
+                opt.textContent = option;
+                uploadCategory.appendChild(opt);
+            });
+        }
     }
 
     function showSearchAndUploadButtons() {
-        document.getElementById('upload-product').style.display = 'block';
-        document.getElementById('searchItem1').style.display = 'block';
+        const uploadProductButton = document.getElementById('upload-product');
+        const searchItemButton = document.getElementById('searchItem1');
+        if (uploadProductButton && searchItemButton) {
+            uploadProductButton.style.display = 'block';
+            searchItemButton.style.display = 'block';
+        }
+    }
+
+    function hideAllButtons() {
+        const uploadProductButton = document.getElementById('upload-product');
+        const searchItemButton = document.getElementById('searchItem1');
+        if (uploadProductButton) uploadProductButton.style.display = 'none';
+        if (searchItemButton) searchItemButton.style.display = 'none';
+    }
+
+    function fetchOrders() {
+        fetch('/manager/api/orders')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched orders:', data); // Debug log
+                updateOrdersTable(data);
+                hideAllButtons(); // הסתר את הכפתורים של הוספה וחיפוש
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function updateOrdersTable(data) {
+        const table = document.querySelector('.table-striped');
+        if (table) {
+            table.innerHTML = '';
+
+            const header = table.createTHead();
+            const headerRow = header.insertRow();
+            const headers = ['Username', 'Order Number', 'Total Price', 'Date', 'Products'];
+
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+
+            const tbody = table.createTBody();
+
+            data.forEach(order => {
+                console.log('Adding order to table:', order); // Debug log
+                const row = tbody.insertRow();
+
+                const cellUsername = row.insertCell();
+                cellUsername.textContent = order.username;
+
+                const cellOrderNumber = row.insertCell();
+                cellOrderNumber.textContent = order.orderNumber;
+
+                const cellTotalPrice = row.insertCell();
+                cellTotalPrice.textContent = order.totalPrice;
+
+                const cellDate = row.insertCell();
+                cellDate.textContent = new Date(order.date).toLocaleString();
+
+                const cellProducts = row.insertCell();
+                cellProducts.innerHTML = order.products.map(product => `
+                    <div>
+                        <strong>${product.productName}</strong> (Price: ${product.productPrice}, Quantity: ${product.quantity}, Size: ${product.selectedSize})
+                    </div>
+                `).join('');
+            });
+        }
     }
 
     document.getElementById('ski-products-link1').addEventListener('click', function () {
@@ -48,9 +115,87 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('users-link1').addEventListener('click', function () {
         currentModel = 'users';
         fetchData(currentModel);
-        document.getElementById('upload-product').style.display = 'none'; // הסתר כפתור העלאת מוצר עבור משתמשים
-        document.getElementById('searchItem1').style.display = 'block';
+        hideAllButtons();
+        document.getElementById('searchItem1').style.display = 'block'; // הצג רק את חיפוש
     });
+
+    document.getElementById('orders-link1').addEventListener('click', function () {
+        currentModel = 'orders';
+        fetchOrders();
+    });
+
+    function fetchData(model) {
+        fetch(`/manager/api/${model}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched data:', data); // Debug log
+                updateTable(data);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function updateTable(data) {
+        const table = document.querySelector('.table-striped');
+        table.innerHTML = '';
+
+        const header = table.createTHead();
+        const headerRow = header.insertRow();
+        let headers = ['ID', 'Name', 'Price', 'Category', 'Color', 'Description', 'Edit', 'Delete'];
+
+        if (currentModel === 'ski-products') {
+            headers.splice(3, 0, 'Quantity');
+        } else if (currentModel === 'clothes' || currentModel === 'accessories') {
+            headers.splice(3, 0, 'Large', 'Medium', 'Small');
+        } else if (currentModel === 'users') {
+            headers = ['Username', 'First Name', 'Last Name', 'Admin', 'Edit', 'Delete'];
+        }
+
+        headers.forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
+
+        data.forEach(item => {
+            console.log('Adding item to table:', item); // Debug log
+            const row = table.insertRow();
+            let fieldsToDisplay = ['MyId', 'name', 'price', 'category', 'color', 'description'];
+
+            if (currentModel === 'ski-products') {
+                fieldsToDisplay.splice(3, 0, 'quantity');
+            } else if (currentModel === 'clothes' || currentModel === 'accessories') {
+                fieldsToDisplay.splice(3, 0, 'Large', 'Medium', 'Small');
+            } else if (currentModel === 'users') {
+                fieldsToDisplay = ['username', 'firstName', 'lastName', 'isAdmin'];
+            }
+
+            fieldsToDisplay.forEach(field => {
+                const cell = row.insertCell();
+                cell.textContent = item[field];
+            });
+
+            if (currentModel !== 'orders') {
+                const editCell = row.insertCell();
+                const editButton = document.createElement('i');
+                editButton.classList.add('bi', 'bi-pen');
+                editButton.addEventListener('click', () => {
+                    currentItem = item;
+                    openEditModal(item);
+                });
+                editCell.appendChild(editButton);
+
+                const deleteCell = row.insertCell();
+                const deleteButton = document.createElement('i');
+                deleteButton.classList.add('bi', 'bi-trash');
+                deleteButton.addEventListener('click', () => {
+                    if (confirm(`Are you sure you want to delete item: ${item.name || item.username}?`)) {
+                        deleteItem(item.MyId || item.username);
+                    }
+                });
+                deleteCell.appendChild(deleteButton);
+            }
+        });
+    }
 
     document.getElementById('upload-product').addEventListener('click', function () {
         generateUploadForm(currentModel);
@@ -165,100 +310,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    document.getElementById('searchButton1').addEventListener('click', () => {
-        const searchQuery = document.getElementById('searchBox1').value;
-        console.log(`Search query: ${searchQuery}`); // Debug log
-        if (searchQuery) {
-            const searchUrl = currentModel === 'users' ? '/manager/api/search-user' : '/manager/api/search';
-            fetch(`${searchUrl}?model=${currentModel}&query=${encodeURIComponent(searchQuery)}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Search result:', data); // Debug log
-                    updateTable(data); // Update table with search results
-                })
-                .catch(error => console.error('Error:', error));
-        }
-    });
-
-    document.getElementById('searchBox1').addEventListener('input', () => {
-        const searchQuery = document.getElementById('searchBox1').value;
-        console.log(`Search input changed: ${searchQuery}`); // Debug log
-        if (!searchQuery) {
-            fetchData(currentModel); // Reload all data if search box is empty
-        }
-    });
-
-    function fetchData(model) {
-        fetch(`/manager/api/${model}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Fetched data:', data); // Debug log
-                updateTable(data);
-            })
-            .catch(error => console.error('Error:', error));
-    }
-
-    function updateTable(data) {
-        const table = document.querySelector('.table-striped');
-        table.innerHTML = '';
-
-        const header = table.createTHead();
-        const headerRow = header.insertRow();
-        let headers = ['ID', 'Name', 'Price', 'Category', 'Color', 'Description', 'Edit', 'Delete'];
-
-        if (currentModel === 'ski-products') {
-            headers.splice(3, 0, 'Quantity');
-        } else if (currentModel === 'clothes' || currentModel === 'accessories') {
-            headers.splice(3, 0, 'Large', 'Medium', 'Small');
-        } else if (currentModel === 'users') {
-            headers = ['Username', 'First Name', 'Last Name', 'Admin', 'Edit', 'Delete'];
-        }
-
-        headers.forEach(headerText => {
-            const th = document.createElement('th');
-            th.textContent = headerText;
-            headerRow.appendChild(th);
-        });
-
-        data.forEach(item => {
-            console.log('Adding item to table:', item); // Debug log
-            const row = table.insertRow();
-            let fieldsToDisplay = ['MyId', 'name', 'price', 'category', 'color', 'description'];
-
-            if (currentModel === 'ski-products') {
-                fieldsToDisplay.splice(3, 0, 'quantity');
-            } else if (currentModel === 'clothes' || currentModel === 'accessories') {
-                fieldsToDisplay.splice(3, 0, 'Large', 'Medium', 'Small');
-            } else if (currentModel === 'users') {
-                fieldsToDisplay = ['username', 'firstName', 'lastName', 'isAdmin'];
-            }
-
-            fieldsToDisplay.forEach(field => {
-                const cell = row.insertCell();
-                cell.textContent = item[field];
-            });
-
-            const editCell = row.insertCell();
-            const editButton = document.createElement('i');
-            editButton.classList.add('bi', 'bi-pen');
-            editButton.addEventListener('click', () => {
-                currentItem = item;
-                openEditModal(item);
-            });
-            editCell.appendChild(editButton);
-
-            const deleteCell = row.insertCell();
-            const deleteButton = document.createElement('i');
-            deleteButton.classList.add('bi', 'bi-trash');
-            deleteButton.addEventListener('click', () => {
-                if (confirm(`Are you sure you want to delete item: ${item.name || item.username}?`)) {
-                    deleteItem(item.MyId || item.username);
-                }
-            });
-            deleteCell.appendChild(deleteButton);
-        });
-    }
-
     function openEditModal(item) {
         const editForm = document.getElementById('editForm');
         editForm.innerHTML = '';
@@ -348,7 +399,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const editModal = new bootstrap.Modal(document.getElementById('editModal'));
         editModal.show();
     }
-    
 
     document.getElementById('updateButton').addEventListener('click', () => {
         if (currentItem) {
@@ -412,45 +462,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-
-
-    // הוספת הפונקציות לעדכון בפייסבוק
-    // function postToFacebook(message) {
-    //     const pageId = '334940566378514'; // העמוד שלך
-    //     const accessToken = 'EAAFsNm6cRrsBO6fM9rhwimDG2vdO1FxkZCHN2E5ydqV5eNgVF16eRI4ABDfPwLYN8bAjz4FPlwL0lejXYHGZBIY9mSMaiaz3IGkH8hyG2kppD92QDyVT8AvvYR5THqAfSOmsR7sxBmFocd1aoZBlYgyXPZCBfc28gLCVE3kTsH0JDz9AZC7gDKoSx5ckZC2Wiw6ZA0UwS638DZBvs0zlMzfwql6b';
-
-    //     console.log('Posting to Facebook:', message); // הוספת הודעת הדפסה לפני הפרסום
-
-    //     fetch(`https://graph.facebook.com/${pageId}/feed`, {
-    //         method: 'POST',
-    //         body: new URLSearchParams({
-    //             message: message,
-    //             access_token: accessToken
-    //         })
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         if (data.error) {
-    //             console.error('Error posting to Facebook:', data.error);
-    //             alert(`Error posting to Facebook: ${data.error.message}`); // הוספת הודעת שגיאה למשתמש
-    //         } else {
-    //             console.log('Post successful:', data);
-    //             alert('Post successful!'); // הוספת הודעת הצלחה למשתמש
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.error('Error:', error);
-    //         alert(`Error: ${error.message}`); // הוספת הודעת שגיאה למשתמש
-    //     });
-    // }
-
-    // document.getElementById('postToFacebookButton').addEventListener('click', function() {
-    //     const message = document.getElementById('facebookPostMessage').value;
-    //     postToFacebook(message);
-    // });
-
-
-
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('postToFacebookButton').addEventListener('click', function() {
         const message = document.getElementById('facebookPostMessage').value;
@@ -461,7 +472,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const accessToken = 'EAAHaVHQgb0cBO1ZBIs1ccyJvZBk3qCibhjK6KF4dyCEqi0dx2hWZCUGdf1HRWp2MUM3kEUntqf4WFhDpm5DIZBrYVssZCw8BcvQ03xGnll3tKYcHvBTT2lCtmeR0G0uP0Hwhk5vVSOW39vra2wXpGGCfKyZCAD0uzbPCC9dgHZA6EnQ1HiSjpPzawZC29agY0iIvVWDeFv80ZAjv97MWyBg4sVqoWzAZDZD'; // Your Page Access Token
         const page_id = '334940566378514'; 
         // const app_id = '400456016479931'; // Your Facebook App ID
- 
+
         fetch(`https://graph.facebook.com/v20.0/${page_id}/feed`, {
             method: 'POST',
             headers: {
