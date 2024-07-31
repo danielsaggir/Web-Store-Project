@@ -1,4 +1,73 @@
 document.addEventListener('DOMContentLoaded', function () {
+    console.log('Fetching orders per day in July and August');
+    fetch('/manager/api/orders-per-day-july-august')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data for daily orders:', data); // הדפסת הנתונים שהתקבלו
+        createBarChart('#dailyOrdersChart', data, 'Orders per Day in July and August', 'Day', 'Orders');
+      })
+      .catch(error => console.error('Error fetching daily orders for July and August:', error));
+
+    console.log('Fetching orders per user');
+    fetch('/manager/api/orders-per-user')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data for orders per user:', data); // הדפסת הנתונים שהתקבלו
+        createBarChart('#userOrdersChart', data, 'Orders per User', 'User', 'Orders');
+      })
+      .catch(error => console.error('Error fetching orders per user:', error));
+
+    function createBarChart(container, data, title, xLabel, yLabel) {
+      const margin = { top: 30, right: 30, bottom: 70, left: 60 },
+        width = 600 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+
+      d3.select(container).selectAll('*').remove();
+
+      const svg = d3.select(container)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+      const x = d3.scaleBand().range([0, width]).padding(0.1),
+        y = d3.scaleLinear().range([height, 0]);
+
+      x.domain(data.map(d => d._id)); // הגדרת תחום ה-X
+      y.domain([0, d3.max(data, d => d.count)]); // הגדרת תחום ה-Y
+
+      svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x))
+        .selectAll('text')
+        .attr('transform', 'rotate(-45)')
+        .style('text-anchor', 'end');
+
+      svg.append('g')
+        .call(d3.axisLeft(y).ticks(10));
+
+      svg.append('text')
+        .attr('x', width / 2)
+        .attr('y', 0 - margin.top / 2)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '16px')
+        .style('text-decoration', 'underline')
+        .text(title);
+
+      svg.selectAll('.bar')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d._id))
+        .attr('y', d => y(d.count))
+        .attr('width', x.bandwidth())
+        .attr('height', d => height - y(d.count))
+        .attr('fill', 'rgb(128, 170, 193, 0.8)'); // צבע חדש
+    }
+  });
+  
+document.addEventListener('DOMContentLoaded', function () {
     let currentItem = null;
     let currentModel = '';
 
