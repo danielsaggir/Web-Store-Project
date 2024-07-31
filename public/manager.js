@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const header = table.createTHead();
             const headerRow = header.insertRow();
-            const headers = ['Name', 'City', 'Phone'];
+            const headers = ['Name', 'City', 'Phone', 'Edit', 'Delete'];
 
             headers.forEach(headerText => {
                 const th = document.createElement('th');
@@ -135,6 +135,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const cellPhone = row.insertCell();
                 cellPhone.textContent = branch.phone;
+
+                const editCell = row.insertCell();
+                const editButton = document.createElement('i');
+                editButton.classList.add('bi', 'bi-pen');
+                editButton.addEventListener('click', () => {
+                    currentItem = branch;
+                    openEditModal(branch);
+                });
+                editCell.appendChild(editButton);
+
+                const deleteCell = row.insertCell();
+                const deleteButton = document.createElement('i');
+                deleteButton.classList.add('bi', 'bi-trash');
+                deleteButton.addEventListener('click', () => {
+                    if (confirm(`Are you sure you want to delete branch: ${branch.name}?`)) {
+                        deleteItem(branch._id);
+                    }
+                });
+                deleteCell.appendChild(deleteButton);
             });
         }
     }
@@ -142,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('branches-link1').addEventListener('click', function () {
         currentModel = 'branches';
         fetchBranches();
+        showSearchAndUploadButtons();
     });
 
     document.getElementById('ski-products-link1').addEventListener('click', function () {
@@ -201,6 +221,8 @@ document.addEventListener('DOMContentLoaded', function () {
             headers.splice(3, 0, 'Large', 'Medium', 'Small');
         } else if (currentModel === 'users') {
             headers = ['Username', 'First Name', 'Last Name', 'Admin', 'Edit', 'Delete'];
+        } else if (currentModel === 'branches') {
+            headers = ['Name', 'City', 'Phone', 'Edit', 'Delete'];
         }
 
         headers.forEach(headerText => {
@@ -220,6 +242,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 fieldsToDisplay.splice(3, 0, 'Large', 'Medium', 'Small');
             } else if (currentModel === 'users') {
                 fieldsToDisplay = ['username', 'firstName', 'lastName', 'isAdmin'];
+            } else if (currentModel === 'branches') {
+                fieldsToDisplay = ['name', 'city', 'phone'];
             }
 
             fieldsToDisplay.forEach(field => {
@@ -242,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 deleteButton.classList.add('bi', 'bi-trash');
                 deleteButton.addEventListener('click', () => {
                     if (confirm(`Are you sure you want to delete item: ${item.name || item.username}?`)) {
-                        deleteItem(item.MyId || item.username);
+                        deleteItem(item._id || item.username);
                     }
                 });
                 deleteCell.appendChild(deleteButton);
@@ -301,6 +325,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 color: document.getElementById('uploadColor').value,
                 imageUrl: document.getElementById('uploadImgUrl').value
             };
+        } else if (model === 'branches') {
+            return {
+                name: document.getElementById('uploadName').value,
+                city: document.getElementById('uploadCity').value,
+                phone: document.getElementById('uploadPhone').value
+            };
         }
     }
 
@@ -324,6 +354,9 @@ document.addEventListener('DOMContentLoaded', function () {
             fields.push({ label: 'Large', id: 'uploadLarge', type: 'number' });
             fields.push({ label: 'Medium', id: 'uploadMedium', type: 'number' });
             fields.push({ label: 'Small', id: 'uploadSmall', type: 'number' });
+        } else if (model === 'branches') {
+            fields.push({ label: 'City', id: 'uploadCity', type: 'text' });
+            fields.push({ label: 'Phone', id: 'uploadPhone', type: 'text' });
         }
 
         fields.forEach(field => {
@@ -374,6 +407,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 { label: 'First Name', id: 'editFirstName', type: 'text', value: item.firstName, readonly: true },
                 { label: 'Last Name', id: 'editLastName', type: 'text', value: item.lastName, readonly: true },
                 { label: 'Admin', id: 'editIsAdmin', type: 'checkbox', value: item.isAdmin }
+            ];
+        } else if (currentModel === 'branches') {
+            fields = [
+                { label: 'Name', id: 'editName', type: 'text', value: item.name, readonly: true },
+                { label: 'City', id: 'editCity', type: 'text', value: item.city, readonly: true },
+                { label: 'Phone', id: 'editPhone', type: 'text', value: item.phone }
             ];
         } else {
             fields = [
@@ -463,6 +502,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     lastName: document.getElementById('editLastName').value,
                     isAdmin: document.getElementById('editIsAdmin').checked
                 };
+            } else if (currentModel === 'branches') {
+                updatedItem = {
+                    phone: document.getElementById('editPhone').value
+                };
             } else {
                 updatedItem = {
                     name: document.getElementById('editName').value,
@@ -481,7 +524,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            const updateUrl = currentModel === 'users' ? `/manager/api/update-user/${currentItem.username}` : `/manager/api/update/${currentItem.MyId}`;
+            const updateUrl = currentModel === 'users' ? `/manager/api/update-user/${currentItem.username}` : `/manager/api/update/${currentItem._id}`;
             fetch(updateUrl, {
                 method: 'PUT',
                 headers: {
