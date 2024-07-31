@@ -229,3 +229,17 @@ exports.deleteBranch = async (req, res) => {
         res.status(500).send(err);
     }
 };
+
+exports.uploadBranch = async (req, res) => {
+    try {
+        console.log(`req.body is: ${JSON.stringify(req.body)}`)
+        const newBranch = new Branch(req.body);
+        console.log(`newBranch is: ${JSON.stringify(newBranch)}`)
+        const savedBranch = await newBranch.save();
+        console.log(`savedBranch is: ${JSON.stringify(savedBranch)}`)
+        res.json(savedBranch);
+    } catch (err) {
+        console.error('Error uploading branch:', err);
+        res.status(500).send(err);
+    }
+};
