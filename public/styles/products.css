@@ -8,14 +8,6 @@ body {
     flex-direction: column;
 }
 
-body::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(255 255 255 / 20%); /* Semi-transparent white overlay */
-    z-index: -1; /* Ensure the overlay is behind other content */
-}
 
 
 #topLine {
@@ -146,15 +138,8 @@ body::before {
     font-weight: bold;
 }
 #cards {
-    position: fixed;
-    top: 180px;
-    bottom: 10px;
-    left: 10px;
-    right: 250px;
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
-    gap: 20px;
     overflow-y: auto;
     border: 5px solid rgb(255, 255, 255);
 }
@@ -208,9 +193,8 @@ body::before {
 .footer-container {
     margin-top: auto;
     padding: 20px;
-    margin: auto 0;
+    margin: 100px auto 0;
     background-color: #f1f1f1; /* Adjust as needed */
-
 }
 
 .footer-columns {
