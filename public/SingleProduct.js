@@ -110,9 +110,8 @@ document.getElementById('addto').addEventListener('click', async function() {
     }
 
     // Check if the item already exists in the cart
-    const existingItem = cartItems.find(item => item.productName === productName);
-    const existingItemsize = cartItems.find(item => item.selectedSize === selectedSize);
-    if (existingItem && existingItemsize) {
+    const existingItem = cartItems.find(item => item.productName === productName && item.selectedSize === selectedSize);
+    if (existingItem) {
         existingItem.quantity += quantity;
 
         try {
@@ -139,7 +138,7 @@ document.getElementById('addto').addEventListener('click', async function() {
 
             if (response.ok) {
                 alert('Item quantity updated in the cart');
-                updateCartDisplay();
+                 updateCartDisplay();
             } else {
                 throw new Error('Failed to update item in the cart');
             }
@@ -189,6 +188,7 @@ document.getElementById('addto').addEventListener('click', async function() {
         alert(error.message);
     }
 });
+
 
 
 // Function to remove an item from the cart
