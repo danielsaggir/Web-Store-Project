@@ -522,8 +522,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function postToFacebook(message) {
-        const accessToken = 'acces token!!'; // Your Page Access Token
-        const page_id = 'page id!!!!!'; 
+        const accessToken = 'EAAOnqzR91wcBO7BaOGEE49iZBhl7uoeEcNOMPQyzY4tIZC6FhqMMl5sKEvYQLaiC8WB0kvp8W90z1a6yieDBZASwr98efZCYaPKNxfRkt5I3ZBzMMwIFAIi05dh4nBOZCmMKOYnwFtor6Dry7OSDsLiDScAOM0o4LZCjAKE5YiUweZBtj1sIM0yrcDpn5aVmbZCVb'; // Your Page Access Token
+        const page_id = '364520670082502'; 
         // const app_id = '400456016479931'; // Your Facebook App ID
 
         fetch(`https://graph.facebook.com/v20.0/${page_id}/feed`, {
