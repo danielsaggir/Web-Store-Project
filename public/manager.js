@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const uploadProductButton = document.getElementById('upload-product');
         const searchItemButton = document.getElementById('searchItem1');
         if (uploadProductButton && searchItemButton) {
+            if (currentModel === 'branches') {
+                uploadProductButton.textContent = 'Add Branch';
+            } else {
+                uploadProductButton.textContent = 'Upload Product';
+            }
             uploadProductButton.style.display = 'block';
             searchItemButton.style.display = 'block';
         }
@@ -281,84 +286,139 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('saveUploadButton').addEventListener('click', () => {
-        const newItem = generateNewItem(currentModel);
-
-        fetch(`/manager/api/upload/${currentModel}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newItem)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Upload successful:', data);
-            fetchData(currentModel); // Refresh table with new item
-            const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
-            uploadModal.hide();
-        })
-        .catch(error => console.error('Error:', error));
+        const newItemPromise = generateNewItem(currentModel);
+    
+        if (currentModel === 'branches') {
+            newItemPromise
+                .then(newItem => {
+                    const url= `/manager/api/upload/${currentModel}`
+                    console.log(`url is: ${url}`)
+                    return fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(newItem)
+                    });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Upload successful:', data);
+                    fetchData(currentModel); // Refresh table with new item
+                    const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
+                    uploadModal.hide();
+                })
+                .catch(error => console.error('Error:', error));
+        } else {
+            newItemPromise
+                .then(newItem => {
+                    return fetch(`/manager/api/upload-product/${currentModel}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(newItem)
+                    });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Upload successful:', data);
+                    fetchData(currentModel); // Refresh table with new item
+                    const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
+                    uploadModal.hide();
+                })
+                .catch(error => console.error('Error:', error));
+        }
     });
+    
 
     function generateNewItem(model) {
-        if (model === 'ski-products') {
-            return {
-                MyId: document.getElementById('uploadMyId').value,
-                name: document.getElementById('uploadName').value,
-                price: document.getElementById('uploadPrice').value,
-                quantity: document.getElementById('uploadQuantity').value,
-                description: document.getElementById('uploadDescription').value,
-                category: document.getElementById('uploadCategory').value,
-                color: document.getElementById('uploadColor').value,
-                imageUrl: document.getElementById('uploadImgUrl').value
-            };
-        } else if (model === 'clothes' || model === 'accessories') {
-            return {
-                MyId: document.getElementById('uploadMyId').value,
-                name: document.getElementById('uploadName').value,
-                price: document.getElementById('uploadPrice').value,
-                Large: document.getElementById('uploadLarge').value,
-                Medium: document.getElementById('uploadMedium').value,
-                Small: document.getElementById('uploadSmall').value,
-                description: document.getElementById('uploadDescription').value,
-                category: document.getElementById('uploadCategory').value,
-                color: document.getElementById('uploadColor').value,
-                imageUrl: document.getElementById('uploadImgUrl').value
-            };
-        } else if (model === 'branches') {
-            return {
+        if (model === 'branches') {
+            const branch = {
                 name: document.getElementById('uploadName').value,
                 city: document.getElementById('uploadCity').value,
                 phone: document.getElementById('uploadPhone').value
             };
+    
+            // בקשה ל-Google Maps API כדי לקבל את הקורדינטות של העיר
+            return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${branch.city}&key=AIzaSyB6RNA9mZmst46xbC-wuiIEA7xIQAjO-Pw`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(`data is: ${JSON.stringify(data)}`)
+                    if (data.results.length > 0) {
+                        const location = data.results[0].geometry.location;
+                        branch.lat = location.lat;
+                        branch.lng = location.lng;
+                    } else {
+                        throw new Error('City not found in Google Maps');
+                    }
+                    return branch;
+                })
+                .catch(error => {
+                    console.error('Error fetching coordinates:', error);
+                    throw error;
+                });
+        } else {
+            if (model === 'ski-products') {
+                return {
+                    MyId: document.getElementById('uploadMyId').value,
+                    name: document.getElementById('uploadName').value,
+                    price: document.getElementById('uploadPrice').value,
+                    quantity: document.getElementById('uploadQuantity').value,
+                    description: document.getElementById('uploadDescription').value,
+                    category: document.getElementById('uploadCategory').value,
+                    color: document.getElementById('uploadColor').value,
+                    imageUrl: document.getElementById('uploadImgUrl').value
+                };
+            } else if (model === 'clothes' || model === 'accessories') {
+                return {
+                    MyId: document.getElementById('uploadMyId').value,
+                    name: document.getElementById('uploadName').value,
+                    price: document.getElementById('uploadPrice').value,
+                    Large: document.getElementById('uploadLarge').value,
+                    Medium: document.getElementById('uploadMedium').value,
+                    Small: document.getElementById('uploadSmall').value,
+                    description: document.getElementById('uploadDescription').value,
+                    category: document.getElementById('uploadCategory').value,
+                    color: document.getElementById('uploadColor').value,
+                    imageUrl: document.getElementById('uploadImgUrl').value
+                };
+            }
         }
     }
+    
 
     function generateUploadForm(model) {
         const uploadForm = document.getElementById('uploadForm');
         uploadForm.innerHTML = '';
-
-        const fields = [
-            { label: 'ID', id: 'uploadMyId', type: 'number' },
-            { label: 'Name', id: 'uploadName', type: 'text' },
-            { label: 'Price', id: 'uploadPrice', type: 'number' },
-            { label: 'Description', id: 'uploadDescription', type: 'textarea' },
-            { label: 'Category', id: 'uploadCategory', type: 'select', options: categoryOptions[model] },
-            { label: 'Color', id: 'uploadColor', type: 'select', options: ['Red', 'Blue', 'Green', 'Black', 'White', 'Yellow'] },
-            { label: 'Image URL', id: 'uploadImgUrl', type: 'text' }
-        ];
-
-        if (model === 'ski-products') {
-            fields.push({ label: 'Quantity', id: 'uploadQuantity', type: 'number' });
-        } else if (model === 'clothes' || model === 'accessories') {
-            fields.push({ label: 'Large', id: 'uploadLarge', type: 'number' });
-            fields.push({ label: 'Medium', id: 'uploadMedium', type: 'number' });
-            fields.push({ label: 'Small', id: 'uploadSmall', type: 'number' });
-        } else if (model === 'branches') {
-            fields.push({ label: 'City', id: 'uploadCity', type: 'text' });
-            fields.push({ label: 'Phone', id: 'uploadPhone', type: 'text' });
+    
+        let fields;
+        if (model === 'branches') {
+            fields = [
+                { label: 'Name', id: 'uploadName', type: 'text' },
+                { label: 'City', id: 'uploadCity', type: 'text' },
+                { label: 'Phone', id: 'uploadPhone', type: 'text' }
+            ];
+        } else {
+            fields = [
+                { label: 'ID', id: 'uploadMyId', type: 'number' },
+                { label: 'Name', id: 'uploadName', type: 'text' },
+                { label: 'Price', id: 'uploadPrice', type: 'number' },
+                { label: 'Description', id: 'uploadDescription', type: 'textarea' },
+                { label: 'Category', id: 'uploadCategory', type: 'select', options: categoryOptions[model] },
+                { label: 'Color', id: 'uploadColor', type: 'select', options: ['Red', 'Blue', 'Green', 'Black', 'White', 'Yellow'] },
+                { label: 'Image URL', id: 'uploadImgUrl', type: 'text' }
+            ];
+    
+            if (model === 'ski-products') {
+                fields.push({ label: 'Quantity', id: 'uploadQuantity', type: 'number' });
+            } else if (model === 'clothes' || model === 'accessories') {
+                fields.push({ label: 'Large', id: 'uploadLarge', type: 'number' });
+                fields.push({ label: 'Medium', id: 'uploadMedium', type: 'number' });
+                fields.push({ label: 'Small', id: 'uploadSmall', type: 'number' });
+            }
         }
-
+    
         fields.forEach(field => {
             const div = document.createElement('div');
             div.className = 'mb-3';
@@ -366,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function () {
             label.className = 'form-label';
             label.textContent = field.label;
             div.appendChild(label);
-
+    
             if (field.type === 'textarea') {
                 const textarea = document.createElement('textarea');
                 textarea.className = 'form-control';
@@ -395,6 +455,7 @@ document.addEventListener('DOMContentLoaded', function () {
             uploadForm.appendChild(div);
         });
     }
+    
 
     function openEditModal(item) {
         const editForm = document.getElementById('editForm');
