@@ -186,7 +186,7 @@ document.getElementById('addto').addEventListener('click', async function() {
 
             if (response.ok) {
                 alert('Item quantity updated in the cart');
-                updateCartDisplay();
+                 updateCartDisplay();
             } else {
                 throw new Error('Failed to update item in the cart');
             }
@@ -301,6 +301,7 @@ document.getElementById('checkoutForm').addEventListener('submit', function(even
     })
     .catch(error => console.error('Error:', error));
 });
+
 
 
 
