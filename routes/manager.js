@@ -39,7 +39,7 @@ router.delete('/manager/api/delete-user/:username', managerController.deleteUser
 router.get('/manager/api/orders', managerController.getOrders);
 
 router.get('/manager/api/branches', managerController.getBranches);
-
+router.put('/manager/api/update-branch/:id', managerController.updateBranch);
 
 module.exports = router;
 

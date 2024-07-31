@@ -201,3 +201,20 @@ exports.getBranches = async (req, res) => {
         res.status(500).send(err);
     }
 };
+
+exports.updateBranch = async (req, res) => {
+    try {
+        const branchId = req.params.id;
+        const updatedData = req.body;
+
+        console.log('Received data for update:', updatedData); // הדפסת הנתונים שהתקבלו
+        console.log('Updating branch with ID:', branchId); // הדפסת ה-ID של הסניף
+
+        const updatedBranch = await Branch.findByIdAndUpdate(branchId, updatedData, { new: true });
+
+        res.json(updatedBranch);
+    } catch (err) {
+        console.error('Error updating branch:', err); // הדפסת השגיאה
+        res.status(500).send(err);
+    }
+};

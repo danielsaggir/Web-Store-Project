@@ -524,7 +524,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            const updateUrl = currentModel === 'users' ? `/manager/api/update-user/${currentItem.username}` : `/manager/api/update/${currentItem.MyId}`;
+            const updateUrl = currentModel === 'users'
+                ? `/manager/api/update-user/${currentItem.username}`
+                : currentModel === 'branches'
+                ? `/manager/api/update-branch/${currentItem._id}`
+                : `/manager/api/update/${currentItem.MyId}`;
             fetch(updateUrl, {
                 method: 'PUT',
                 headers: {
