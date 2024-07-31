@@ -548,19 +548,38 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    function deleteItem(itemId) {
-        const deleteUrl = currentModel === 'users' ? `/manager/api/delete-user/${itemId}` : `/manager/api/delete/${itemId}`;
+//     function deleteItem(itemId) {
+//         const deleteUrl = currentModel === 'users' ? `/manager/api/delete-user/${itemId}` : `/manager/api/delete/${itemId}`;
         
-        fetch(deleteUrl, {
-            method: 'DELETE'
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Delete successful:', data);
-            fetchData(currentModel);
-        })
-        .catch(error => console.error('Error:', error));
-    }
+//         fetch(deleteUrl, {
+//             method: 'DELETE'
+//         })
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log('Delete successful:', data);
+//             fetchData(currentModel);
+//         })
+//         .catch(error => console.error('Error:', error));
+//     }
+// });
+
+function deleteItem(itemId) {
+    const deleteUrl = currentModel === 'users'
+        ? `/manager/api/delete-user/${itemId}`
+        : currentModel === 'branches'
+        ? `/manager/api/delete-branch/${itemId}`
+        : `/manager/api/delete/${itemId}`;
+
+    fetch(deleteUrl, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Delete successful:', data);
+        fetchData(currentModel);
+    })
+    .catch(error => console.error('Error:', error));
+}
 });
 
 document.addEventListener('DOMContentLoaded', function() {

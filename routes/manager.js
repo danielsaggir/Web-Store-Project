@@ -40,6 +40,8 @@ router.get('/manager/api/orders', managerController.getOrders);
 
 router.get('/manager/api/branches', managerController.getBranches);
 router.put('/manager/api/update-branch/:id', managerController.updateBranch);
+router.delete('/manager/api/delete-branch/:id', managerController.deleteBranch);
+
 
 module.exports = router;
 

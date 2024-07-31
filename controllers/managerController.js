@@ -218,3 +218,14 @@ exports.updateBranch = async (req, res) => {
         res.status(500).send(err);
     }
 };
+
+exports.deleteBranch = async (req, res) => {
+    try {
+        const branchId = req.params.id;
+        const deletedBranch = await Branch.findByIdAndDelete(branchId);
+        res.json({ message: 'Branch deleted successfully', branch: deletedBranch });
+    } catch (err) {
+        console.error('Error deleting branch:', err);
+        res.status(500).send(err);
+    }
+};
