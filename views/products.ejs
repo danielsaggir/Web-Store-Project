@@ -24,6 +24,13 @@
             <button id="logInBtn" type="button" class="btn btn-light">
             <i class="bi bi-person-circle"></i>
             </button>
+            <div id="lineUser">
+                <% if (username) { %>
+                    Hello <%= username %>
+                <% } else { %>
+                    Hello Guest
+                <% } %>
+            </div>
             <div id="menu">
                 <a id="homePage-link" href="/">Home</a>
                 <a id="ski-products-link" href="#">Ski Products</a>
@@ -35,18 +42,13 @@
                     <a id="personal-zone-link" href="/account">My Account</a>
                 <% } %>
             </div>
-            <div id="searchItem">
-                <input type="text" id="searchBox" placeholder="Search for a product">
-                <button id="searchButton" type="button">Search</button>
-            </div>
-            <div id="lineUser">
-                <% if (username) { %>
-                    Hello <%= username %>
-                <% } else { %>
-                    Hello Guest
-                <% } %>
+            
+            <div class="search-box">
+                <button class="btn-search"><i class="bi bi-search"></i></button>
+                <input type="text" class="input-search" placeholder="product name">
             </div>
         </div>
+    </div>
         <div id="container">
             <div>
                 <div id="specific-cart">

@@ -160,8 +160,6 @@ body {
   /* background-color: #666666; Change button background color to white */
 }
 
-
-  
 /* Login button styling */
 #logInBtn {
     position: absolute;
@@ -269,6 +267,12 @@ body {
     }
 }
 
+
+
+
+
+
+
 /* Main container styling */
 #container {
     position: relative; /* Ensure it can act as a reference point for absolutely positioned children */
@@ -278,11 +282,29 @@ body {
     align-items: center;
     background-size: cover;
     background-position: center;
-    margin-top: 100px;
+    margin-top: 5%;
     flex: 1;
 }
 
-/* Card titles and margins */
+
+/* Cart card styling */
+#cartCard {
+    
+    display: none;
+    margin-top: 1%;
+    position: fixed;
+    left: 62%;
+    border-radius: 5px;
+    background-color: rgba(240, 248, 255, 0.60);
+    z-index: 1000;
+    width: 30rem;
+    position: absolute;
+    background-color: rgb(253 253 253);
+    z-index: 1000;
+    box-shadow: #ced4da;
+}
+
+/* cart Card titles and margins */
 .card-title {
     margin-bottom: 15px;
     margin-top: 20px; /* Add top margin to separate from previous element */
@@ -345,22 +367,6 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Cart card styling */
-#cartCard {
-    display: none;
-    margin-top: 0px;
-    position:fixed;
-    left:891px;
-    border-radius: 15px;
-    background-color: rgba(240, 248, 255, 0.60);
-    z-index: 1000;
-    width: 30rem;
-    position: absolute;
-    /* transform: translate(300%, 0%); */
-    border-radius: 15px;
-    background-color: rgb(253 253 253);
-    z-index: 1000;
-}
 
 /* Login card styling */
 #logInCard {
