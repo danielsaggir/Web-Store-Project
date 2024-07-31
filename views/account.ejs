@@ -51,31 +51,44 @@
         <!-- <div id="accountName">
             <h6>Hello <%= username %></h6>
         </div> -->
+        <div id="orderSearch">
+            <input type="text" id="orderSearchBox" placeholder="Search for an order by product name">
+            <button id="orderSearchButton" type="button">Search</button>
+        </div>
+        <!-- <div id="orderSearch">
+            <input type="text" id="orderSearchBox" placeholder="Search for an order by product name">
+            <button id="orderSearchButton" type="button">Search</button>
+            <ul id="searchSuggestions" style="list-style: none; padding: 0;"></ul> <!-- הצגת הצעות החיפוש -->
+        </div> -->
         <div id="container">
-            <% orders.forEach(order=> { %>
-                <% order.products.forEach(product=> { %>
-                    <div class="card text-center mx-auto">
-                        <div class="card-body">
+            <!-- loop on the orders -->
+            <% orders.forEach(order => { %>
+                <div class="card text-center mx-auto order-card">
+                    <div class="card-body">
+                        <h5 class="header orders">Order No. <%= order.orderNumber %></h5>
+                        <p class="card-text">Name User: <%= order.username %></p>
+                        <p class="card-text">Total Order: <%= order.totalPrice %> </p>
+                        <!-- loop on the products in the order -->
+                        <% order.products.forEach(product => { %>
                             <div class="order-details">
-                                <img src="/Images/Clothing/brandit-luis-vintage-short-sleeve-shirt.jpg"
-                                    class="product-image" alt="<%= product.productName %>">
+                                <img src="<%= product.productImage %>" class="product-image" alt="<%= product.productName %>">
                                 <div class="order-info">
-                                    <h5 class="header orders">Order No. <%= order.orderNumber %></h5>
                                     <p class="card-text">Name Product: <%= product.productName %> </p>
-                                    <p class="card-text">Name User: <%= order.username %></p>
-                                    <p class="card-text">Total Order: <%= order.totalPrice %> </p>
-                                    <i class="bi bi-trash">Bring Back to the store</i><br>
-                                    <i class="bi bi-pen">Update Order</i>
+                                    <p class="card-text">Size: <%= product.selectedSize %></p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <% }); %>
                         <% }); %>
+                        <button id="cartBtn" type="button" class="btn btn-light">
+                            <i class="bi bi-trash" data-order-id="<%= order._id %>" id="delete-order">Bring Back to the store</i><br>
+                        </button>
+                        <i class="bi bi-pen">Update Order</i>
+                    </div>
+                </div>
+            <% }); %>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/scripts/account.js"></script>
+    <script src="account.js"></script>
 </body>
 
 </html>
