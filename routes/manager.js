@@ -43,6 +43,10 @@ router.put('/manager/api/update-branch/:id', managerController.updateBranch);
 router.delete('/manager/api/delete-branch/:id', managerController.deleteBranch);
 router.post('/manager/api/upload/branches', managerController.uploadBranch);
 
+router.get('/manager/api/orders-per-day-july-august', managerController.getOrdersPerDayJulyAugust);
+router.get('/manager/api/orders-per-user', managerController.getOrdersPerUser);
+
+
 
 module.exports = router;
 
