@@ -7,5 +7,5 @@ const accountController = require('../controllers/accountController'); // ייב
 //     res.render('account');
 // });
 router.get('/account', accountController.account);
-
+router.delete('/delete/:id', accountController.deleteOrder);
 module.exports = router;
