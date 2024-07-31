@@ -190,9 +190,8 @@ body {
 .footer-container {
     margin-top: auto;
     padding: 20px;
-    margin: auto 0;
+    margin: 100px auto 0;
     background-color: #f1f1f1; /* Adjust as needed */
-
 }
 
 .footer-columns {

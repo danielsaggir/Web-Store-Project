@@ -96,8 +96,6 @@ exports.getProducts = async (req, res) => {
             break;
     }
 
-    console.log('Filter Criteria:', filterCriteria); // Debug statement
-
     try {
         const products = await ProductModel.find(filterCriteria).sort(sortCriteria).exec();
         res.render('products', { selectedCategory, products });
@@ -106,3 +104,4 @@ exports.getProducts = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
+
