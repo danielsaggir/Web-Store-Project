@@ -47,10 +47,19 @@ body {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 } */
 /* 
-.bi.bi-trash, .bi.bi-pen{
+.bi.bi-trash{
    margin-right:961px;
    margin-bottom:25px
 } */
+#deleteOrder{
+    position: absolute;
+    font-size: x-large;
+    margin-top: 3px;
+    padding: 4px;
+    border-radius: 15px;
+    background-color: white;
+    font-size:medium;
+}
 .card-header {
     font-size: 1.25rem; /* Adjusted font size */
     font-weight: bold;
