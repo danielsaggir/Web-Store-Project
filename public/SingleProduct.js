@@ -81,7 +81,7 @@ document.getElementById('addto').addEventListener('click', async function() {
     const category = getQueryParam('selectedCategory');
 
     // Log values to check their presence and correctness
-    console.log('Product ID:', productId);
+    //console.log('Product ID:', productId);
     console.log('Product Name:', productName);
     console.log('Product Description:', productDescription);
     console.log('Product Price:', productPrice);
@@ -139,7 +139,7 @@ document.getElementById('addto').addEventListener('click', async function() {
 
             alert('Product added to cart successfully');
         } else {
-            alert('Selected size is not available.');
+           // alert('Selected size is not available.');
         }
     })
     .catch(error => console.error('Error:', error));
@@ -158,9 +158,8 @@ document.getElementById('addto').addEventListener('click', async function() {
     }
 
     // Check if the item already exists in the cart
-    const existingItem = cartItems.find(item => item.productName === productName);
-    const existingItemsize = cartItems.find(item => item.selectedSize === selectedSize);
-    if (existingItem && existingItemsize) {
+    const existingItem = cartItems.find(item => item.productName === productName && item.selectedSize === selectedSize);
+    if (existingItem) {
         existingItem.quantity += quantity;
 
         try {
@@ -247,11 +246,16 @@ document.getElementById('checkOut').addEventListener('click', function() {
     }
 
     const orderSummary = document.getElementById('orderSummary');
+    if (!orderSummary) {
+        console.error('Order summary element not found');
+        return;
+    }
+
     orderSummary.innerHTML = '';
     cartItems.forEach(item => {
         orderSummary.innerHTML += item.outerHTML;
     });
-
+    
     const totalAmount = document.getElementById('totalAmount').textContent;
     document.getElementById('totalAmountSummary').textContent = totalAmount;
 });
