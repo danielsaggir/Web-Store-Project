@@ -524,7 +524,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            const updateUrl = currentModel === 'users' ? `/manager/api/update-user/${currentItem.username}` : `/manager/api/update/${currentItem._id}`;
+            const updateUrl = currentModel === 'users' ? `/manager/api/update-user/${currentItem.username}` : `/manager/api/update/${currentItem.MyId}`;
             fetch(updateUrl, {
                 method: 'PUT',
                 headers: {
@@ -542,6 +542,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('Error:', error));
         }
     });
+
 
     function deleteItem(itemId) {
         const deleteUrl = currentModel === 'users' ? `/manager/api/delete-user/${itemId}` : `/manager/api/delete/${itemId}`;
