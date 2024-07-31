@@ -3,6 +3,7 @@ const Clothes = require('../models/Clothes');
 const Accessories = require('../models/Accessories');
 const Users = require('../models/users');
 const Order = require('../models/orders');
+const Branch = require('../models/Branch');
 
 
 exports.getSkiProducts = async (req, res) => {
@@ -186,6 +187,17 @@ exports.getOrders = async (req, res) => {
         const orders = await Order.find();
         res.json(orders);
     } catch (err) {
+        res.status(500).send(err);
+    }
+};
+
+exports.getBranches = async (req, res) => {
+    try {
+        const branches = await Branch.find();
+        console.log('Branches found:', branches); // הודעת הדפסה
+        res.json(branches);
+    } catch (err) {
+        console.error('Error fetching branches:', err); // הודעת שגיאה
         res.status(500).send(err);
     }
 };

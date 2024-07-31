@@ -38,11 +38,8 @@ router.delete('/manager/api/delete-user/:username', managerController.deleteUser
 //get orders
 router.get('/manager/api/orders', managerController.getOrders);
 
-router.get('/branches', managerController.getBranches);
-router.post('/upload/branches', managerController.uploadBranch);
-router.put('/update-branch/:id', managerController.updateBranch);
-router.delete('/delete-branch/:id', managerController.deleteBranch);
-
+// נתיב להחזרת רשימת סניפים
+router.get('/api/branches', managerController.getBranches);
 
 module.exports = router;
 

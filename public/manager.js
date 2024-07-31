@@ -91,6 +91,59 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function fetchBranches() {
+        fetch('/manager/api/branches')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Fetched branches:', data); // Debug log
+                updateBranchesTable(data);
+            })
+            .catch(error => console.error('Error fetching branches:', error)); // Debug log
+    }
+
+    function updateBranchesTable(data) {
+        const table = document.querySelector('.table-striped');
+        if (table) {
+            table.innerHTML = '';
+
+            const header = table.createTHead();
+            const headerRow = header.insertRow();
+            const headers = ['Name', 'City', 'Phone'];
+
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+
+            const tbody = table.createTBody();
+
+            data.forEach(branch => {
+                console.log('Adding branch to table:', branch); // Debug log
+                const row = tbody.insertRow();
+
+                const cellName = row.insertCell();
+                cellName.textContent = branch.name;
+
+                const cellCity = row.insertCell();
+                cellCity.textContent = branch.city;
+
+                const cellPhone = row.insertCell();
+                cellPhone.textContent = branch.phone;
+            });
+        }
+    }
+
+    document.getElementById('branches-link1').addEventListener('click', function () {
+        currentModel = 'branches';
+        fetchBranches();
+    });
+
     document.getElementById('ski-products-link1').addEventListener('click', function () {
         currentModel = 'ski-products';
         fetchData(currentModel);
