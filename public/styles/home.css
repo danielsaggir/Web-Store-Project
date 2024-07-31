@@ -76,13 +76,12 @@ body {
     position: relative; /* Ensure it can act as a reference point for absolutely positioned children */
     display: flex;
     flex-direction: column;
-    float: left;
     justify-content: space-between;
     align-items: center;
     background-size: cover;
     background-position: center;
-    margin-left: 215px;
     margin-top: 100px;
+    flex: 1;
 }
 
 /* Login button styling */
@@ -120,8 +119,7 @@ body {
 #registerCard {
     display: none;
     position: absolute;
-    /* left: 40%; */
-    transform: translate(350%, 0%);
+    transform: translate(300%, 0%);
     border-radius: 15px;
     background-color: rgb(253 253 253);
     z-index: 1000;
@@ -185,7 +183,6 @@ body {
     z-index: 1000;
     width: 30rem;
     position: absolute;
-    /* left: 40%; */
     /* transform: translate(300%, 0%); */
     border-radius: 15px;
     background-color: rgb(253 253 253);
@@ -196,7 +193,6 @@ body {
 #logInCard {
     display: none;
     position: absolute;
-    /* left: 40%; */
     transform: translate(300%, 0%);
     border-radius: 15px;
     background-color: rgb(253 253 253);
@@ -240,11 +236,6 @@ body {
     min-height: 100vh;
 }
 
-#container {
-    flex: 1;
-    min-height: 50vh; /* Ensure container takes at least the full height of the viewport */
-}
-
 .footer-container {
     width: 100%;
     /* background: linear-gradient(to right, #f8f9fa, #e9ecef); Gradient background for a modern look */
@@ -254,6 +245,9 @@ body {
     margin: 0 auto 0; /* Space above the footer, centered horizontally */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     position: relative; /* Ensure relative positioning for possible additional effects */
+    background-color: #f1f1f1; /* Adjust as needed */
+    margin-top:120px;
+
 }
 .footer-email-signup {
     margin-bottom: 10px; /* Increased margin for more spacing */

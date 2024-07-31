@@ -47,9 +47,6 @@
             </div>
         </div>
     </div>
-
-    <div id="top"></div>
-
     <div id="container">
         <div id="cartCard" class="card text-center mb-3">
             <div class="card-body">
@@ -186,71 +183,68 @@
             </div>
         </div>
         <div id="map" ></div>
-
     </div>
-    
-    <script>
-        let username = "<%= username %>";
-        let isAdmin = "<%= isAdmin %>";
-    </script>
-<!--         
-        <div class="footer-container">
-            <div class="footer-columns">
-              <div class="footer-item first-column">
-                <h3>About</h3>
-                <ul>
-                  <li>About Us</li>
-                  <li>Careers</li>
-                  <li>Privacy</li>
-                  <li>Terms Of Use</li>
-                </ul>
-              </div>
-          
-              <div class="footer-item second-column">
-                <h3>Account</h3>
-                <ul>
-                  <li>My Account</li>
-                  <li>Check Order</li>
-                </ul>
-              </div>
-          
-              <div class="footer-item third-column">
-                <h3>Customer Service</h3>
-                <ul>
-                  <li>Help</li>
-                  <li>Shipping</li>
-                  <li>Free Online Returns</li>
-                  <li>Sitemap</li>
-                </ul>
-              </div>
-              <div class="footer-email-signup">
-                <div class="footer-email-inner">
-                  <h3>Sign up to receive email updates on special promotions and new product announcements.</h3>
-                  <form action="/on/demandware.store/Sites-RalphLauren_Global-Site/en_IL/EDialogEmailSignUp-FooterSignUp" method="post" id="email-alert-signup" class="email-subscribe" novalidate="novalidate">
-                    <input type="email" inputmode="email" autocapitalize="off" autocorrect="off" autocomplete="email" id="email-alert-address" class="input-text email required empty" placeholder="Enter Email Address" value="" name="dwfrm_emailsubscribe_email">
-                    <button type="submit" name="home-email" value="Submit" title="Submit">Submit</button>
-                  </form>
-                  <span class="EmailErrorMsg"></span>
-                  <div id="EmailSuccess" class="email-success hide">
-                    <div class="thank-msg"></div>
-                  </div>
-                </div>
-                <div class="footer-email-opt-in-text">
-                  <title>email-opt-in</title>
-                  <div class="content-asset">
-                    <p class="unsubscribe-text">You may unsubscribe at any time by clicking on the unsubscribe link in each e-mail. For more information, please read Skidis’s <a href="" class="privacy-link">Privacy Policy.</a></p>
-                  </div> 
-                  <img src="Images/HomePage/x logo.jpg" alt="X Icon" class="socialmedia-icons">
-                  <img src="Images/HomePage/facebook logo.png" alt="Facebook Icon" class="socialmedia-icons">
-                  <img src="Images/HomePage/instagram logo.png" alt="Instagram Icon" class="socialmedia-icons">
-                </div>
+
+    <div class="footer-container">
+        <div class="footer-columns">
+          <div class="footer-item first-column">
+            <h3>About</h3>
+            <ul>
+              <li>About Us</li>
+              <li>Careers</li>
+              <li>Privacy</li>
+              <li>Terms Of Use</li>
+            </ul>
+          </div>
+      
+          <div class="footer-item second-column">
+            <h3>Account</h3>
+            <ul>
+              <li>My Account</li>
+              <li>Check Order</li>
+            </ul>
+          </div>
+      
+          <div class="footer-item third-column">
+            <h3>Customer Service</h3>
+            <ul>
+              <li>Help</li>
+              <li>Shipping</li>
+              <li>Free Online Returns</li>
+              <li>Sitemap</li>
+            </ul>
+          </div>
+          <div class="footer-email-signup">
+            <div class="footer-email-inner">
+              <h3>Sign up to receive email updates on special promotions and new product announcements.</h3>
+              <form action="/on/demandware.store/Sites-RalphLauren_Global-Site/en_IL/EDialogEmailSignUp-FooterSignUp" method="post" id="email-alert-signup" class="email-subscribe" novalidate="novalidate">
+                <input type="email" inputmode="email" autocapitalize="off" autocorrect="off" autocomplete="email" id="email-alert-address" class="input-text email required empty" placeholder="Enter Email Address" value="" name="dwfrm_emailsubscribe_email">
+                <button type="submit" name="home-email" value="Submit" title="Submit">Submit</button>
+              </form>
+              <span class="EmailErrorMsg"></span>
+              <div id="EmailSuccess" class="email-success hide">
+                <div class="thank-msg"></div>
               </div>
             </div>
+            <div class="footer-email-opt-in-text">
+              <title>email-opt-in</title>
+              <div class="content-asset">
+                <p class="unsubscribe-text">You may unsubscribe at any time by clicking on the unsubscribe link in each e-mail. For more information, please read Skidis’s <a href="" class="privacy-link">Privacy Policy.</a></p>
+              </div> 
+              <img src="Images/HomePage/x logo.jpg" alt="X Icon" class="socialmedia-icons">
+              <img src="Images/HomePage/facebook logo.png" alt="Facebook Icon" class="socialmedia-icons">
+              <img src="Images/HomePage/instagram logo.png" alt="Instagram Icon" class="socialmedia-icons">
+            </div>
           </div>
-           -->
-          
-    </div>
-        
+        </div>
+      </div>
+
+
+
+        <script>
+            let username = "<%= username %>";
+            let isAdmin = "<%= isAdmin %>";
+        </script>
         <script src="home.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6RNA9mZmst46xbC-wuiIEA7xIQAjO-Pw&callback=initMap" async defer></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -259,8 +253,7 @@
 </body>
 
 </html>
-
-
+  
  <!-- <p>User Name*</p>
                   <input type="text" placeholder="User Name">
                   <p>Password*</p>
