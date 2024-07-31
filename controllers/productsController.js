@@ -8,18 +8,10 @@ exports.getProducts = async (req, res) => {
     const colorFilters = req.query.color ? req.query.color.split(',') : []; // Convert to array if multiple
     const sizeFilters = req.query.size ? req.query.size.split(',') : [];   // Convert to array if multiple
     const priceFilter = req.query.price;  // Price range filter value
-
-    console.log('Selected Category:', selectedCategory);
-    console.log('Sort Option:', sortOption);
-    console.log('Color Filters:', colorFilters);
-    console.log('Size Filters:', sizeFilters);
-    console.log('Price Filter:', priceFilter);
-    // const colorFilters = req.query.color ? req.query.color.split(',') : [];
-    // const sizeFilters = req.query.size ? req.query.size.split(',') : [];
-    // const priceFilter = req.query.price;
     const skiCategoryFilter = req.query.skiCategory ? req.query.skiCategory.split(',') : []; // Handle multiple categories
 
     let ProductModel;
+    let filterCriteria = {};
 
     switch (selectedCategory) {
         case 'Ski Products':
@@ -75,21 +67,7 @@ exports.getProducts = async (req, res) => {
             return res.status(400).send('Invalid category');
     }
 
-    let filterCriteria = {};
-
-    // Apply color filter if selected
-    if (colorFilters.length > 0) {
-        filterCriteria.color = { $in: colorFilters };
-    }
-
-      // Apply size filter if selected
-      if (sizeFilters.length > 0) {
-        // Convert sizeFilters to capitalize the first letter (assuming it's consistent in your database)
-        const capitalizedSizeFilters = sizeFilters.map(size => size.charAt(0).toUpperCase() + size.slice(1).toLowerCase());
-        
-        filterCriteria.size = { $in: capitalizedSizeFilters };
-    }
-
+    //Apply price filter if selected (All categories)
     if (priceFilter) {
         switch (priceFilter) {
             case 'under300':
@@ -101,14 +79,10 @@ exports.getProducts = async (req, res) => {
             case '800andabove':
                 filterCriteria.price = { $gte: 800 };
                 break;
-            default:
-                console.error('Unexpected price filter:', priceFilter);
-                break;
         }
     }
-    
-    
-    
+
+    //Apply sorting criteria
     let sortCriteria = {};
     switch (sortOption) {
         case 'price_asc':
@@ -121,9 +95,7 @@ exports.getProducts = async (req, res) => {
             sortCriteria = {}; // Default sort is none
             break;
     }
-
-    console.log('Filter Criteria:', filterCriteria); // Debug statement
-
+    
     try {
         const products = await ProductModel.find(filterCriteria).sort(sortCriteria).exec();
         res.render('products', { selectedCategory, products });
