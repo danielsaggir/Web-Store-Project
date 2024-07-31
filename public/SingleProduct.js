@@ -70,7 +70,7 @@ document.getElementById('addto').addEventListener('click', async function() {
         return;
     }
 
-    // const productId = getQueryParam('MyId');
+    const productId = getQueryParam('MyId');
     const productName = document.getElementById('name')?.textContent.trim();
     const productDescription = document.getElementById('info')?.textContent.trim();
     const productPrice = parseFloat(document.getElementById('price')?.textContent.replace(' ₪', ''));
@@ -81,7 +81,7 @@ document.getElementById('addto').addEventListener('click', async function() {
     const category = getQueryParam('selectedCategory');
 
     // Log values to check their presence and correctness
-    //console.log('Product ID:', productId);
+    console.log('Product ID:', productId);
     console.log('Product Name:', productName);
     console.log('Product Description:', productDescription);
     console.log('Product Price:', productPrice);
@@ -95,54 +95,6 @@ document.getElementById('addto').addEventListener('click', async function() {
         return;
     }
 
-    // Extract MyId and selectedCategory from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('MyId');
-    const selectedCategory = urlParams.get('selectedCategory');
-    console.log('productId:', productId);
-    console.log('selectedCategory:', selectedCategory);
-
-    fetch('/check-size', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ productId, selectedSize, selectedCategory })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.available) {
-            const totalPrice = (productPrice * quantity).toFixed(2);
-
-            const cartItemHTML = `
-                <div class="order-details" data-product-id="${productId}" data-selected-category="${selectedCategory}">
-                    <img src="${productImage}" class="product-image">
-                    <div class="order-info">
-                        <p class="card-text">Name Product: ${productName}</p>
-                        <p class="card-text">Description: ${productDescription}</p>
-                        <p class="card-text">Size: ${selectedSize}</p>
-                        <p class="card-text">Quantity: ${quantity}</p>
-                        <p class="card-text">Price Order: ${productPrice} ₪</p>
-                        <p class="card-text">Total Price: ${totalPrice} ₪</p>
-                    </div>
-                </div>
-            `;
-
-            // Add the product to the cart
-            const cart = document.getElementById('cartItems');
-            cart.innerHTML += cartItemHTML;
-
-            // Update the total amount in the cart
-            const currentTotal = parseFloat(document.getElementById('totalAmount').textContent.replace('Total: ', '').replace(' ₪', '')) || 0;
-            const newTotal = (currentTotal + parseFloat(totalPrice)).toFixed(2);
-            document.getElementById('totalAmount').textContent = `Total: ${newTotal} ₪`;
-
-            alert('Product added to cart successfully');
-        } else {
-           // alert('Selected size is not available.');
-        }
-    })
-    .catch(error => console.error('Error:', error));
     if (!productId || !productName || !productPrice || !productImage || isNaN(quantity)) {
         alert('Failed to retrieve product details.');
         return;
@@ -235,71 +187,6 @@ document.getElementById('addto').addEventListener('click', async function() {
     } catch (error) {
         alert(error.message);
     }
-});
-
-// Handle checkout
-document.getElementById('checkOut').addEventListener('click', function() {
-    const cartItems = document.querySelectorAll('.order-details');
-    if (cartItems.length === 0) {
-        alert('Your cart is empty');
-        return;
-    }
-
-    const orderSummary = document.getElementById('orderSummary');
-    if (!orderSummary) {
-        console.error('Order summary element not found');
-        return;
-    }
-
-    orderSummary.innerHTML = '';
-    cartItems.forEach(item => {
-        orderSummary.innerHTML += item.outerHTML;
-    });
-    
-    const totalAmount = document.getElementById('totalAmount').textContent;
-    document.getElementById('totalAmountSummary').textContent = totalAmount;
-});
-
-document.getElementById('checkoutForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const fullName = document.getElementById('fullName').value;
-    const address = document.getElementById('address').value;
-    const phone = document.getElementById('phone').value;
-    const email = document.getElementById('email').value;
-    const cartItems = document.querySelectorAll('.order-details');
-
-    const items = [];
-    cartItems.forEach(item => {
-        const productId = item.getAttribute('data-product-id');
-        const selectedCategory = item.getAttribute('data-selected-category');
-        const quantity = parseInt(item.querySelector('.order-info .card-text:nth-child(4)').textContent.split(': ')[1]);
-        items.push({ productId, quantity, selectedCategory });
-    });
-
-    const checkoutData = { fullName, address, phone, email, items };
-    console.log('Checkout data:', checkoutData);
-
-    fetch('/checkout', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(checkoutData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Checkout successful');
-            document.getElementById('cartItems').innerHTML = '';
-            document.getElementById('totalAmount').textContent = 'Total: 0 ₪';
-            const checkoutModal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
-            checkoutModal.hide();
-        } else {
-            alert(`Checkout failed: ${data.error}`);
-        }
-    })
-    .catch(error => console.error('Error:', error));
 });
 
 
