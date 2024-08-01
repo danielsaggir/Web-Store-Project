@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,147 +20,155 @@
             <p id="title"> SkiDis </p>
             <button id="cartBtn" type="button" class="btn btn-light">
                 <i class="bi bi-cart"></i>
-            </button>  
+            </button>
             <button id="logInBtn" type="button" class="btn btn-light">
-            <i class="bi bi-person-circle"></i>
+                <i class="bi bi-person-circle"></i>
             </button>
             <div id="lineUser">
                 <% if (username) { %>
                     Hello <%= username %>
-                <% } else { %>
-                    Hello Guest
-                <% } %>
+                        <% } else { %>
+                            Hello Guest
+                            <% } %>
             </div>
             <div id="menu">
                 <a id="homePage-link" href="/">Home</a>
                 <a id="ski-products-link" href="#">Ski Products</a>
                 <a id="clothes-link" href="#">Clothes</a>
                 <a id="accessories-link" href="#">Accessories</a>
-                <% if (isAdmin === true) { %>
+                <% if (isAdmin===true) { %>
                     <a id="manager-link" href="/manager">Manager Entry</a>
-                <% } else { %>
-                    <a id="personal-zone-link" href="/account">My Account</a>
-                <% } %>
+                    <% } else { %>
+                        <a id="personal-zone-link" href="/account">My Account</a>
+                        <% } %>
             </div>
-            
+
             <div class="search-box">
                 <button class="btn-search"><i class="bi bi-search"></i></button>
                 <input type="text" class="input-search" placeholder="product name">
             </div>
         </div>
     </div>
-        <div id="container">
-            <div>
-                <div id="specific-cart">
-                    <div id="cartCard" class="card text-center mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">YOUR SHOPPING CART</h5>
-                            <ul id="cartItems"></ul>
-                            <p id="emptyCartMessage">Your cart is empty.</p>
-                            <p id="totalAmount">Total: 0 ₪</p>
-                        </div>
-                        <button type="button" id="checkOut" class="btn btn-secondary btn-lg">Check Out</button>
-                    </div>
-                </div>
-                <div id="logInCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+    <div id="container">
+        <div>
+            <div id="specific-cart">
+                <div id="cartCard" class="card text-center mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">LOGIN</h5>
-                        <form id="loginForm" action="/login" method="POST">
-                            <div class="mb-3">
-                                <label for="username" class="form-label">User Name</label>
-                                <input type="text" class="form-control" id="username" name="username" placeholder="User Name" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Login</button>
-                        </form>
-                        <div id="loginError" style="color: red; display: none;"></div>
-                        <button id="showRegisterForm" class="btn btn-secondary">Register</button>
+                        <h5 class="card-title">YOUR SHOPPING CART</h5>
+                        <ul id="cartItems"></ul>
+                        <p id="emptyCartMessage">Your cart is empty.</p>
+                        <p id="totalAmount">Total: 0 ₪</p>
                     </div>
+                    <button type="button" id="checkOut" class="btn btn-secondary btn-lg">Check Out</button>
                 </div>
             </div>
-    
-            <div id="registerCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+            <div id="logInCard" class="card text-center mb-3" style="width: 18rem; display: none;">
                 <div class="card-body">
-                    <h5 class="card-title">REGISTER</h5>
-                    <form id="registerForm" action="/register" method="POST">
+                    <h5 class="card-title">LOGIN</h5>
+                    <form id="loginForm" action="/login" method="POST">
                         <div class="mb-3">
-                            <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
+                            <label for="username" class="form-label">User Name</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="User Name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Password" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="registerUsername" class="form-label">User Name</label>
-                            <input type="text" class="form-control" id="registerUsername" name="username" placeholder="User Name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="registerPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Register</button>
+                        <button type="submit" class="btn btn-primary">Login</button>
                     </form>
-                    <div id="registerError" class="alert alert-danger" style="display: none;"></div>
-                    <button id="backToLogin" class="btn btn-primary">Back to Login</button>
+                    <div id="loginError" style="color: red; display: none;"></div>
+                    <button id="showRegisterForm" class="btn btn-secondary">Register</button>
                 </div>
             </div>
-    
-            <% if (username && username !== 'Guest') { %>
-                <div id="logoutCard" class="card text-center mb-3" style="width: 18rem; display: none;">
-                    <div class="card-body">
-                        <h5 class="card-title">See You Soon :)</h5>
-                        <form id="logoutForm" action="/logout" method="GET">
-                            <button type="submit" class="btn btn-primary">Log Out</button>
-                        </form>
-                        <h5 class="card-title">Already leaving? :(</h5>
-                        <form id="deleteForm" action="/deleteUser" method="GET">
-                            <input type="hidden" name="username" value="<%= username %>">
-                            <button type="submit" class="btn btn-primary">Delete User</button>
-                        </form>
-                        <h5 class="card-title">Identity crisis?</h5>
-                        <button id="showChangePassForm" class="btn btn-primary">Change Password</button>
-                        <button id="showChangeUserNameForm" class="btn btn-primary">Change User Name</button>
-                    </div>
-                </div>
-    
-                <div id="changePassCard" class="card text-center mb-3" style="width: 18rem; display: none;">
-                    <div class="card-body">
-                        <h5 class="card-title">Change Password</h5>
-                        <div id="changePassError" class="alert alert-danger" style="display: none;"></div>
-                        <form id="changePassForm" action="/changePass" method="POST">
-                            <input type="hidden" name="username" value="<%= username %>">
-                            <div class="mb-3">
-                                <label for="newPassword" class="form-label">New Password</label>
-                                <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="New Password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Change Password</button>
-                        </form>
-                        <button id="backToLogoutFromPass" class="btn btn-primary">Back</button>
-                    </div>
-                </div>
-    
-                <div id="changeUserNameCard" class="card text-center mb-3" style="width: 18rem; display: none;">
-                    <div class="card-body">
-                        <h5 class="card-title">Change User Name</h5>
-                        <div id="changeUserNameError" class="alert alert-danger" style="display: none;"></div>
-                        <form id="changeUserNameForm" action="/changeUserName" method="POST">
-                            <input type="hidden" name="username" value="<%= username %>">
-                            <div class="mb-3">
-                                <label for="newUserName" class="form-label">New User Name</label>
-                                <input type="text" class="form-control" id="newUserName" name="newUserName" placeholder="New User Name" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Change User Name</button>
-                        </form>
-                        <button id="backToLogoutFromUser" class="btn btn-primary">Back</button>
-                    </div>
-                </div>
-            <% } %>
         </div>
-    
+
+        <div id="registerCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+            <div class="card-body">
+                <h5 class="card-title">REGISTER</h5>
+                <form id="registerForm" action="/register" method="POST">
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerUsername" class="form-label">User Name</label>
+                        <input type="text" class="form-control" id="registerUsername" name="username"
+                            placeholder="User Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="registerPassword" name="password"
+                            placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+                <div id="registerError" class="alert alert-danger" style="display: none;"></div>
+                <button id="backToLogin" class="btn btn-primary">Back to Login</button>
+            </div>
+        </div>
+
+        <% if (username && username !=='Guest' ) { %>
+            <div id="logoutCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title">See You Soon :)</h5>
+                    <form id="logoutForm" action="/logout" method="GET">
+                        <button type="submit" class="btn btn-primary">Log Out</button>
+                    </form>
+                    <h5 class="card-title">Already leaving? :(</h5>
+                    <form id="deleteForm" action="/deleteUser" method="GET">
+                        <input type="hidden" name="username" value="<%= username %>">
+                        <button type="submit" class="btn btn-primary">Delete User</button>
+                    </form>
+                    <h5 class="card-title">Identity crisis?</h5>
+                    <button id="showChangePassForm" class="btn btn-primary">Change Password</button>
+                    <button id="showChangeUserNameForm" class="btn btn-primary">Change User Name</button>
+                </div>
+            </div>
+
+            <div id="changePassCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title">Change Password</h5>
+                    <div id="changePassError" class="alert alert-danger" style="display: none;"></div>
+                    <form id="changePassForm" action="/changePass" method="POST">
+                        <input type="hidden" name="username" value="<%= username %>">
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" name="newPassword"
+                                placeholder="New Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Change Password</button>
+                    </form>
+                    <button id="backToLogoutFromPass" class="btn btn-primary">Back</button>
+                </div>
+            </div>
+
+            <div id="changeUserNameCard" class="card text-center mb-3" style="width: 18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title">Change User Name</h5>
+                    <div id="changeUserNameError" class="alert alert-danger" style="display: none;"></div>
+                    <form id="changeUserNameForm" action="/changeUserName" method="POST">
+                        <input type="hidden" name="username" value="<%= username %>">
+                        <div class="mb-3">
+                            <label for="newUserName" class="form-label">New User Name</label>
+                            <input type="text" class="form-control" id="newUserName" name="newUserName"
+                                placeholder="New User Name" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Change User Name</button>
+                    </form>
+                    <button id="backToLogoutFromUser" class="btn btn-primary">Back</button>
+                </div>
+            </div>
+            <% } %>
+    </div>
+
     </div>
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -176,146 +182,148 @@
     </div>
 
     <div class="container_main">
-        <div id="cards" >
-            <% products.forEach(product => { %>
-            <div class="card" style="width: 18rem; margin: 10px;">
-                <a href="#" class="product-link" data-id="<%= product.MyId %>" data-category="<%= selectedCategory %>">
-                    <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.name %>">
-                    <div class="card-body">
-                        <p class="card-text1"><%= product.name %></p>
-                        <p class="card-text2"> <%= product.price %>₪</p>
-                    </div>
-                </a>
-            </div>
-            <% }) %>
+        <div id="cards">
+            <% products.forEach(product=> { %>
+                <div class="card" style="width: 18rem; margin: 10px;">
+                    <a href="#" class="product-link" data-id="<%= product.MyId %>"
+                        data-category="<%= selectedCategory %>">
+                        <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.name %>">
+                        <div class="card-body">
+                            <p class="card-text1">
+                                <%= product.name %>
+                            </p>
+                            <p class="card-text2">
+                                <%= product.price %>₪
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <% }) %>
         </div>
 
         <div class="filter-box">
             <h1 id="header_main">Filter By</h1>
-        
-            <% if (selectedCategory === 'Clothes' || selectedCategory === 'Accessories') { %>
-            <div class="filter-section">
-                <h4 id="header">Color</h4>
-                <ul class="filter-options">
-                    <li><label><input type="checkbox" name="color" value="Red"> Red</label></li>
-                    <li><label><input type="checkbox" name="color" value="Blue"> Blue</label></li>
-                    <li><label><input type="checkbox" name="color" value="Green"> Green</label></li>
-                    <li><label><input type="checkbox" name="color" value="Yellow"> Yellow</label></li>
-                    <li><label><input type="checkbox" name="color" value="Black"> Black</label></li>
-                    <li><label><input type="checkbox" name="color" value="White"> White</label></li>
-                </ul>
-            </div>
-        
-            <div class="filter-section">
-                <h4 id="header">Size</h4>
-                <ul class="filter-options">
-                    <li><label><input type="checkbox" name="size" value="small"> Small</label></li>
-                    <li><label><input type="checkbox" name="size" value="medium"> Medium</label></li>
-                    <li><label><input type="checkbox" name="size" value="large"> Large</label></li>
-                </ul>
-            </div>
 
-            <div class="filter-section">
-                <h4 id="header">Price</h4>
-                <select name="price" id="price-filter">
-                    <option value="allprices">All Prices</option>
-                    <option value="under300">Under 300</option>
-                    <option value="300to800">300 - 800</option>
-                    <option value="800andabove">800 +</option>
-                </select>
-            </div>
-            <% } %>
-        
-            <% if (selectedCategory === 'Ski Products') { %>
-            <div class="filter-section">
-                <h4 id="header">Color</h4>
-                <ul class="filter-options">
-                    <li><label><input type="checkbox" name="color" value="Red"> Red</label></li>
-                    <li><label><input type="checkbox" name="color" value="Blue"> Blue</label></li>
-                    <li><label><input type="checkbox" name="color" value="Green"> Green</label></li>
-                    <li><label><input type="checkbox" name="color" value="Yellow"> Yellow</label></li>
-                    <li><label><input type="checkbox" name="color" value="Black"> Black</label></li>
-                    <li><label><input type="checkbox" name="color" value="White"> White</label></li>
-                </ul>
-            </div>
+            <% if (selectedCategory==='Clothes' || selectedCategory==='Accessories' ) { %>
+                <div class="filter-section">
+                    <h4 id="header">Color</h4>
+                    <ul class="filter-options">
+                        <li><label><input type="checkbox" name="color" value="Red"> Red</label></li>
+                        <li><label><input type="checkbox" name="color" value="Blue"> Blue</label></li>
+                        <li><label><input type="checkbox" name="color" value="Green"> Green</label></li>
+                        <li><label><input type="checkbox" name="color" value="Yellow"> Yellow</label></li>
+                        <li><label><input type="checkbox" name="color" value="Black"> Black</label></li>
+                        <li><label><input type="checkbox" name="color" value="White"> White</label></li>
+                    </ul>
+                </div>
 
-            <div class="filter-section">
-                <h4 id="header">Category</h4>
-                <ul class="filter-options">
-                    <li><label><input type="checkbox" name="skiCategory" value="Poles"> Poles</label></li>
-                    <li><label><input type="checkbox" name="skiCategory" value="Snowboards"> Snowboards</label></li>
-                    <li><label><input type="checkbox" name="skiCategory" value="Boots"> Boots</label></li>
-                </ul>
-            </div>
-            
+                <div class="filter-section">
+                    <h4 id="header">Size</h4>
+                    <ul class="filter-options">
+                        <li><label><input type="checkbox" name="size" value="small"> Small</label></li>
+                        <li><label><input type="checkbox" name="size" value="medium"> Medium</label></li>
+                        <li><label><input type="checkbox" name="size" value="large"> Large</label></li>
+                    </ul>
+                </div>
 
-            <div class="filter-section">
-                <h4 id="header">Price</h4>
-                <select name="price" id="price-filter">
-                    <option value="allprices">All Prices</option>
-                    <option value="under300">Under 300</option>
-                    <option value="300to800">300 - 800</option>
-                    <option value="800andabove">800 +</option>
-                </select>
-            </div>
-            <% } %>
+                <div class="filter-section">
+                    <h4 id="header">Price</h4>
+                    <select name="price" id="price-filter">
+                        <option value="allprices">All Prices</option>
+                        <option value="under300">Under 300</option>
+                        <option value="300to800">300 - 800</option>
+                        <option value="800andabove">800 +</option>
+                    </select>
+                </div>
+                <% } %>
+
+                    <% if (selectedCategory==='Ski Products' ) { %>
+                        <div class="filter-section">
+                            <h4 id="header">Color</h4>
+                            <ul class="filter-options">
+                                <li><label><input type="checkbox" name="color" value="Red"> Red</label></li>
+                                <li><label><input type="checkbox" name="color" value="Blue"> Blue</label></li>
+                                <li><label><input type="checkbox" name="color" value="Green"> Green</label></li>
+                                <li><label><input type="checkbox" name="color" value="Yellow"> Yellow</label></li>
+                                <li><label><input type="checkbox" name="color" value="Black"> Black</label></li>
+                                <li><label><input type="checkbox" name="color" value="White"> White</label></li>
+                            </ul>
+                        </div>
+
+                        <div class="filter-section">
+                            <h4 id="header">Category</h4>
+                            <ul class="filter-options">
+                                <li><label><input type="checkbox" name="skiCategory" value="Poles"> Poles</label></li>
+                                <li><label><input type="checkbox" name="skiCategory" value="Snowboards">
+                                        Snowboards</label></li>
+                                <li><label><input type="checkbox" name="skiCategory" value="Boots"> Boots</label></li>
+                            </ul>
+                        </div>
+
+
+                        <div class="filter-section">
+                            <h4 id="header">Price</h4>
+                            <select name="price" id="price-filter">
+                                <option value="allprices">All Prices</option>
+                                <option value="under300">Under 300</option>
+                                <option value="300to800">300 - 800</option>
+                                <option value="800andabove">800 +</option>
+                            </select>
+                        </div>
+                        <% } %>
         </div>
-   </div>
-    <div class="footer-container">
+    </div>
+    <footer class="footer-container">
         <div class="footer-columns">
-          <div class="footer-item first-column">
-            <h3>About</h3>
-            <ul>
-              <li>About Us</li>
-              <li>Careers</li>
-              <li>Privacy</li>
-              <li>Terms Of Use</li>
-            </ul>
-          </div>
-      
-          <div class="footer-item second-column">
-            <h3>Account</h3>
-            <ul>
-              <li>My Account</li>
-              <li>Check Order</li>
-            </ul>
-          </div>
-      
-          <div class="footer-item third-column">
-            <h3>Customer Service</h3>
-            <ul>
-              <li>Help</li>
-              <li>Shipping</li>
-              <li>Free Online Returns</li>
-              <li>Sitemap</li>
-            </ul>
-          </div>
-          <div class="footer-email-signup">
-            <div class="footer-email-inner">
-              <h3>Sign up to receive email updates on special promotions and new product announcements.</h3>
-              <form action="/on/demandware.store/Sites-RalphLauren_Global-Site/en_IL/EDialogEmailSignUp-FooterSignUp" method="post" id="email-alert-signup" class="email-subscribe" novalidate="novalidate">
-                <input type="email" inputmode="email" autocapitalize="off" autocorrect="off" autocomplete="email" id="email-alert-address" class="input-text email required empty" placeholder="Enter Email Address" value="" name="dwfrm_emailsubscribe_email">
-                <button type="submit" name="home-email" value="Submit" title="Submit">Submit</button>
-              </form>
-              <span class="EmailErrorMsg"></span>
-              <div id="EmailSuccess" class="email-success hide">
-                <div class="thank-msg"></div>
-              </div>
-            </div>
-            <div class="footer-email-opt-in-text">
-              <title>email-opt-in</title>
-              <div class="content-asset">
-                <p class="unsubscribe-text">You may unsubscribe at any time by clicking on the unsubscribe link in each e-mail. For more information, please read Skidis’s <a href="" class="privacy-link">Privacy Policy.</a></p>
-              </div> 
-              <img src="Images/HomePage/x logo.jpg" alt="X Icon" class="socialmedia-icons">
-              <img src="Images/HomePage/facebook logo.png" alt="Facebook Icon" class="socialmedia-icons">
-              <img src="Images/HomePage/instagram logo.png" alt="Instagram Icon" class="socialmedia-icons">
-            </div>
-          </div>
+            <aside class="footer-item first-column">
+                <h3>About</h3>
+                <p>At SkiDis, we offer premium ski equipment and accessories from globally recognized brands.
+                    Our selection includes everything necessary for your skiing adventures, from skis and snowboards to
+                    boots and apparel.
+                    Committed to excellence, SkiDis ensures an outstanding shopping experience with high-quality
+                    products and
+                    personalized customer service, bringing you the finest in ski gear and winter fashion.</p>
+            </aside>
+            <aside class="footer-item third-column">
+                <h3>Contact with us</h3>
+                <div class="contact-box">
+                    <p>+972 50 950 6713 :)</p>
+                </div>
+            </aside>
+            <aside class="footer-email-signup">
+                <div class="footer-email-inner">
+                    <h3>Sign up to receive email updates on special promotions and new product announcements.</h3>
+                    <form id="email-alert-signup" class="email-subscribe" novalidate="novalidate">
+                        <input type="email" inputmode="email" autocapitalize="off" autocorrect="off"
+                            autocomplete="email" id="email-alert-address" class="input-text email required empty"
+                            placeholder="Enter Email Address" value="" name="dwfrm_emailsubscribe_email">
+                        <button type="submit" name="home-email" value="Submit" title="Submit">Submit</button>
+                    </form>
+                    <span class="EmailErrorMsg"></span>
+                    <div id="EmailSuccess" class="email-success hide">
+                        <div class="thank-msg"></div>
+                    </div>
+                </div>
+                <div class="footer-email-opt-in-text">
+                    <title>email-opt-in</title>
+                    <div class="content-asset">
+                        <p class="unsubscribe-text">You may unsubscribe at any time by clicking on the unsubscribe link
+                            in each e-mail. For more information, please read Skidis’s <a href=""
+                                class="privacy-link">Privacy Policy.</a></p>
+                    </div>
+                    <a href="https://www.instagram.com/skidis_official?igsh=ejZtdTJ1b2p3Z2Zp" target="_blank">
+                        <img src="Images/HomePage/instagram logo.png" alt="Instagram Icon" class="socialmedia-icons">
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61563688074222" target="_blank">
+                        <img src="Images/HomePage/facebook logo.png" alt="Facebook Icon" class="socialmedia-icons">
+                    </a>
+                </div>
+            </aside>
         </div>
-      </div>
+    </footer>
 
-      <script>
+
+    <script>
         let username = "<%= username %>";
         let isAdmin = "<%= isAdmin %>";
     </script>

@@ -642,3 +642,8 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     margin: 5px 0;
     text-align: left; /* Ensure text is aligned to the left*/
 }
+
+.contact-box{
+    color: #495057;
+    font-size:16px;
+}
