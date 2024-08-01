@@ -479,5 +479,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 });
+// Add event listener to switch back to login form from register form
+const backToLoginFromRegister = document.getElementById('backToLogin');
+if (backToLoginFromRegister) {
+  backToLoginFromRegister.addEventListener('click', function() {
+      let registerForm = document.getElementById('registerCard');
+      let loginForm = document.getElementById('logInCard');
+      
+      registerForm.style.display = 'none';
+      loginForm.style.display = 'block';
+  });
+}
+
   
 

@@ -14,13 +14,7 @@
     <div id="content">
         <div id="topDiv">
             <div id="topLine">
-                <p id="title"> SkiDis </p>
-                <button id="cartBtn" type="button" class="btn btn-light">
-                    <i class="bi bi-cart"></i>
-                </button>  
-                <button id="logInBtn" type="button" class="btn btn-light">
-                    <i class="bi bi-person-circle"></i>
-                </button>
+                <p id="title"> SkiDis </p> 
                 <div id="lineUser">
                     <% if (username) { %>
                         Hello <%= username %>
@@ -39,15 +33,6 @@
                             <a href="#" class="btn btn-primary">login</a>
                         </div>
                     </div>
-                </div>
-                <div>
-                    <div id="cartCard" class="card text-center mb-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">YOUR SHOPPING CART</h5>
-                            <ul id="cartItems"></ul>
-                            <p id="emptyCartMessage">Your cart is empty.</p>
-                        </div>
-                    </div>        
                 </div>
                 <div id="menu">
                     <a id="homePage-link" href="/">Home</a>

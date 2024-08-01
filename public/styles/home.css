@@ -105,7 +105,7 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     width: fit-content;
     height: fit-content;
     position: relative;
-    left: 20%;
+    left: 22%;
   }
   
   .input-search {
@@ -320,15 +320,14 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
 
 /* Cart card styling */
 #cartCard {
-    
     display: none;
-    margin-top: 3%;
-    left: 62%;
+    margin-top: 5%;
+    left: 61%;
     border-radius: 5px;
     width: 28rem;
-    position: absolute;
+    position: absolute!important;
     background-color: rgb(253 253 253);
-    z-index: 1000;
+    z-index: 2;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -443,7 +442,7 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
 /* Common card styling */
 #logoutCard, #changePassCard, #changeUserNameCard {
     display: none;
-    margin-top: 4%;
+    margin-top: 1%;
     left: 75%;
     border-radius: 5px;
     width: 28rem;
