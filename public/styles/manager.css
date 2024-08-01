@@ -72,11 +72,12 @@ body {
 
 }
 #statisticsCards{
-    border-radius: 30px;
+    border-radius: 40px;
     width: 250px;
     height: fit-content;
     margin-bottom: 30px;
     transition: box-shadow 0.3s ease;
+    background-color: rgb(218 235 244 / 80%);;
 }
 #statisticsCards:hover {
     box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
