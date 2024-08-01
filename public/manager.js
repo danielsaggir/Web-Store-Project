@@ -464,14 +464,14 @@ document.addEventListener('DOMContentLoaded', function () {
         let fields;
         if (model === 'branches') {
             fields = [
-                { label: 'Name', id: 'uploadName', type: 'text' },
+                { label: 'Name', id: 'uploadName', type: 'text', value: '' },
                 { label: 'City', id: 'uploadCity', type: 'text' },
                 { label: 'Phone', id: 'uploadPhone', type: 'text' }
             ];
         } else {
             fields = [
                 { label: 'ID', id: 'uploadMyId', type: 'number' },
-                { label: 'Name', id: 'uploadName', type: 'text' },
+                { label: 'Name', id: 'uploadName', type: 'text', value: ''},
                 { label: 'Price', id: 'uploadPrice', type: 'number' },
                 { label: 'Description', id: 'uploadDescription', type: 'textarea' },
                 { label: 'Category', id: 'uploadCategory', type: 'select', options: categoryOptions[model] },
