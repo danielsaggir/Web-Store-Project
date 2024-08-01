@@ -21,19 +21,19 @@ router.put('/manager/api/update/:id', managerController.updateProduct);
 //delete product
 router.delete('/manager/api/delete/:id', managerController.deleteProduct);
 
-//upload product
+//add product
 router.post('/manager/api/upload-product/:model', managerController.uploadProduct);
 
 //search product
 router.get('/manager/api/search', managerController.searchProduct);
 
-// חיפוש משתמש לפי username
+// search by username
 router.get('/manager/api/search-user', managerController.searchUser);
 
-// עדכון משתמש
+// update user
 router.put('/manager/api/update-user/:username', managerController.updateUser);
 
-// מחיקת משתמש
+// delete user
 router.delete('/manager/api/delete-user/:username', managerController.deleteUser);
 
 //get orders
