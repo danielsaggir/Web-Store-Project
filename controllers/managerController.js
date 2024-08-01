@@ -5,6 +5,22 @@ const Users = require('../models/users');
 const Order = require('../models/orders');
 const Branch = require('../models/Branch');
 
+exports.getManagerPage = async (req, res) => {
+    try {
+        const numberOfClients = await Users.countDocuments();
+        const numberOfBranches = await Branch.countDocuments();
+
+        res.render('manager', {
+            username: req.session.username,
+            numberOfClients,
+            numberOfBranches
+        });
+    } catch (err) {
+        console.error('Error fetching manager page data:', err);
+        res.status(500).send(err);
+    }
+};
+
 exports.getOrdersPerDayJulyAugust = async (req, res) => {
     try {
         const startDate = new Date('2024-07-30T00:00:00.000Z');
