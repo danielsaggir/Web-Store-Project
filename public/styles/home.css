@@ -452,7 +452,7 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#logoutbtn, #showChangePassForm, #deleteUserBtn, #showChangeUserNameForm, #ChangePasswordBtn, #backToLogoutFromPass, #ChangeUserNameBtn ,#backToLogoutFromUser
+#logoutbtn, #showChangePassForm, #deleteUserBtn, #showChangeUserNameForm, #ChangePasswordBtn, #backToLogoutFromPass, #ChangeUserNameBtn ,#backToLogoutFromUser, #btn-btn-primary
 {
     width: 220px;
     font-weight: 200;
