@@ -182,38 +182,38 @@ exports.uploadProduct = async (req, res) => {
     }
 };
 
-exports.searchProduct = async (req, res) => {
-    try {
-        const { model, query } = req.query;
-        console.log(`Search query: ${query}, Model: ${model}`); // הודעת הדפסה לבדיקה
+// exports.searchProduct = async (req, res) => {
+//     try {
+//         const { model, query } = req.query;
+//         console.log(`Search query: ${query}, Model: ${model}`); // הודעת הדפסה לבדיקה
 
-        let ProductModel;
+//         let ProductModel;
 
-        switch (model) {
-            case 'ski-products':
-                ProductModel = SkiProducts;
-                break;
-            case 'clothes':
-                ProductModel = Clothes;
-                break;
-            case 'accessories':
-                ProductModel = Accessories;
-                break;
-            default:
-                return res.status(400).send({ error: 'Invalid model type' });
-        }
+//         switch (model) {
+//             case 'ski-products':
+//                 ProductModel = SkiProducts;
+//                 break;
+//             case 'clothes':
+//                 ProductModel = Clothes;
+//                 break;
+//             case 'accessories':
+//                 ProductModel = Accessories;
+//                 break;
+//             default:
+//                 return res.status(400).send({ error: 'Invalid model type' });
+//         }
 
-        const searchItem = { $or: [{ name: new RegExp(query, 'i') }, { MyId: parseInt(query) }] };
-        const products = await ProductModel.find(searchItem);
+//         const searchItem = { $or: [{ name: new RegExp(query, 'i') }, { MyId: parseInt(query) }] };
+//         const products = await ProductModel.find(searchItem);
 
-        console.log('Found products:', products); // הודעת הדפסה לבדיקה
+//         console.log('Found products:', products); // הודעת הדפסה לבדיקה
 
-        res.json(products);
-    } catch (err) {
-        console.error('Error searching products:', err); // הודעת הדפסה במקרה של שגיאה
-        res.status(500).send(err);
-    }
-};
+//         res.json(products);
+//     } catch (err) {
+//         console.error('Error searching products:', err); // הודעת הדפסה במקרה של שגיאה
+//         res.status(500).send(err);
+//     }
+// };
 
 exports.updateUser = async (req, res) => {
     try {
@@ -241,22 +241,22 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
-exports.searchUser = async (req, res) => {
-    try {
-        const query = req.query.query;
-        console.log(`Search query: ${query}`); // הודעת הדפסה לבדיקה
+// exports.searchUser = async (req, res) => {
+//     try {
+//         const query = req.query.query;
+//         console.log(`Search query: ${query}`); // הודעת הדפסה לבדיקה
 
-        const searchItem = { $or: [{ username: new RegExp(query, 'i') }, { firstName: new RegExp(query, 'i') }, { lastName: new RegExp(query, 'i') }] };
-        const users = await Users.find(searchItem);
+//         const searchItem = { $or: [{ username: new RegExp(query, 'i') }, { firstName: new RegExp(query, 'i') }, { lastName: new RegExp(query, 'i') }] };
+//         const users = await Users.find(searchItem);
 
-        console.log('Found users:', users); // הודעת הדפסה לבדיקה
+//         console.log('Found users:', users); // הודעת הדפסה לבדיקה
 
-        res.json(users);
-    } catch (err) {
-        console.error('Error searching users:', err); // הודעת הדפסה במקרה של שגיאה
-        res.status(500).send(err);
-    }
-};
+//         res.json(users);
+//     } catch (err) {
+//         console.error('Error searching users:', err); // הודעת הדפסה במקרה של שגיאה
+//         res.status(500).send(err);
+//     }
+// };
 
 exports.getOrders = async (req, res) => {
     try {
@@ -316,6 +316,75 @@ exports.uploadBranch = async (req, res) => {
         res.json(savedBranch);
     } catch (err) {
         console.error('Error uploading branch:', err);
+        res.status(500).send(err);
+    }
+};
+
+
+
+exports.searchProduct = async (req, res) => {
+    try {
+        const { model, query } = req.query;
+        console.log(`Search query: ${query}, Model: ${model}`); // הודעת הדפסה לבדיקה
+
+        let ProductModel;
+
+        switch (model) {
+            case 'ski-products':
+                ProductModel = SkiProducts;
+                break;
+            case 'clothes':
+                ProductModel = Clothes;
+                break;
+            case 'accessories':
+                ProductModel = Accessories;
+                break;
+            default:
+                return res.status(400).send({ error: 'Invalid model type' });
+        }
+
+        const searchItem = { MyId: parseInt(query) };
+        const products = await ProductModel.find(searchItem);
+
+        console.log('Found products:', products); // הודעת הדפסה לבדיקה
+
+        res.json(products);
+    } catch (err) {
+        console.error('Error searching products:', err); // הודעת הדפסה במקרה של שגיאה
+        res.status(500).send(err);
+    }
+};
+
+exports.searchUser = async (req, res) => {
+    try {
+        const query = req.query.query;
+        console.log(`Search query: ${query}`); // הודעת הדפסה לבדיקה
+
+        const searchItem = { username: new RegExp(query, 'i') };
+        const users = await Users.find(searchItem);
+
+        console.log('Found users:', users); // הודעת הדפסה לבדיקה
+
+        res.json(users);
+    } catch (err) {
+        console.error('Error searching users:', err); // הודעת הדפסה במקרה של שגיאה
+        res.status(500).send(err);
+    }
+};
+
+exports.searchBranch = async (req, res) => {
+    try {
+        const query = req.query.query;
+        console.log(`Search query: ${query}`); // הודעת הדפסה לבדיקה
+
+        const searchItem = { city: new RegExp(query, 'i') };
+        const branches = await Branch.find(searchItem);
+
+        console.log('Found branches:', branches); // הודעת הדפסה לבדיקה
+
+        res.json(branches);
+    } catch (err) {
+        console.error('Error searching branches:', err); // הודעת הדפסה במקרה של שגיאה
         res.status(500).send(err);
     }
 };

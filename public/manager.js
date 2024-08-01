@@ -89,14 +89,62 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    document.getElementById('searchButton1').addEventListener('click', function () {
+        const query = document.getElementById('searchBox1').value;
+        searchItems(query);
+    });
+
+    function searchItems(query) {
+        if (!query) {
+            alert("Please enter a search query.");
+            return;
+        }
+
+        let searchUrl;
+        switch (currentModel) {
+            case 'ski-products':
+            case 'clothes':
+            case 'accessories':
+                searchUrl = `/manager/api/search?model=${currentModel}&query=${query}`;
+                break;
+            case 'users':
+                searchUrl = `/manager/api/search-user?query=${query}`;
+                break;
+            case 'branches':
+                searchUrl = `/manager/api/search-branch?query=${query}`;
+                break;
+            default:
+                console.error('Invalid model for search:', currentModel);
+                return;
+        }
+
+        fetch(searchUrl)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Search results:', data); // Debug log
+                if (data.length === 0) {
+                    document.getElementById('searchError').style.display = 'block';
+                } else {
+                    document.getElementById('searchError').style.display = 'none';
+                    updateTable(data);
+                }
+            })
+            .catch(error => console.error('Error searching items:', error));
+    }
+
     function showSearchAndUploadButtons() {
         const uploadProductButton = document.getElementById('upload-product');
         const searchItemButton = document.getElementById('searchItem1');
         if (uploadProductButton && searchItemButton) {
             if (currentModel === 'branches') {
                 uploadProductButton.textContent = 'Add Branch';
+                document.getElementById('searchBox1').placeholder = "Enter City";
+            } else if (currentModel === 'users') {
+                uploadProductButton.textContent = 'Upload User';
+                document.getElementById('searchBox1').placeholder = "Enter Username";
             } else {
                 uploadProductButton.textContent = 'Upload Product';
+                document.getElementById('searchBox1').placeholder = "Enter Product Id";
             }
             uploadProductButton.style.display = 'block';
             searchItemButton.style.display = 'block';

@@ -24,11 +24,14 @@ router.delete('/manager/api/delete/:id', managerController.deleteProduct);
 //add product
 router.post('/manager/api/upload-product/:model', managerController.uploadProduct);
 
-//search product
+// search product
 router.get('/manager/api/search', managerController.searchProduct);
 
 // search by username
 router.get('/manager/api/search-user', managerController.searchUser);
+
+// search by city (branch)
+router.get('/manager/api/search-branch', managerController.searchBranch);
 
 // update user
 router.put('/manager/api/update-user/:username', managerController.updateUser);
