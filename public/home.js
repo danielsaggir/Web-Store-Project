@@ -120,7 +120,15 @@ const cartBtn = document.getElementById('cartBtn');
 if (cartBtn) {
   cartBtn.addEventListener('click', function() {
       const cartCard = document.getElementById('cartCard');
-      if (cartCard.style.display === 'none' || cartCard.style.display === '') {
+      const loginCard = document.getElementById('logInCard');
+
+      // סגור את כרטיס ההתחברות אם הוא פתוח
+      if (loginCard.style.display === 'block') {
+          loginCard.style.display = 'none';
+      }
+
+      // החלף את מצב התצוגה של כרטיס העגלה
+      if (cartBtn.style.display === 'none' || cartCard.style.display === '') {
           cartCard.style.display = 'block';
       } else {
           cartCard.style.display = 'none';
@@ -136,6 +144,7 @@ if (logInBtn) {
       let logoutCard = document.getElementById('logoutCard');
       let changePassCard = document.getElementById('changePassCard');
       let changeUserNameCard = document.getElementById('changeUserNameCard');
+      let cartCard = document.getElementById('cartCard');
 
       // Close any open cards
       if (changePassCard && changePassCard.style.display === 'block') {
@@ -144,6 +153,9 @@ if (logInBtn) {
       if (changeUserNameCard && changeUserNameCard.style.display === 'block') {
           changeUserNameCard.style.display = 'none';
       }
+      if(cartCard.style.display==='block')
+        cartCard.style.display = 'none';
+
 
       if (username && username !== 'Guest') {
           // User is logged in
@@ -165,19 +177,30 @@ if (logInBtn) {
 
 const showRegisterForm = document.getElementById('showRegisterForm');
 if (showRegisterForm) {
-  showRegisterForm.addEventListener('click', function() {
-      let registerForm = document.getElementById('registerCard');
-      let loginForm = document.getElementById('logInCard');
-      
-      if (registerForm.style.display === 'block') {
-          registerForm.style.display = 'none';
-          loginForm.style.display = 'block';
-      } else {
-          registerForm.style.display = 'block';
-          loginForm.style.display = 'none';
-      }
-  });
+    showRegisterForm.addEventListener('click', function () {
+        let registerForm = document.getElementById('registerCard');
+        let loginForm = document.getElementById('logInCard');
+        
+        if (registerForm.style.display === 'block') {
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        } else {
+            registerForm.style.display = 'block';
+            loginForm.style.display = 'none';
+        }
+    });
 }
+
+const backToLoginForm = document.getElementById('backToLoginForm');
+if (backToLoginForm) {
+    backToLoginForm.addEventListener('click', function () {
+        let registerForm = document.getElementById('registerCard');
+        let loginForm = document.getElementById('logInCard');
+        registerForm.style.display = 'none';
+        loginForm.style.display = 'block';
+    });
+}
+
 
 // הקוד עבור כפתור ה-showChangePassForm
 const showChangePassForm = document.getElementById('showChangePassForm');
