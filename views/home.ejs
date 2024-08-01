@@ -110,12 +110,12 @@
                     <div class="card-body">
                         <h5 class="card-title">See You Soon :)</h5>
                         <form id="logoutForm" action="/logout" method="GET">
-                            <button type="submit" class="btn btn-primary">Log Out</button>
+                            <button id="logoutbtn" type="submit" class="btn btn-primary">Log Out</button>
                         </form>
                         <h5 class="card-title">Already leaving? :(</h5>
                         <form id="deleteForm" action="/deleteUser" method="GET">
                             <input type="hidden" name="username" value="<%= username %>">
-                            <button type="submit" class="btn btn-primary">Delete User</button>
+                            <button id="deleteUserBtn" type="submit" class="btn btn-primary">Delete User</button>
                         </form>
                         <h5 class="card-title">Identity crisis?</h5>
                         <button id="showChangePassForm" class="btn btn-primary">Change Password</button>
@@ -133,7 +133,7 @@
                                 <label for="newPassword" class="form-label">New Password</label>
                                 <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="New Password" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Change Password</button>
+                            <button id="ChangePasswordBtn" type="submit" class="btn btn-primary">Change Password</button>
                         </form>
                         <button id="backToLogoutFromPass" class="btn btn-primary">Back</button>
                     </div>
@@ -149,7 +149,7 @@
                                 <label for="newUserName" class="form-label">New User Name</label>
                                 <input type="text" class="form-control" id="newUserName" name="newUserName" placeholder="New User Name" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Change User Name</button>
+                            <button id="ChangeUserNameBtn" type="submit" class="btn btn-primary">Change User Name</button>
                         </form>
                         <button id="backToLogoutFromUser" class="btn btn-primary">Back</button>
                     </div>

@@ -442,14 +442,24 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
 
 /* Common card styling */
 #logoutCard, #changePassCard, #changeUserNameCard {
-    left: 71%;
+    display: none;
+    margin-top: 4%;
+    left: 75%;
+    border-radius: 5px;
+    width: 28rem;
     position: absolute;
-    background-color: rgba(240, 255, 253, 0.485);
-    font-size: medium;
-    margin-top: 28px; 
-    padding: 4px;
-    border-radius: 15px;
-    z-index: 3;
+    background-color: rgb(253 253 253);
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#logoutbtn, #showChangePassForm, #deleteUserBtn, #showChangeUserNameForm, #ChangePasswordBtn, #backToLogoutFromPass, #ChangeUserNameBtn ,#backToLogoutFromUser
+{
+    width: 220px;
+    font-weight: 200;
+    background-color:#6c757d ;
+    border-color: #333;
+    margin-bottom: 10px;
 }
 
 
