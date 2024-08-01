@@ -105,7 +105,7 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     width: fit-content;
     height: fit-content;
     position: relative;
-    left: 20%;
+    left: 21%;
   }
   
   .input-search {
