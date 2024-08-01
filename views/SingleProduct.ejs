@@ -72,7 +72,7 @@
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button id="submit" type="submit" class="btn btn-primary">Login</button>
                     </form>
                     <div id="loginError" style="color: red; display: none;"></div>
                     <button id="showRegisterForm" class="btn btn-secondary">Register</button>
@@ -107,17 +107,17 @@
             </div>
         </div>
 
-        <% if (username && username !== 'Guest') { %>
+        <% if (username && username !=='Guest' ) { %>
             <div id="logoutCard" class="card text-center mb-3" style="width: 18rem; display: none;">
                 <div class="card-body">
                     <h5 class="card-title">See You Soon :)</h5>
                     <form id="logoutForm" action="/logout" method="GET">
-                        <button type="submit" class="btn btn-primary">Log Out</button>
+                        <button id="logoutbtn" type="submit" class="btn btn-primary">Log Out</button>
                     </form>
                     <h5 class="card-title">Already leaving? :(</h5>
                     <form id="deleteForm" action="/deleteUser" method="GET">
                         <input type="hidden" name="username" value="<%= username %>">
-                        <button type="submit" class="btn btn-primary">Delete User</button>
+                        <button id="deleteUserBtn" type="submit" class="btn btn-primary">Delete User</button>
                     </form>
                     <h5 class="card-title">Identity crisis?</h5>
                     <button id="showChangePassForm" class="btn btn-primary">Change Password</button>
