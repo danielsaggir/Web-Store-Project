@@ -90,8 +90,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.getElementById('searchButton1').addEventListener('click', function () {
-        const query = document.getElementById('searchBox1').value;
-        searchItems(query);
+        const query = document.getElementById('searchBox1').value.trim();
+        if (!query) {
+            // If the search box is empty, fetch all data for the current model
+            fetchData(currentModel);
+        } else {
+            searchItems(query);
+        }
     });
 
     function searchItems(query) {
@@ -121,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch(searchUrl)
             .then(response => response.json())
             .then(data => {
-                console.log('Search results:', data); // Debug log
+                console.log('Search results:', data);
                 if (data.length === 0) {
                     document.getElementById('searchError').style.display = 'block';
                 } else {
