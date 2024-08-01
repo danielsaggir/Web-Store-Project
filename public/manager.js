@@ -720,8 +720,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function postToFacebook(message) {
         const accessToken = 'EAAHaVHQgb0cBO1ZBIs1ccyJvZBk3qCibhjK6KF4dyCEqi0dx2hWZCUGdf1HRWp2MUM3kEUntqf4WFhDpm5DIZBrYVssZCw8BcvQ03xGnll3tKYcHvBTT2lCtmeR0G0uP0Hwhk5vVSOW39vra2wXpGGCfKyZCAD0uzbPCC9dgHZA6EnQ1HiSjpPzawZC29agY0iIvVWDeFv80ZAjv97MWyBg4sVqoWzAZDZD'; // Your Page Access Token
-        const page_id = '334940566378514'; 
-        // const app_id = '400456016479931'; // Your Facebook App ID
+        const page_id = ''; 
 
         fetch(`https://graph.facebook.com/v20.0/${page_id}/feed`, {
             method: 'POST',

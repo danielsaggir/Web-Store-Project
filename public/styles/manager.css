@@ -141,3 +141,16 @@ body {
 {
     display: none;
 }
+.card-body{
+    background-color:rgb(218 235 244 / 80%);
+    border-radius:25%;
+}
+.card.text-center.mx-auto{
+    width:25%;
+    margin-top: 2rem;
+    border-radius:25%;
+}
+
+#postToFacebookButton{
+margin-top: 1rem;
+}
