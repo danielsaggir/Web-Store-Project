@@ -1,20 +1,25 @@
 body {
-position: relative; /* כדי שה-overlay יהיה מעל ה-body */
+    position: relative;
+    /* כדי שה-overlay יהיה מעל ה-body */
 }
 
 #backgroundOverlay {
     background-image: url('https://media.cntraveler.com/photos/6351664f9e488d3c598e3279/16:9/w_2240,c_limit/Ski_GettyImages-1400588475.jpg');
-    background-attachment: fixed; /* Parallax effect */
+    background-attachment: fixed;
+    /* Parallax effect */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    position: fixed; /* כדי שה-overlay יכסה את כל העמוד */
+    position: fixed;
+    /* כדי שה-overlay יכסה את כל העמוד */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.6; /* שקיפות של 50% */
-    z-index: -1; /* מתחת לכל התוכן */
+    opacity: 0.6;
+    /* שקיפות של 50% */
+    z-index: -1;
+    /* מתחת לכל התוכן */
 }
 
 /* Fixed top bar */
@@ -33,7 +38,8 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     padding-top: 15px;
     height: 30px;
     display: flex;
-    justify-content: center; /* Center the content */
+    justify-content: center;
+    /* Center the content */
     align-items: center;
 }
 
@@ -43,7 +49,8 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     align-items: center;
     height: 50px;
     background-color: rgb(238, 244, 249);
-    margin: 0; /* Remove margin to prevent gaps */
+    margin: 0;
+    /* Remove margin to prevent gaps */
     width: 100%;
     padding: 0 20px;
     box-sizing: border-box;
@@ -66,12 +73,12 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
 }
 
 #menu a {
-    color: black; 
-    text-decoration: none; 
+    color: black;
+    text-decoration: none;
 }
 
 #menu a:hover {
-    text-decoration: underline; 
+    text-decoration: underline;
 }
 
 /* Title styling */
@@ -85,11 +92,11 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     left: 47%;
 }
 
-*{
+* {
     box-sizing: border-box;
-  }
-  
-  .search-container {
+}
+
+.search-container {
     margin: 0px;
     padding: 0px;
     width: 100vw;
@@ -99,16 +106,16 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     align-items: center;
     background-color: #1b1376;
     font-family: 'Lato' !important;
-  }
-  
-  .search-box {
+}
+
+.search-box {
     width: fit-content;
     height: fit-content;
     position: relative;
     left: 21%;
-  }
-  
-  .input-search {
+}
+
+.input-search {
     height: 40px;
     width: 40px;
     border-style: none;
@@ -121,16 +128,16 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     background-color: #4a5d6a;
     padding-right: 35px;
     color: #4a5d6a;
-  }
-  
-  .input-search::placeholder {
+}
+
+.input-search::placeholder {
     color: #4a5d6a;
     font-size: 16px;
     letter-spacing: 2px;
     font-weight: 100;
-  }
-  
-  .btn-search {
+}
+
+.btn-search {
     width: 40px;
     height: 40px;
     border-style: none;
@@ -144,38 +151,39 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     color: #ffffff;
     background-color: transparent;
     pointer-events: painted;
-  }
-  
-  .btn-search:focus ~ .input-search {
+}
+
+.btn-search:focus~.input-search {
     width: 250px;
     border-radius: 0px;
     background-color: transparent;
     border-bottom: 1px solid rgba(108, 108, 108, 0.5);
     transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
-  }
-  
-  .input-search:focus {
+}
+
+.input-search:focus {
     width: 250px;
     border-radius: 0px;
     background-color: transparent;
     border-bottom: 1px solid rgba(126, 125, 125, 0.5);
     transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
 
-  }
+}
 
-    .input-search:focus ~ .btn-search,
-    .btn-search:focus,
-    .btn-search:active {
-    color: #4a5d6a; /* שמור על הצבע של הכפתור */
+.input-search:focus~.btn-search,
+.btn-search:focus,
+.btn-search:active {
+    color: #4a5d6a;
+    /* שמור על הצבע של הכפתור */
     /* background-color: #666666; Change button background color to white */
-    }
+}
 
 /* Login button styling */
 #logInBtn {
     position: absolute;
     left: 95%;
     font-size: x-large;
-    margin-top: 3px; 
+    margin-top: 3px;
     padding: 4px;
     border-radius: 15px;
     background-color: transparent;
@@ -186,7 +194,7 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     position: absolute;
     left: 92%;
     font-size: x-large;
-    margin-top: 3px; 
+    margin-top: 3px;
     padding: 4px;
     border-radius: 15px;
     background-color: transparent;
@@ -200,10 +208,11 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
         height: fit-content;
         padding: 10px;
     }
+
     #title {
         font-size: large;
     }
-    
+
     #searchItem {
         max-width: 200px;
     }
@@ -218,33 +227,31 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     }
 
     /* לסדר כאן את הרספונסיביות כי כשהמסך קטן אז זה דורס את הקונטיינר */
-    #container  
-    {
+    #container {
         position: relative;
         top: 20%;
     }
 
-    .container_main
-    {
+    .container_main {
         position: relative;
         top: 14%;
     }
-    
+
     #title {
         font-size: large;
         margin: 10px 0;
     }
-    
+
     #menu {
         flex-direction: column;
         align-items: flex-start;
         width: 100%;
     }
-    
+
     #menu a {
         margin: 5px 0;
     }
-    
+
     #searchItem {
         display: flex;
         align-items: center;
@@ -252,7 +259,7 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
         position: relative;
         left: 25%;
     }
-    
+
     #searchBox {
         border-top-left-radius: 15px;
         border-bottom-left-radius: 15px;
@@ -260,23 +267,26 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
         border: 1px solid #ccc;
         outline: none;
     }
-    
+
     #searchButton {
         border-top-right-radius: 15px;
         border-bottom-right-radius: 15px;
         padding: 5px 10px;
         border: 1px solid #ccc;
-        border-left: none; /* Remove border between input and button */
+        border-left: none;
+        /* Remove border between input and button */
         cursor: pointer;
     }
-    
-    #logInBtn, #cartBtn {
+
+    #logInBtn,
+    #cartBtn {
         margin-top: 10px;
         font-size: large;
     }
 
     #lineUser {
-        display: none; /* Hide the user line for small screens */
+        display: none;
+        /* Hide the user line for small screens */
     }
 }
 
@@ -286,14 +296,17 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     }
 
     #searchItem input {
-        width: calc(100% - 20px); /* Make input full width with padding */
-    }
-    
-    #menu {
-        display: none; /* Hide the menu for very small screens */
+        width: calc(100% - 20px);
+        /* Make input full width with padding */
     }
 
-    #logInBtn, #cartBtn {
+    #menu {
+        display: none;
+        /* Hide the menu for very small screens */
+    }
+
+    #logInBtn,
+    #cartBtn {
         font-size: medium;
     }
 }
@@ -306,7 +319,8 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
 
 /* Main container styling */
 #container {
-    position: relative; /* Ensure it can act as a reference point for absolutely positioned children */
+    position: relative;
+    /* Ensure it can act as a reference point for absolutely positioned children */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -320,7 +334,7 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
 
 /* Cart card styling */
 #cartCard {
-    
+
     display: none;
     margin-top: 3%;
     left: 62%;
@@ -332,8 +346,7 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#checkOut
-{
+#checkOut {
     width: 250px;
     font-weight: 200;
     margin-bottom: 15px;
@@ -351,20 +364,19 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     z-index: 1000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-#submit
-{
+
+#submit {
     width: 220px;
     font-weight: 200;
     margin-bottom: 15px;
-    background-color:#6c757d ;
+    background-color: #6c757d;
     border-color: #333;
 }
 
-#showRegisterForm
-{
+#showRegisterForm {
     width: 220px;
     font-weight: 200;
-    background-color:#6c757d ;
+    background-color: #6c757d;
     border-color: #333;
 }
 
@@ -401,36 +413,41 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#registerSubmit
-{
+#registerSubmit {
     width: 220px;
     font-weight: 200;
-    background-color:#6c757d ;
+    background-color: #6c757d;
     border-color: #333;
     margin-bottom: 10px;
 }
 
-#backToLogin
-{
+#backToLogin {
     width: 220px;
     font-weight: 200;
-    background-color:#6c757d ;
+    background-color: #6c757d;
     border-color: #333;
 }
 
 /* cart Card titles and margins */
 .card-title {
     margin-bottom: 15px;
-    margin-top: 20px; /* Add top margin to separate from previous element */
+    margin-top: 20px;
+    /* Add top margin to separate from previous element */
 }
 
 /* Logout and form styling */
 #logoutCard form {
-    margin-bottom: 20px; /* Add bottom margin to separate from next element */
+    margin-bottom: 20px;
+    /* Add bottom margin to separate from next element */
     z-index: 3;
 }
 
-#logoutForm, #deleteForm, #changePassForm, #changeUserNameForm, #backToLogoutFromPass, #backToLogoutFromUser {
+#logoutForm,
+#deleteForm,
+#changePassForm,
+#changeUserNameForm,
+#backToLogoutFromPass,
+#backToLogoutFromUser {
     margin-top: 15px;
     z-index: 3;
 }
@@ -441,7 +458,9 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
 
 
 /* Common card styling */
-#logoutCard, #changePassCard, #changeUserNameCard {
+#logoutCard,
+#changePassCard,
+#changeUserNameCard {
     display: none;
     margin-top: 4%;
     left: 75%;
@@ -453,11 +472,17 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#logoutbtn, #showChangePassForm, #deleteUserBtn, #showChangeUserNameForm, #ChangePasswordBtn, #backToLogoutFromPass, #ChangeUserNameBtn ,#backToLogoutFromUser
-{
+#logoutbtn,
+#showChangePassForm,
+#deleteUserBtn,
+#showChangeUserNameForm,
+#ChangePasswordBtn,
+#backToLogoutFromPass,
+#ChangeUserNameBtn,
+#backToLogoutFromUser {
     width: 220px;
     font-weight: 200;
-    background-color:#6c757d ;
+    background-color: #6c757d;
     border-color: #333;
     margin-bottom: 10px;
 }
@@ -470,9 +495,9 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     justify-content: center;
 }
 
-#TopCategories a{
-    color: black; 
-    text-decoration: none; 
+#TopCategories a {
+    color: black;
+    text-decoration: none;
 }
 
 /* Card general styling */
@@ -484,7 +509,7 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
 
 /* Sub title styling */
 #subTitel {
-    
+
     margin-top: 10px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     font-size: xx-large;
@@ -511,87 +536,144 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     width: 700px;
     border-radius: 20px;
 }
+
 .body-wrapper {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
+#videoInsideCanvas {
+    position: relative;
+    width: 320px;
+    height: 240px;
+    border: 5px solid #048b93; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+#video {
+    position: absolute;
+    top: 5px; 
+    left: 5px; 
+    width: calc(100% - 10px); 
+    height: calc(100% - 10px);
+}
+
+#myCanvas {
+    border: 1px solid #048b93;
+    width: 100%;
+    height: 100%;
+}
+
 .footer-container {
     width: 100%;
     /* background: linear-gradient(to right, #f8f9fa, #e9ecef); Gradient background for a modern look */
-    border-top: 4px solid #007bff; /* Bold border color for a standout effect */
-    padding: 7px 20px; /* Increased padding for a more spacious feel */
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
-    margin: 0 auto 0; /* Space above the footer, centered horizontally */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    position: relative; /* Ensure relative positioning for possible additional effects */
-    background-color: #f1f1f1; /* Adjust as needed */
-    margin-top:120px;
+    border-top: 4px solid#d2e6fa;
+    /* Bold border color for a standout effect */
+    padding: 7px 20px;
+    /* Increased padding for a more spacious feel */
+    box-sizing: border-box;
+    /* Include padding and border in element's total width and height */
+    margin: 0 auto 0;
+    /* Space above the footer, centered horizontally */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+    position: relative;
+    /* Ensure relative positioning for possible additional effects */
+    background-color: #f1f1f1;
+    /* Adjust as needed */
+    margin-top: 120px;
 
 }
+
 .footer-email-signup {
-    margin-bottom: 10px; /* Increased margin for more spacing */
-    text-align: center; /* Center the text and form */
+    margin-bottom: 10px;
+    /* Increased margin for more spacing */
+    text-align: center;
+    /* Center the text and form */
 }
 
 .footer-email-signup h3 {
-    font-size: 14px; /* Larger font size for the heading */
-    color: #333; /* Darker text color for better readability */
+    font-size: 14px;
+    /* Larger font size for the heading */
+    color: #333;
+    /* Darker text color for better readability */
 }
 
 .footer-email-signup form {
-    height:25px;
+    height: 25px;
     display: flex;
-    justify-content: center; /* Center the form elements */
-    gap: 15px; /* Space between input and button */
+    justify-content: center;
+    /* Center the form elements */
+    gap: 15px;
+    /* Space between input and button */
 }
 
 .footer-email-signup input[type="email"] {
     padding: 12px 16px;
-    border: 1px solid #ced4da; /* Light border for the input */
-    border-radius: 4px; /* Rounded corners */
+    border: 1px solid #ced4da;
+    /* Light border for the input */
+    border-radius: 4px;
+    /* Rounded corners */
     width: 100%;
-    max-width: 350px; /* Max width to prevent stretching */
-    font-size: 13px; /* Larger font size for better readability */
+    max-width: 350px;
+    /* Max width to prevent stretching */
+    font-size: 13px;
+    /* Larger font size for better readability */
 }
 
 .footer-email-signup button {
     border: none;
-    background-color: #007bff; /* Primary color button */
-    color: #ffffff; /* White text */
-    border-radius: 4px; /* Rounded corners */
+    background-color: #007bff;
+    /* Primary color button */
+    color: #ffffff;
+    /* White text */
+    border-radius: 4px;
+    /* Rounded corners */
     cursor: pointer;
-    font-size: 13px; /* Larger font size for the button */
-    transition: background-color 0.3s ease; /* Smooth background color transition */
+    font-size: 13px;
+    /* Larger font size for the button */
+    transition: background-color 0.3s ease;
+    /* Smooth background color transition */
 }
 
 .footer-email-signup button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+    background-color: #0056b3;
+    /* Darker shade on hover */
 }
+
 .footer-email-opt-in-text .unsubscribe-text {
-    margin-top: 10px; /* Adjust this value as needed */
-    font-size: 12px; /* Optional: Adjust font size for readability */
-    color: #666; /* Optional: Adjust text color for better contrast */
+    margin-top: 10px;
+    /* Adjust this value as needed */
+    font-size: 12px;
+    /* Optional: Adjust font size for readability */
+    color: #666;
+    /* Optional: Adjust text color for better contrast */
 }
 
 .footer-columns {
-    width:100%;
-    font-size:13px;
+    width: 100%;
+    font-size: 13px;
     display: flex;
     justify-content: space-between;
-    gap: 15px; /* Increased space between columns */
+    gap: 15px;
+    /* Increased space between columns */
 }
 
 .footer-item {
     flex: 1;
-    border-radius: 8px; /* Rounded corners for the border */
+    border-radius: 8px;
+    /* Rounded corners for the border */
 }
 
 .footer-item h3 {
-    margin-bottom: 15px; /* Space below headings */
-    font-size: 15px; /* Slightly larger font size for headings */
-    color: #333; /* Darker text color for headings */
+    margin-bottom: 15px;
+    /* Space below headings */
+    font-size: 15px;
+    /* Slightly larger font size for headings */
+    color: #333;
+    /* Darker text color for headings */
 }
 
 .footer-item ul {
@@ -604,14 +686,19 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
 }
 
 .footer-item ul li a {
-    text-decoration: none; /* Remove underline from links */
-    color: #007bff; /* Primary color for links */
-    transition: color 0.3s ease; /* Smooth color transition */
+    text-decoration: none;
+    /* Remove underline from links */
+    color: #007bff;
+    /* Primary color for links */
+    transition: color 0.3s ease;
+    /* Smooth color transition */
 }
 
 .footer-item ul li a:hover {
-    text-decoration: underline; /* Underline on hover */
-    color: #0056b3; /* Darker shade on hover */
+    text-decoration: underline;
+    /* Underline on hover */
+    color: #0056b3;
+    /* Darker shade on hover */
 }
 
 .socialmedia-icons {
@@ -619,14 +706,15 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     height: 30px;
 }
 
-#specific-cart{
-    margin-top:-105px;
+#specific-cart {
+    margin-top: -105px;
 }
 
 #cartCard .order-details {
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Ensure the items align to the left */
+    justify-content: flex-start;
+    /* Ensure the items align to the left */
     margin-bottom: 10px;
     font-style: italic;
 }
@@ -640,10 +728,11 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
 
 #cartCard .order-info p {
     margin: 5px 0;
-    text-align: left; /* Ensure text is aligned to the left*/
+    text-align: left;
+    /* Ensure text is aligned to the left*/
 }
 
-.contact-box{
+.contact-box {
     color: #495057;
-    font-size:16px;
+    font-size: 16px;
 }
