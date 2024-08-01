@@ -23,6 +23,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 const server = express();
 
 //added this  //middleware settings
+server.use(express.static(path.join(__dirname, 'public')));
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 server.use(cookieParser());

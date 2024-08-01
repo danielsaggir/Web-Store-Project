@@ -211,15 +211,14 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => console.error('Error:', error));
     }
-
     function updateTable(data) {
         const table = document.querySelector('.table-striped');
         table.innerHTML = '';
-
+    
         const header = table.createTHead();
         const headerRow = header.insertRow();
         let headers = ['ID', 'Name', 'Price', 'Category', 'Color', 'Description', 'Edit', 'Delete'];
-
+    
         if (currentModel === 'ski-products') {
             headers.splice(3, 0, 'Quantity');
         } else if (currentModel === 'clothes' || currentModel === 'accessories') {
@@ -229,18 +228,18 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (currentModel === 'branches') {
             headers = ['Name', 'City', 'Phone', 'Edit', 'Delete'];
         }
-
+    
         headers.forEach(headerText => {
             const th = document.createElement('th');
             th.textContent = headerText;
             headerRow.appendChild(th);
         });
-
+    
         data.forEach(item => {
             console.log('Adding item to table:', item); // Debug log
             const row = table.insertRow();
             let fieldsToDisplay = ['MyId', 'name', 'price', 'category', 'color', 'description'];
-
+    
             if (currentModel === 'ski-products') {
                 fieldsToDisplay.splice(3, 0, 'quantity');
             } else if (currentModel === 'clothes' || currentModel === 'accessories') {
@@ -250,12 +249,12 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (currentModel === 'branches') {
                 fieldsToDisplay = ['name', 'city', 'phone'];
             }
-
+    
             fieldsToDisplay.forEach(field => {
                 const cell = row.insertCell();
                 cell.textContent = item[field];
             });
-
+    
             if (currentModel !== 'orders') {
                 const editCell = row.insertCell();
                 const editButton = document.createElement('i');
@@ -265,19 +264,23 @@ document.addEventListener('DOMContentLoaded', function () {
                     openEditModal(item);
                 });
                 editCell.appendChild(editButton);
-
+    
                 const deleteCell = row.insertCell();
                 const deleteButton = document.createElement('i');
                 deleteButton.classList.add('bi', 'bi-trash');
                 deleteButton.addEventListener('click', () => {
+                    const idField = currentModel === 'users' ? 'username' : 'MyId';
+                    const idToDelete = item[idField];
+                    console.log(`Attempting to delete item with ID: ${idToDelete}`); // Debug log
                     if (confirm(`Are you sure you want to delete item: ${item.name || item.username}?`)) {
-                        deleteItem(item._id || item.username);
+                        deleteItem(idToDelete);
                     }
                 });
                 deleteCell.appendChild(deleteButton);
             }
         });
     }
+    
 
     document.getElementById('upload-product').addEventListener('click', function () {
         generateUploadForm(currentModel);
@@ -285,51 +288,114 @@ document.addEventListener('DOMContentLoaded', function () {
         uploadModal.show();
     });
 
-    document.getElementById('saveUploadButton').addEventListener('click', () => {
-        const newItemPromise = generateNewItem(currentModel);
+
+//     document.addEventListener('DOMContentLoaded', () => {
+//     console.log('DOM fully loaded and parsed.');
+
+//     const postToFacebookButton = document.getElementById('postToFacebookButton');
+//     const facebookPostMessage = document.getElementById('facebookPostMessage');
+//     const responseElement = document.getElementById('response');
+
+//     if (postToFacebookButton && facebookPostMessage && responseElement) {
+//         postToFacebookButton.addEventListener('click', handlePostToFacebook);
+//     } else {
+//         console.error('One or more elements are missing.');
+//     }
+
+//     function handlePostToFacebook() {
+//         const boxMessage = facebookPostMessage.value.trim(); // Get the trimmed value from the textarea
+        
+//         if (boxMessage) {
+//             console.log('Message to post:', boxMessage); // Debug log
+//             postToFacebook(boxMessage); // Call the function with the message
+//         } else {
+//             responseElement.innerText = 'Please enter a message to post.'; // Provide feedback if the message is empty
+//         }
+//     }
+// });
+
     
-        if (currentModel === 'branches') {
-            newItemPromise
-                .then(newItem => {
-                    const url= `/manager/api/upload/${currentModel}`
-                    console.log(`url is: ${url}`)
-                    return fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(newItem)
-                    });
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Upload successful:', data);
-                    fetchData(currentModel); // Refresh table with new item
-                    const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
-                    uploadModal.hide();
-                })
-                .catch(error => console.error('Error:', error));
+
+    // Ensure the function is defined
+    function postToFacebook(message) {
+    const accessToken = 'EAAOnqzR91wcBO7BaOGEE49iZBhl7uoeEcNOMPQyzY4tIZC6FhqMMl5sKEvYQLaiC8WB0kvp8W90z1a6yieDBZASwr98efZCYaPKNxfRkt5I3ZBzMMwIFAIi05dh4nBOZCmMKOYnwFtor6Dry7OSDsLiDScAOM0o4LZCjAKE5YiUweZBtj1sIM0yrcDpn5aVmbZCVb'; // Replace with your Facebook Page Access Token
+    const page_id = '364520670082502'; // Replace with your Facebook Page ID
+
+    console.log('Posting to Facebook with message:', message);
+
+    fetch(`https://graph.facebook.com/v20.0/${page_id}/feed`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            message: message,
+            access_token: accessToken
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const responseElement = document.getElementById('response');
+        console.log('Facebook response:', data);
+        if (data.error) {
+            console.error('Error posting to Facebook:', data.error.message);
+            responseElement.innerText = 'Error: ' + data.error.message;
         } else {
-            newItemPromise
-                .then(newItem => {
-                    return fetch(`/manager/api/upload-product/${currentModel}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(newItem)
-                    });
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Upload successful:', data);
-                    fetchData(currentModel); // Refresh table with new item
-                    const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
-                    uploadModal.hide();
-                })
-                .catch(error => console.error('Error:', error));
+            console.log('Post was successful!');
+            responseElement.innerText = 'Post was successful!';
         }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        const responseElement = document.getElementById('response');
+        responseElement.innerText = 'Error: ' + error;
     });
+}
+
+// Add event listener to the 'Save' button
+document.getElementById('saveUploadButton').addEventListener('click', () => {
+    const newItemPromise = generateNewItem(currentModel);
+
+    newItemPromise
+        .then(newItem => {
+            let url;
+            if (currentModel === 'branches') {
+                url = `/manager/api/upload/${currentModel}`;
+            } else {
+                url = `/manager/api/upload-product/${currentModel}`;
+            }
+            console.log(`URL is: ${url}`);
+            return fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newItem)
+            });
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Upload successful:', data);
+            fetchData(currentModel); // Refresh table with new item
+            const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
+            uploadModal.hide();
+
+            if (currentModel !== 'branches') {
+                // Extracting product information
+                const productName = data.name; // Adjust according to the actual response structure
+                const productPrice = data.price; // Adjust according to the actual response structure
+                const productImage = data.imageUrl;
+                
+                console.log(`Product Name: ${productName}, Product Price: ${productPrice}, Product Image: ${productImage}`);
+                const message = `Cheers to our new product !\n ${productName}\n Only ${productPrice} for a limited time!\n Check it out: ${productImage}`;
+
+                // Posting to Facebook
+                postToFacebook(message)
+            }
+        })
+        .catch(error => console.error('Error:', error));
+});
+
     
 
     function generateNewItem(model) {
@@ -340,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 phone: document.getElementById('uploadPhone').value
             };
     
-            // בקשה ל-Google Maps API כדי לקבל את הקורדינטות של העיר
+            // Request to Google Maps API to get city coordinates
             return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${branch.city}&key=AIzaSyB6RNA9mZmst46xbC-wuiIEA7xIQAjO-Pw`)
                 .then(response => response.json())
                 .then(data => {
@@ -359,8 +425,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     throw error;
                 });
         } else {
+            let newItem;
             if (model === 'ski-products') {
-                return {
+                newItem = {
                     MyId: document.getElementById('uploadMyId').value,
                     name: document.getElementById('uploadName').value,
                     price: document.getElementById('uploadPrice').value,
@@ -371,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     imageUrl: document.getElementById('uploadImgUrl').value
                 };
             } else if (model === 'clothes' || model === 'accessories') {
-                return {
+                newItem = {
                     MyId: document.getElementById('uploadMyId').value,
                     name: document.getElementById('uploadName').value,
                     price: document.getElementById('uploadPrice').value,
@@ -384,8 +451,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     imageUrl: document.getElementById('uploadImgUrl').value
                 };
             }
+            return Promise.resolve(newItem);
         }
     }
+    
     
 
     function generateUploadForm(model) {
@@ -608,23 +677,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-
-//     function deleteItem(itemId) {
-//         const deleteUrl = currentModel === 'users' ? `/manager/api/delete-user/${itemId}` : `/manager/api/delete/${itemId}`;
-        
-//         fetch(deleteUrl, {
-//             method: 'DELETE'
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log('Delete successful:', data);
-//             fetchData(currentModel);
-//         })
-//         .catch(error => console.error('Error:', error));
-//     }
-// });
-
 function deleteItem(itemId) {
+    // Ensure itemId is a string for URL
     const deleteUrl = currentModel === 'users'
         ? `/manager/api/delete-user/${itemId}`
         : currentModel === 'branches'
@@ -641,42 +695,4 @@ function deleteItem(itemId) {
     })
     .catch(error => console.error('Error:', error));
 }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('postToFacebookButton').addEventListener('click', function() {
-        const message = document.getElementById('facebookPostMessage').value;
-        postToFacebook(message);
-    });
-
-    function postToFacebook(message) {
-        const accessToken = 'EAAOnqzR91wcBO7BaOGEE49iZBhl7uoeEcNOMPQyzY4tIZC6FhqMMl5sKEvYQLaiC8WB0kvp8W90z1a6yieDBZASwr98efZCYaPKNxfRkt5I3ZBzMMwIFAIi05dh4nBOZCmMKOYnwFtor6Dry7OSDsLiDScAOM0o4LZCjAKE5YiUweZBtj1sIM0yrcDpn5aVmbZCVb'; // Your Page Access Token
-        const page_id = '364520670082502'; 
-        // const app_id = '400456016479931'; // Your Facebook App ID
-
-        fetch(`https://graph.facebook.com/v20.0/${page_id}/feed`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                message: message,
-                access_token: accessToken
-                // app_id: app_id,
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                console.error('Error posting to Facebook:', data.error.message);
-                document.getElementById('response').innerText = 'Error: ' + data.error.message;
-            } else {
-                document.getElementById('response').innerText = 'Post was successful!';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('response').innerText = 'Error: ' + error;
-        });
-    }
-});
+})
