@@ -146,12 +146,22 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
     try {
         const productId = req.params.id;
+        console.log(`Attempting to delete product with MyId: ${productId}`);
+
         const deletedProduct = await SkiProducts.findOneAndDelete({ MyId: productId }) ||
                                await Clothes.findOneAndDelete({ MyId: productId }) ||
                                await Accessories.findOneAndDelete({ MyId: productId });
+
+        if (!deletedProduct) {
+            console.log(`Product with MyId ${productId} not found`);
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        console.log(`Product with MyId ${productId} deleted successfully`);
         res.json({ message: 'Product deleted successfully', product: deletedProduct });
     } catch (err) {
-        res.status(500).send(err);
+        console.error('Error deleting product:', err);
+        res.status(500).json({ message: 'Internal Server Error', error: err.message });
     }
 };
 

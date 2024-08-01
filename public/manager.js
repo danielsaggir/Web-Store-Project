@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 deleteButton.classList.add('bi', 'bi-trash');
                 deleteButton.addEventListener('click', () => {
                     if (confirm(`Are you sure you want to delete item: ${item.name || item.username}?`)) {
-                        deleteItem(item._id || item.username);
+                        deleteItem(item.MyId || item.username);
                     }
                 });
                 deleteCell.appendChild(deleteButton);
@@ -694,19 +694,33 @@ document.addEventListener('DOMContentLoaded', function () {
 // });
 
 function deleteItem(itemId) {
-    const deleteUrl = currentModel === 'users'
-        ? `/manager/api/delete-user/${itemId}`
-        : currentModel === 'branches'
-        ? `/manager/api/delete-branch/${itemId}`
-        : `/manager/api/delete/${itemId}`;
+    let deleteUrl;
+
+    if (currentModel === 'users') {
+        deleteUrl = `/manager/api/delete-user/${itemId}`;
+    } else if (currentModel === 'branches') {
+        deleteUrl = `/manager/api/delete-branch/${itemId}`;
+    } else {
+        deleteUrl = `/manager/api/delete/${itemId}`;
+    }
+
+    console.log(`Current Model: ${currentModel}`);
+    console.log(`Attempting to delete item with ID: ${itemId}`);
+    console.log(`Delete URL: ${deleteUrl}`);
 
     fetch(deleteUrl, {
         method: 'DELETE'
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log(`Response status: ${response.status}`); // הדפסת סטטוס התגובה
+        if (!response.ok) {
+            throw new Error(`Network response was not ok. Status: ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
         console.log('Delete successful:', data);
-        fetchData(currentModel);
+        fetchData(currentModel); // רענן את הטבלה לאחר מחיקה
     })
     .catch(error => console.error('Error:', error));
 }
@@ -719,8 +733,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function postToFacebook(message) {
-        const accessToken = 'acces'; // Your Page Access Token
-        const page_id = 'idpage'; 
+        const accessToken = 'EAAOnqzR91wcBO65s5oLlcsYWTFztZCgUWMLSqEUOpkKota03rUoOGLrIWiEOX0v74lVMxylEGgEkUB10jGT6qKTkQt6d8uZAwvQtt0RhpeJ8Dqptxh0X9NFo8qPTm1C0lg8ZAPugMBXCsvkmrZC6TZB4ZBCYUs1dRb6LaowwWHCH1ZBr1BlWZBhuj0UkCp7fkFB7'; // Your Page Access Token
+        const page_id = '364520670082502'; 
 
         fetch(`https://graph.facebook.com/v20.0/${page_id}/feed`, {
             method: 'POST',
