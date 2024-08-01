@@ -1,4 +1,73 @@
 document.addEventListener('DOMContentLoaded', function () {
+    console.log('Fetching orders per day in July and August');
+    fetch('/manager/api/orders-per-day-july-august')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data for daily orders:', data); // הדפסת הנתונים שהתקבלו
+        createBarChart('#dailyOrdersChart', data, 'Orders per Day in July and August', 'Day', 'Orders');
+      })
+      .catch(error => console.error('Error fetching daily orders for July and August:', error));
+
+    console.log('Fetching orders per user');
+    fetch('/manager/api/orders-per-user')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data for orders per user:', data); // הדפסת הנתונים שהתקבלו
+        createBarChart('#userOrdersChart', data, 'Orders per User', 'User', 'Orders');
+      })
+      .catch(error => console.error('Error fetching orders per user:', error));
+
+    function createBarChart(container, data, title, xLabel, yLabel) {
+      const margin = { top: 30, right: 30, bottom: 70, left: 60 },
+        width = 600 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+
+      d3.select(container).selectAll('*').remove();
+
+      const svg = d3.select(container)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+      const x = d3.scaleBand().range([0, width]).padding(0.1),
+        y = d3.scaleLinear().range([height, 0]);
+
+      x.domain(data.map(d => d._id)); // הגדרת תחום ה-X
+      y.domain([0, d3.max(data, d => d.count)]); // הגדרת תחום ה-Y
+
+      svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x))
+        .selectAll('text')
+        .attr('transform', 'rotate(-45)')
+        .style('text-anchor', 'end');
+
+      svg.append('g')
+        .call(d3.axisLeft(y).ticks(10));
+
+      svg.append('text')
+        .attr('x', width / 2)
+        .attr('y', 0 - margin.top / 2)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '16px')
+        .style('text-decoration', 'underline')
+        .text(title);
+
+      svg.selectAll('.bar')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d._id))
+        .attr('y', d => y(d.count))
+        .attr('width', x.bandwidth())
+        .attr('height', d => height - y(d.count))
+        .attr('fill', 'rgb(128, 170, 193, 0.8)'); // צבע חדש
+    }
+  });
+
+document.addEventListener('DOMContentLoaded', function () {
     let currentItem = null;
     let currentModel = '';
 
@@ -10,19 +79,164 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateCategoryOptions(model) {
         const uploadCategory = document.getElementById('uploadCategory');
-        uploadCategory.innerHTML = '';
-        categoryOptions[model].forEach(option => {
-            const opt = document.createElement('option');
-            opt.value = option;
-            opt.textContent = option;
-            uploadCategory.appendChild(opt);
-        });
+        if (uploadCategory) {
+            uploadCategory.innerHTML = '';
+            categoryOptions[model].forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option;
+                opt.textContent = option;
+                uploadCategory.appendChild(opt);
+            });
+        }
     }
 
     function showSearchAndUploadButtons() {
-        document.getElementById('upload-product').style.display = 'block';
-        document.getElementById('searchItem1').style.display = 'block';
+        const uploadProductButton = document.getElementById('upload-product');
+        const searchItemButton = document.getElementById('searchItem1');
+        if (uploadProductButton && searchItemButton) {
+            if (currentModel === 'branches') {
+                uploadProductButton.textContent = 'Add Branch';
+            } else {
+                uploadProductButton.textContent = 'Upload Product';
+            }
+            uploadProductButton.style.display = 'block';
+            searchItemButton.style.display = 'block';
+        }
     }
+
+    function hideAllButtons() {
+        const uploadProductButton = document.getElementById('upload-product');
+        const searchItemButton = document.getElementById('searchItem1');
+        if (uploadProductButton) uploadProductButton.style.display = 'none';
+        if (searchItemButton) searchItemButton.style.display = 'none';
+    }
+
+    function fetchOrders() {
+        fetch('/manager/api/orders')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched orders:', data); // Debug log
+                updateOrdersTable(data);
+                hideAllButtons(); // הסתר את הכפתורים של הוספה וחיפוש
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function updateOrdersTable(data) {
+        const table = document.querySelector('.table-striped');
+        if (table) {
+            table.innerHTML = '';
+
+            const header = table.createTHead();
+            const headerRow = header.insertRow();
+            const headers = ['Username', 'Order Number', 'Total Price', 'Date', 'Products'];
+
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+
+            const tbody = table.createTBody();
+
+            data.forEach(order => {
+                console.log('Adding order to table:', order); // Debug log
+                const row = tbody.insertRow();
+
+                const cellUsername = row.insertCell();
+                cellUsername.textContent = order.username;
+
+                const cellOrderNumber = row.insertCell();
+                cellOrderNumber.textContent = order.orderNumber;
+
+                const cellTotalPrice = row.insertCell();
+                cellTotalPrice.textContent = order.totalPrice;
+
+                const cellDate = row.insertCell();
+                cellDate.textContent = new Date(order.date).toLocaleString();
+
+                const cellProducts = row.insertCell();
+                cellProducts.innerHTML = order.products.map(product => `
+                    <div>
+                        <strong>${product.productName}</strong> (Price: ${product.productPrice}, Quantity: ${product.quantity}, Size: ${product.selectedSize})
+                    </div>
+                `).join('');
+            });
+        }
+    }
+
+    function fetchBranches() {
+        fetch('/manager/api/branches')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Fetched branches:', data); // Debug log
+                updateBranchesTable(data);
+            })
+            .catch(error => console.error('Error fetching branches:', error)); // Debug log
+    }
+
+    function updateBranchesTable(data) {
+        const table = document.querySelector('.table-striped');
+        if (table) {
+            table.innerHTML = '';
+
+            const header = table.createTHead();
+            const headerRow = header.insertRow();
+            const headers = ['Name', 'City', 'Phone', 'Edit', 'Delete'];
+
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+
+            const tbody = table.createTBody();
+
+            data.forEach(branch => {
+                console.log('Adding branch to table:', branch); // Debug log
+                const row = tbody.insertRow();
+
+                const cellName = row.insertCell();
+                cellName.textContent = branch.name;
+
+                const cellCity = row.insertCell();
+                cellCity.textContent = branch.city;
+
+                const cellPhone = row.insertCell();
+                cellPhone.textContent = branch.phone;
+
+                const editCell = row.insertCell();
+                const editButton = document.createElement('i');
+                editButton.classList.add('bi', 'bi-pen');
+                editButton.addEventListener('click', () => {
+                    currentItem = branch;
+                    openEditModal(branch);
+                });
+                editCell.appendChild(editButton);
+
+                const deleteCell = row.insertCell();
+                const deleteButton = document.createElement('i');
+                deleteButton.classList.add('bi', 'bi-trash');
+                deleteButton.addEventListener('click', () => {
+                    if (confirm(`Are you sure you want to delete branch: ${branch.name}?`)) {
+                        deleteItem(branch._id);
+                    }
+                });
+                deleteCell.appendChild(deleteButton);
+            });
+        }
+    }
+
+    document.getElementById('branches-link1').addEventListener('click', function () {
+        currentModel = 'branches';
+        fetchBranches();
+        showSearchAndUploadButtons();
+    });
 
     document.getElementById('ski-products-link1').addEventListener('click', function () {
         currentModel = 'ski-products';
@@ -48,9 +262,91 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('users-link1').addEventListener('click', function () {
         currentModel = 'users';
         fetchData(currentModel);
-        document.getElementById('upload-product').style.display = 'none'; // הסתר כפתור העלאת מוצר עבור משתמשים
-        document.getElementById('searchItem1').style.display = 'block';
+        hideAllButtons();
+        document.getElementById('searchItem1').style.display = 'block'; // הצג רק את חיפוש
     });
+
+    document.getElementById('orders-link1').addEventListener('click', function () {
+        currentModel = 'orders';
+        fetchOrders();
+    });
+
+    function fetchData(model) {
+        fetch(`/manager/api/${model}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched data:', data); // Debug log
+                updateTable(data);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function updateTable(data) {
+        const table = document.querySelector('.table-striped');
+        table.innerHTML = '';
+
+        const header = table.createTHead();
+        const headerRow = header.insertRow();
+        let headers = ['ID', 'Name', 'Price', 'Category', 'Color', 'Description', 'Edit', 'Delete'];
+
+        if (currentModel === 'ski-products') {
+            headers.splice(3, 0, 'Quantity');
+        } else if (currentModel === 'clothes' || currentModel === 'accessories') {
+            headers.splice(3, 0, 'Large', 'Medium', 'Small');
+        } else if (currentModel === 'users') {
+            headers = ['Username', 'First Name', 'Last Name', 'Admin', 'Edit', 'Delete'];
+        } else if (currentModel === 'branches') {
+            headers = ['Name', 'City', 'Phone', 'Edit', 'Delete'];
+        }
+
+        headers.forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
+
+        data.forEach(item => {
+            console.log('Adding item to table:', item); // Debug log
+            const row = table.insertRow();
+            let fieldsToDisplay = ['MyId', 'name', 'price', 'category', 'color', 'description'];
+
+            if (currentModel === 'ski-products') {
+                fieldsToDisplay.splice(3, 0, 'quantity');
+            } else if (currentModel === 'clothes' || currentModel === 'accessories') {
+                fieldsToDisplay.splice(3, 0, 'Large', 'Medium', 'Small');
+            } else if (currentModel === 'users') {
+                fieldsToDisplay = ['username', 'firstName', 'lastName', 'isAdmin'];
+            } else if (currentModel === 'branches') {
+                fieldsToDisplay = ['name', 'city', 'phone'];
+            }
+
+            fieldsToDisplay.forEach(field => {
+                const cell = row.insertCell();
+                cell.textContent = item[field];
+            });
+
+            if (currentModel !== 'orders') {
+                const editCell = row.insertCell();
+                const editButton = document.createElement('i');
+                editButton.classList.add('bi', 'bi-pen');
+                editButton.addEventListener('click', () => {
+                    currentItem = item;
+                    openEditModal(item);
+                });
+                editCell.appendChild(editButton);
+
+                const deleteCell = row.insertCell();
+                const deleteButton = document.createElement('i');
+                deleteButton.classList.add('bi', 'bi-trash');
+                deleteButton.addEventListener('click', () => {
+                    if (confirm(`Are you sure you want to delete item: ${item.name || item.username}?`)) {
+                        deleteItem(item._id || item.username);
+                    }
+                });
+                deleteCell.appendChild(deleteButton);
+            }
+        });
+    }
 
     document.getElementById('upload-product').addEventListener('click', function () {
         generateUploadForm(currentModel);
@@ -59,75 +355,139 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('saveUploadButton').addEventListener('click', () => {
-        const newItem = generateNewItem(currentModel);
-
-        fetch(`/manager/api/upload/${currentModel}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newItem)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Upload successful:', data);
-            fetchData(currentModel); // Refresh table with new item
-            const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
-            uploadModal.hide();
-        })
-        .catch(error => console.error('Error:', error));
+        const newItemPromise = generateNewItem(currentModel);
+    
+        if (currentModel === 'branches') {
+            newItemPromise
+                .then(newItem => {
+                    const url= `/manager/api/upload/${currentModel}`
+                    console.log(`url is: ${url}`)
+                    return fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(newItem)
+                    });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Upload successful:', data);
+                    fetchData(currentModel); // Refresh table with new item
+                    const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
+                    uploadModal.hide();
+                })
+                .catch(error => console.error('Error:', error));
+        } else {
+            newItemPromise
+                .then(newItem => {
+                    return fetch(`/manager/api/upload-product/${currentModel}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(newItem)
+                    });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Upload successful:', data);
+                    fetchData(currentModel); // Refresh table with new item
+                    const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
+                    uploadModal.hide();
+                })
+                .catch(error => console.error('Error:', error));
+        }
     });
+    
 
     function generateNewItem(model) {
-        if (model === 'ski-products') {
-            return {
-                MyId: document.getElementById('uploadMyId').value,
+        if (model === 'branches') {
+            const branch = {
                 name: document.getElementById('uploadName').value,
-                price: document.getElementById('uploadPrice').value,
-                quantity: document.getElementById('uploadQuantity').value,
-                description: document.getElementById('uploadDescription').value,
-                category: document.getElementById('uploadCategory').value,
-                color: document.getElementById('uploadColor').value,
-                imageUrl: document.getElementById('uploadImgUrl').value
+                city: document.getElementById('uploadCity').value,
+                phone: document.getElementById('uploadPhone').value
             };
-        } else if (model === 'clothes' || model === 'accessories') {
-            return {
-                MyId: document.getElementById('uploadMyId').value,
-                name: document.getElementById('uploadName').value,
-                price: document.getElementById('uploadPrice').value,
-                Large: document.getElementById('uploadLarge').value,
-                Medium: document.getElementById('uploadMedium').value,
-                Small: document.getElementById('uploadSmall').value,
-                description: document.getElementById('uploadDescription').value,
-                category: document.getElementById('uploadCategory').value,
-                color: document.getElementById('uploadColor').value,
-                imageUrl: document.getElementById('uploadImgUrl').value
-            };
+    
+            // בקשה ל-Google Maps API כדי לקבל את הקורדינטות של העיר
+            return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${branch.city}&key=AIzaSyB6RNA9mZmst46xbC-wuiIEA7xIQAjO-Pw`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(`data is: ${JSON.stringify(data)}`)
+                    if (data.results.length > 0) {
+                        const location = data.results[0].geometry.location;
+                        branch.lat = location.lat;
+                        branch.lng = location.lng;
+                    } else {
+                        throw new Error('City not found in Google Maps');
+                    }
+                    return branch;
+                })
+                .catch(error => {
+                    console.error('Error fetching coordinates:', error);
+                    throw error;
+                });
+        } else {
+            if (model === 'ski-products') {
+                return {
+                    MyId: document.getElementById('uploadMyId').value,
+                    name: document.getElementById('uploadName').value,
+                    price: document.getElementById('uploadPrice').value,
+                    quantity: document.getElementById('uploadQuantity').value,
+                    description: document.getElementById('uploadDescription').value,
+                    category: document.getElementById('uploadCategory').value,
+                    color: document.getElementById('uploadColor').value,
+                    imageUrl: document.getElementById('uploadImgUrl').value
+                };
+            } else if (model === 'clothes' || model === 'accessories') {
+                return {
+                    MyId: document.getElementById('uploadMyId').value,
+                    name: document.getElementById('uploadName').value,
+                    price: document.getElementById('uploadPrice').value,
+                    Large: document.getElementById('uploadLarge').value,
+                    Medium: document.getElementById('uploadMedium').value,
+                    Small: document.getElementById('uploadSmall').value,
+                    description: document.getElementById('uploadDescription').value,
+                    category: document.getElementById('uploadCategory').value,
+                    color: document.getElementById('uploadColor').value,
+                    imageUrl: document.getElementById('uploadImgUrl').value
+                };
+            }
         }
     }
+    
 
     function generateUploadForm(model) {
         const uploadForm = document.getElementById('uploadForm');
         uploadForm.innerHTML = '';
-
-        const fields = [
-            { label: 'ID', id: 'uploadMyId', type: 'number' },
-            { label: 'Name', id: 'uploadName', type: 'text' },
-            { label: 'Price', id: 'uploadPrice', type: 'number' },
-            { label: 'Description', id: 'uploadDescription', type: 'textarea' },
-            { label: 'Category', id: 'uploadCategory', type: 'select', options: categoryOptions[model] },
-            { label: 'Color', id: 'uploadColor', type: 'select', options: ['Red', 'Blue', 'Green', 'Black', 'White', 'Yellow'] },
-            { label: 'Image URL', id: 'uploadImgUrl', type: 'text' }
-        ];
-
-        if (model === 'ski-products') {
-            fields.push({ label: 'Quantity', id: 'uploadQuantity', type: 'number' });
-        } else if (model === 'clothes' || model === 'accessories') {
-            fields.push({ label: 'Large', id: 'uploadLarge', type: 'number' });
-            fields.push({ label: 'Medium', id: 'uploadMedium', type: 'number' });
-            fields.push({ label: 'Small', id: 'uploadSmall', type: 'number' });
+    
+        let fields;
+        if (model === 'branches') {
+            fields = [
+                { label: 'Name', id: 'uploadName', type: 'text' },
+                { label: 'City', id: 'uploadCity', type: 'text' },
+                { label: 'Phone', id: 'uploadPhone', type: 'text' }
+            ];
+        } else {
+            fields = [
+                { label: 'ID', id: 'uploadMyId', type: 'number' },
+                { label: 'Name', id: 'uploadName', type: 'text' },
+                { label: 'Price', id: 'uploadPrice', type: 'number' },
+                { label: 'Description', id: 'uploadDescription', type: 'textarea' },
+                { label: 'Category', id: 'uploadCategory', type: 'select', options: categoryOptions[model] },
+                { label: 'Color', id: 'uploadColor', type: 'select', options: ['Red', 'Blue', 'Green', 'Black', 'White', 'Yellow'] },
+                { label: 'Image URL', id: 'uploadImgUrl', type: 'text' }
+            ];
+    
+            if (model === 'ski-products') {
+                fields.push({ label: 'Quantity', id: 'uploadQuantity', type: 'number' });
+            } else if (model === 'clothes' || model === 'accessories') {
+                fields.push({ label: 'Large', id: 'uploadLarge', type: 'number' });
+                fields.push({ label: 'Medium', id: 'uploadMedium', type: 'number' });
+                fields.push({ label: 'Small', id: 'uploadSmall', type: 'number' });
+            }
         }
-
+    
         fields.forEach(field => {
             const div = document.createElement('div');
             div.className = 'mb-3';
@@ -135,7 +495,7 @@ document.addEventListener('DOMContentLoaded', function () {
             label.className = 'form-label';
             label.textContent = field.label;
             div.appendChild(label);
-
+    
             if (field.type === 'textarea') {
                 const textarea = document.createElement('textarea');
                 textarea.className = 'form-control';
@@ -164,100 +524,7 @@ document.addEventListener('DOMContentLoaded', function () {
             uploadForm.appendChild(div);
         });
     }
-
-    document.getElementById('searchButton1').addEventListener('click', () => {
-        const searchQuery = document.getElementById('searchBox1').value;
-        console.log(`Search query: ${searchQuery}`); // Debug log
-        if (searchQuery) {
-            const searchUrl = currentModel === 'users' ? '/manager/api/search-user' : '/manager/api/search';
-            fetch(`${searchUrl}?model=${currentModel}&query=${encodeURIComponent(searchQuery)}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Search result:', data); // Debug log
-                    updateTable(data); // Update table with search results
-                })
-                .catch(error => console.error('Error:', error));
-        }
-    });
-
-    document.getElementById('searchBox1').addEventListener('input', () => {
-        const searchQuery = document.getElementById('searchBox1').value;
-        console.log(`Search input changed: ${searchQuery}`); // Debug log
-        if (!searchQuery) {
-            fetchData(currentModel); // Reload all data if search box is empty
-        }
-    });
-
-    function fetchData(model) {
-        fetch(`/manager/api/${model}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Fetched data:', data); // Debug log
-                updateTable(data);
-            })
-            .catch(error => console.error('Error:', error));
-    }
-
-    function updateTable(data) {
-        const table = document.querySelector('.table-striped');
-        table.innerHTML = '';
-
-        const header = table.createTHead();
-        const headerRow = header.insertRow();
-        let headers = ['ID', 'Name', 'Price', 'Category', 'Color', 'Description', 'Edit', 'Delete'];
-
-        if (currentModel === 'ski-products') {
-            headers.splice(3, 0, 'Quantity');
-        } else if (currentModel === 'clothes' || currentModel === 'accessories') {
-            headers.splice(3, 0, 'Large', 'Medium', 'Small');
-        } else if (currentModel === 'users') {
-            headers = ['Username', 'First Name', 'Last Name', 'Admin', 'Edit', 'Delete'];
-        }
-
-        headers.forEach(headerText => {
-            const th = document.createElement('th');
-            th.textContent = headerText;
-            headerRow.appendChild(th);
-        });
-
-        data.forEach(item => {
-            console.log('Adding item to table:', item); // Debug log
-            const row = table.insertRow();
-            let fieldsToDisplay = ['MyId', 'name', 'price', 'category', 'color', 'description'];
-
-            if (currentModel === 'ski-products') {
-                fieldsToDisplay.splice(3, 0, 'quantity');
-            } else if (currentModel === 'clothes' || currentModel === 'accessories') {
-                fieldsToDisplay.splice(3, 0, 'Large', 'Medium', 'Small');
-            } else if (currentModel === 'users') {
-                fieldsToDisplay = ['username', 'firstName', 'lastName', 'isAdmin'];
-            }
-
-            fieldsToDisplay.forEach(field => {
-                const cell = row.insertCell();
-                cell.textContent = item[field];
-            });
-
-            const editCell = row.insertCell();
-            const editButton = document.createElement('i');
-            editButton.classList.add('bi', 'bi-pen');
-            editButton.addEventListener('click', () => {
-                currentItem = item;
-                openEditModal(item);
-            });
-            editCell.appendChild(editButton);
-
-            const deleteCell = row.insertCell();
-            const deleteButton = document.createElement('i');
-            deleteButton.classList.add('bi', 'bi-trash');
-            deleteButton.addEventListener('click', () => {
-                if (confirm(`Are you sure you want to delete item: ${item.name || item.username}?`)) {
-                    deleteItem(item.MyId || item.username);
-                }
-            });
-            deleteCell.appendChild(deleteButton);
-        });
-    }
+    
 
     function openEditModal(item) {
         const editForm = document.getElementById('editForm');
@@ -270,6 +537,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 { label: 'First Name', id: 'editFirstName', type: 'text', value: item.firstName, readonly: true },
                 { label: 'Last Name', id: 'editLastName', type: 'text', value: item.lastName, readonly: true },
                 { label: 'Admin', id: 'editIsAdmin', type: 'checkbox', value: item.isAdmin }
+            ];
+        } else if (currentModel === 'branches') {
+            fields = [
+                { label: 'Name', id: 'editName', type: 'text', value: item.name, readonly: true },
+                { label: 'City', id: 'editCity', type: 'text', value: item.city, readonly: true },
+                { label: 'Phone', id: 'editPhone', type: 'text', value: item.phone }
             ];
         } else {
             fields = [
@@ -348,7 +621,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const editModal = new bootstrap.Modal(document.getElementById('editModal'));
         editModal.show();
     }
-    
 
     document.getElementById('updateButton').addEventListener('click', () => {
         if (currentItem) {
@@ -359,6 +631,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     firstName: document.getElementById('editFirstName').value,
                     lastName: document.getElementById('editLastName').value,
                     isAdmin: document.getElementById('editIsAdmin').checked
+                };
+            } else if (currentModel === 'branches') {
+                updatedItem = {
+                    phone: document.getElementById('editPhone').value
                 };
             } else {
                 updatedItem = {
@@ -378,7 +654,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            const updateUrl = currentModel === 'users' ? `/manager/api/update-user/${currentItem.username}` : `/manager/api/update/${currentItem.MyId}`;
+            const updateUrl = currentModel === 'users'
+                ? `/manager/api/update-user/${currentItem.username}`
+                : currentModel === 'branches'
+                ? `/manager/api/update-branch/${currentItem._id}`
+                : `/manager/api/update/${currentItem.MyId}`;
             fetch(updateUrl, {
                 method: 'PUT',
                 headers: {
@@ -397,59 +677,40 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    function deleteItem(itemId) {
-        const deleteUrl = currentModel === 'users' ? `/manager/api/delete-user/${itemId}` : `/manager/api/delete/${itemId}`;
+
+//     function deleteItem(itemId) {
+//         const deleteUrl = currentModel === 'users' ? `/manager/api/delete-user/${itemId}` : `/manager/api/delete/${itemId}`;
         
-        fetch(deleteUrl, {
-            method: 'DELETE'
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Delete successful:', data);
-            fetchData(currentModel);
-        })
-        .catch(error => console.error('Error:', error));
-    }
+//         fetch(deleteUrl, {
+//             method: 'DELETE'
+//         })
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log('Delete successful:', data);
+//             fetchData(currentModel);
+//         })
+//         .catch(error => console.error('Error:', error));
+//     }
+// });
+
+function deleteItem(itemId) {
+    const deleteUrl = currentModel === 'users'
+        ? `/manager/api/delete-user/${itemId}`
+        : currentModel === 'branches'
+        ? `/manager/api/delete-branch/${itemId}`
+        : `/manager/api/delete/${itemId}`;
+
+    fetch(deleteUrl, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Delete successful:', data);
+        fetchData(currentModel);
+    })
+    .catch(error => console.error('Error:', error));
+}
 });
-
-
-
-    // הוספת הפונקציות לעדכון בפייסבוק
-    // function postToFacebook(message) {
-    //     const pageId = '334940566378514'; // העמוד שלך
-    //     const accessToken = 'EAAFsNm6cRrsBO6fM9rhwimDG2vdO1FxkZCHN2E5ydqV5eNgVF16eRI4ABDfPwLYN8bAjz4FPlwL0lejXYHGZBIY9mSMaiaz3IGkH8hyG2kppD92QDyVT8AvvYR5THqAfSOmsR7sxBmFocd1aoZBlYgyXPZCBfc28gLCVE3kTsH0JDz9AZC7gDKoSx5ckZC2Wiw6ZA0UwS638DZBvs0zlMzfwql6b';
-
-    //     console.log('Posting to Facebook:', message); // הוספת הודעת הדפסה לפני הפרסום
-
-    //     fetch(`https://graph.facebook.com/${pageId}/feed`, {
-    //         method: 'POST',
-    //         body: new URLSearchParams({
-    //             message: message,
-    //             access_token: accessToken
-    //         })
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         if (data.error) {
-    //             console.error('Error posting to Facebook:', data.error);
-    //             alert(`Error posting to Facebook: ${data.error.message}`); // הוספת הודעת שגיאה למשתמש
-    //         } else {
-    //             console.log('Post successful:', data);
-    //             alert('Post successful!'); // הוספת הודעת הצלחה למשתמש
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.error('Error:', error);
-    //         alert(`Error: ${error.message}`); // הוספת הודעת שגיאה למשתמש
-    //     });
-    // }
-
-    // document.getElementById('postToFacebookButton').addEventListener('click', function() {
-    //     const message = document.getElementById('facebookPostMessage').value;
-    //     postToFacebook(message);
-    // });
-
-
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('postToFacebookButton').addEventListener('click', function() {
@@ -458,7 +719,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function postToFacebook(message) {
-        const accessToken = 'EAAFsNm6cRrsBO0Fa2dWAOVLZA5Op6TRNsMmreZATYXyuqZAdQf6EMov5BmKFzmvHwBs1u87TLERRxhrqjbsnjU1ZBU4J9rmuzt1AYXKiSTPiPBh354fkHfhKrGvDUg7W5q58UIEwSZCenFtYgiorkDBjE2YfmYSVWXo1f9ldQMWwdDWUhS1QW0wZBpUjg9qUQpKkqajPqH7hVH0tjJYVoTSZCSY'; // Your Page Access Token
+        const accessToken = 'EAAHaVHQgb0cBO1ZBIs1ccyJvZBk3qCibhjK6KF4dyCEqi0dx2hWZCUGdf1HRWp2MUM3kEUntqf4WFhDpm5DIZBrYVssZCw8BcvQ03xGnll3tKYcHvBTT2lCtmeR0G0uP0Hwhk5vVSOW39vra2wXpGGCfKyZCAD0uzbPCC9dgHZA6EnQ1HiSjpPzawZC29agY0iIvVWDeFv80ZAjv97MWyBg4sVqoWzAZDZD'; // Your Page Access Token
         const page_id = '334940566378514'; 
         // const app_id = '400456016479931'; // Your Facebook App ID
 

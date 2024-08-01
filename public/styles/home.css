@@ -1,10 +1,20 @@
 body {
+position: relative; /* כדי שה-overlay יהיה מעל ה-body */
+}
+
+#backgroundOverlay {
     background-image: url('https://media.cntraveler.com/photos/6351664f9e488d3c598e3279/16:9/w_2240,c_limit/Ski_GettyImages-1400588475.jpg');
     background-attachment: fixed; /* Parallax effect */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    margin: 0; 
+    position: fixed; /* כדי שה-overlay יכסה את כל העמוד */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6; /* שקיפות של 50% */
+    z-index: -1; /* מתחת לכל התוכן */
 }
 
 /* Fixed top bar */
@@ -35,19 +45,29 @@ body {
     background-color: rgb(238, 244, 249);
     margin: 0; /* Remove margin to prevent gaps */
     width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* User line margin */
+#lineUser {
+    font-weight: 500;
+    position: relative;
+    left: 1.5%;
 }
 
 /* Menu styling */
 #menu {
     display: flex;
     flex-direction: row;
-    margin-left: 20px;
+    gap: 14px;
+    position: relative;
+    left: 2.5%;
 }
 
 #menu a {
     color: black; 
     text-decoration: none; 
-    margin-left: 23px;
 }
 
 #menu a:hover {
@@ -65,37 +85,340 @@ body {
     left: 47%;
 }
 
-/* Search item styling */
-#searchItem {
-    margin-left: 400px;
-    border-radius: 30px;
+*{
+    box-sizing: border-box;
+  }
+  
+  .search-container {
+    margin: 0px;
+    padding: 0px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1b1376;
+    font-family: 'Lato' !important;
+  }
+  
+  .search-box {
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    left: 20%;
+  }
+  
+  .input-search {
+    height: 40px;
+    width: 40px;
+    border-style: none;
+    padding: 8px;
+    font-size: 16px;
+    letter-spacing: 2px;
+    outline: none;
+    border-radius: 20px;
+    transition: all .5s ease-in-out;
+    background-color: #4a5d6a;
+    padding-right: 35px;
+    color: #4a5d6a;
+  }
+  
+  .input-search::placeholder {
+    color: #4a5d6a;
+    font-size: 16px;
+    letter-spacing: 2px;
+    font-weight: 100;
+  }
+  
+  .btn-search {
+    width: 40px;
+    height: 40px;
+    border-style: none;
+    font-size: 18px;
+    font-weight: bold;
+    outline: none;
+    cursor: pointer;
+    border-radius: 50%;
+    position: absolute;
+    right: 1px;
+    color: #ffffff;
+    background-color: transparent;
+    pointer-events: painted;
+  }
+  
+  .btn-search:focus ~ .input-search {
+    width: 250px;
+    border-radius: 0px;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(108, 108, 108, 0.5);
+    transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+  }
+  
+  .input-search:focus {
+    width: 250px;
+    border-radius: 0px;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(126, 125, 125, 0.5);
+    transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+
+  }
+
+    .input-search:focus ~ .btn-search,
+    .btn-search:focus,
+    .btn-search:active {
+    color: #4a5d6a; /* שמור על הצבע של הכפתור */
+    /* background-color: #666666; Change button background color to white */
+    }
+
+/* Login button styling */
+#logInBtn {
+    position: absolute;
+    left: 95%;
+    font-size: x-large;
+    margin-top: 3px; 
+    padding: 4px;
+    border-radius: 15px;
+    background-color: transparent;
 }
+
+/* Cart button styling */
+#cartBtn {
+    position: absolute;
+    left: 92%;
+    font-size: x-large;
+    margin-top: 3px; 
+    padding: 4px;
+    border-radius: 15px;
+    background-color: transparent;
+}
+
+/* Responsive styling */
+@media (max-width: 1200px) {
+    #topLine {
+        flex-direction: column;
+        align-items: flex-start;
+        height: fit-content;
+        padding: 10px;
+    }
+    #title {
+        font-size: large;
+    }
+    
+    #searchItem {
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    #topLine {
+        flex-direction: column;
+        align-items: flex-start;
+        height: fit-content;
+        padding: 10px;
+    }
+
+    /* לסדר כאן את הרספונסיביות כי כשהמסך קטן אז זה דורס את הקונטיינר */
+    #container  
+    {
+        position: relative;
+        top: 20%;
+    }
+
+    .container_main
+    {
+        position: relative;
+        top: 14%;
+    }
+    
+    #title {
+        font-size: large;
+        margin: 10px 0;
+    }
+    
+    #menu {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+    
+    #menu a {
+        margin: 5px 0;
+    }
+    
+    #searchItem {
+        display: flex;
+        align-items: center;
+        border-radius: 30px;
+        position: relative;
+        left: 25%;
+    }
+    
+    #searchBox {
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        outline: none;
+    }
+    
+    #searchButton {
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-left: none; /* Remove border between input and button */
+        cursor: pointer;
+    }
+    
+    #logInBtn, #cartBtn {
+        margin-top: 10px;
+        font-size: large;
+    }
+
+    #lineUser {
+        display: none; /* Hide the user line for small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    #title {
+        font-size: medium;
+    }
+
+    #searchItem input {
+        width: calc(100% - 20px); /* Make input full width with padding */
+    }
+    
+    #menu {
+        display: none; /* Hide the menu for very small screens */
+    }
+
+    #logInBtn, #cartBtn {
+        font-size: medium;
+    }
+}
+
+
+
+
+
+
 
 /* Main container styling */
 #container {
     position: relative; /* Ensure it can act as a reference point for absolutely positioned children */
     display: flex;
     flex-direction: column;
-    float: left;
     justify-content: space-between;
     align-items: center;
     background-size: cover;
     background-position: center;
-    margin-left: 215px;
-    margin-top: 100px;
+    margin-top: 5%;
+    flex: 1;
 }
 
-/* Login button styling */
-#logInBtn {
-    left: 95%;
+
+/* Cart card styling */
+#cartCard {
+    
+    display: none;
+    margin-top: 3%;
+    left: 62%;
+    border-radius: 5px;
+    width: 28rem;
     position: absolute;
-    font-size: x-large;
-    margin-top: 3px; 
-    padding: 4px;
-    border-radius: 15px;
+    background-color: rgb(253 253 253);
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Card titles and margins */
+#checkOut
+{
+    width: 250px;
+    font-weight: 200;
+    margin-bottom: 15px;
+    background-color: #6c757d;
+}
+
+#logInCard {
+    display: none;
+    margin-top: 4%;
+    left: 75%;
+    border-radius: 5px;
+    width: 28rem;
+    position: absolute;
+    background-color: rgb(253 253 253);
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#submit
+{
+    width: 220px;
+    font-weight: 200;
+    margin-bottom: 15px;
+    background-color:#6c757d ;
+    border-color: #333;
+}
+
+#showRegisterForm
+{
+    width: 220px;
+    font-weight: 200;
+    background-color:#6c757d ;
+    border-color: #333;
+}
+
+#logInCard input {
+    margin-bottom: 7px;
+    border-radius: 7px;
+    border-width: 0.5px;
+    padding-left: 10px;
+}
+
+#logInCard a {
+    margin-top: 10px;
+    background-color: white;
+    color: black;
+    border-color: gray;
+    width: 100px;
+}
+
+#logInCard a:hover {
+    background-color: rgba(96, 206, 246, 0.153);
+}
+
+
+/* Register card styling */
+#registerCard {
+    display: none;
+    margin-top: 4%;
+    left: 75%;
+    border-radius: 5px;
+    width: 28rem;
+    position: absolute;
+    background-color: rgb(253 253 253);
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#registerSubmit
+{
+    width: 220px;
+    font-weight: 200;
+    background-color:#6c757d ;
+    border-color: #333;
+    margin-bottom: 10px;
+}
+
+#backToLogin
+{
+    width: 220px;
+    font-weight: 200;
+    background-color:#6c757d ;
+    border-color: #333;
+}
+
+/* cart Card titles and margins */
 .card-title {
     margin-bottom: 15px;
     margin-top: 20px; /* Add top margin to separate from previous element */
@@ -116,114 +439,68 @@ body {
     margin-top: 18px;
 }
 
-/* Register card styling */
-#registerCard {
-    display: none;
-    position: absolute;
-    /* left: 40%; */
-    transform: translate(350%, 0%);
-    border-radius: 15px;
-    background-color: rgb(253 253 253);
-    z-index: 1000;
-}
 
 /* Common card styling */
 #logoutCard, #changePassCard, #changeUserNameCard {
-    left: 71%;
+    display: none;
+    margin-top: 4%;
+    left: 75%;
+    border-radius: 5px;
+    width: 28rem;
     position: absolute;
-    background-color: rgba(240, 255, 253, 0.485);
-    font-size: medium;
-    margin-top: 28px; 
-    padding: 4px;
-    border-radius: 15px;
-    z-index: 3;
+    background-color: rgb(253 253 253);
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* User line margin */
-#lineUser {
-    margin-left: 71px;
-    margin-top: 7px;
+#logoutbtn, #showChangePassForm, #deleteUserBtn, #showChangeUserNameForm, #ChangePasswordBtn, #backToLogoutFromPass, #ChangeUserNameBtn ,#backToLogoutFromUser
+{
+    width: 220px;
+    font-weight: 200;
+    background-color:#6c757d ;
+    border-color: #333;
+    margin-bottom: 10px;
 }
 
-/* Cart button styling */
-#cartBtn {
-    left: 92%;
-    position: absolute;
-    font-size: x-large;
-    margin-top: 3px; 
-    padding: 4px;
-    border-radius: 15px;
-}
 
 /* Top categories styling */
 #TopCategories {
     display: flex;
     flex-direction: row;
-    margin-right: 10px;
+    justify-content: center;
+}
+
+#TopCategories a{
+    color: black; 
+    text-decoration: none; 
 }
 
 /* Card general styling */
 .card {
     justify-content: space-between;
-    margin-left: 20px;
+    margin-left: 40px;
+    margin-bottom: 7%;
 }
 
 /* Sub title styling */
 #subTitel {
+    
     margin-top: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-/* Cart card styling */
-#cartCard {
-    display: none;
-    margin-top: 0px;
-    position:fixed;
-    left:891px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: xx-large;
+    font-weight: bold;
+    /* background-color: #f2f0ee; */
+    color: #4b5b6a;
     border-radius: 15px;
-    background-color: rgba(240, 248, 255, 0.60);
-    z-index: 1000;
-    width: 30rem;
-    position: absolute;
-    /* left: 40%; */
-    /* transform: translate(300%, 0%); */
-    border-radius: 15px;
-    background-color: rgb(253 253 253);
-    z-index: 1000;
-}
-
-/* Login card styling */
-#logInCard {
-    display: none;
-    position: absolute;
-    /* left: 40%; */
-    transform: translate(300%, 0%);
-    border-radius: 15px;
-    background-color: rgb(253 253 253);
-    z-index: 1000;
-}
-#logInCard input {
-    margin-bottom: 7px;
-    border-radius: 7px;
-    border-width: 0.5px;
-    padding-left: 10px;
-}
-
-#logInCard a {
-    margin-top: 10px;
-    background-color: white;
-    color: black;
-    border-color: gray;
-    width: 100px;
-}
-
-#logInCard a:hover {
-    background-color: rgba(96, 206, 246, 0.153);
+    width: 1000px;
+    display: flex;
+    justify-content: center;
 }
 
 /* Card text margin */
 .card-text {
-    margin-left: 30%;
+    display: flex;
+    justify-content: center;
 }
 
 /* Map styling */
@@ -240,11 +517,6 @@ body {
     min-height: 100vh;
 }
 
-#container {
-    flex: 1;
-    min-height: 50vh; /* Ensure container takes at least the full height of the viewport */
-}
-
 .footer-container {
     width: 100%;
     /* background: linear-gradient(to right, #f8f9fa, #e9ecef); Gradient background for a modern look */
@@ -254,6 +526,9 @@ body {
     margin: 0 auto 0; /* Space above the footer, centered horizontally */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     position: relative; /* Ensure relative positioning for possible additional effects */
+    background-color: #f1f1f1; /* Adjust as needed */
+    margin-top:120px;
+
 }
 .footer-email-signup {
     margin-bottom: 10px; /* Increased margin for more spacing */

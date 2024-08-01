@@ -390,7 +390,9 @@ let weatherData = [];
 let currentIndex = 0;
 
 function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
+    const mapDivElement= document.getElementById('map');
+    console.log(`map div element is: ${mapDivElement}`)
+  map = new google.maps.Map(mapDivElement, {
       zoom: 5,
       center: { lat: 45.0, lng: 10.0 }
   });
@@ -448,11 +450,34 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   }, 5000);
   
-  // Add event listener to the search button
-  document.getElementById('searchButton').addEventListener('click', function () {
-      const searchQuery = document.getElementById('searchBox').value;
-      if (searchQuery) {
-          window.location.href = `/SingleProduct?name=${encodeURIComponent(searchQuery)}`;
-      }
-  });
+  document.addEventListener('DOMContentLoaded', function () {
+    // Add event listener to the search button
+    document.querySelector('.btn-search').addEventListener('click', function () {
+        const searchQuery = document.querySelector('.input-search').value;
+        if (searchQuery) {
+            window.location.href = `/SingleProduct?name=${encodeURIComponent(searchQuery)}`;
+        }
+    });
+
+    // Change the color of the search button when the input is focused and when typing
+    const inputSearch = document.querySelector('.input-search');
+    const btnSearch = document.querySelector('.btn-search');
+
+    const changeButtonColor = function() {
+        btnSearch.style.color = '#4a5d6a';
+    };
+
+    inputSearch.addEventListener('focus', changeButtonColor);
+    inputSearch.addEventListener('input', changeButtonColor);
+
+    inputSearch.addEventListener('blur', function () {
+        // Reset the color if needed when input loses focus
+        if (!inputSearch.value) {
+            btnSearch.style.color = '#ffffff'; // or any other default color
+        }
+    });
 });
+
+});
+  
+

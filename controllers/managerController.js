@@ -2,6 +2,85 @@ const SkiProducts = require('../models/SkiProducts');
 const Clothes = require('../models/Clothes');
 const Accessories = require('../models/Accessories');
 const Users = require('../models/users');
+const Order = require('../models/orders');
+const Branch = require('../models/Branch');
+
+exports.getManagerPage = async (req, res) => {
+    try {
+        const numberOfClients = await Users.countDocuments();
+        const numberOfBranches = await Branch.countDocuments();
+
+        res.render('manager', {
+            username: req.session.username,
+            numberOfClients,
+            numberOfBranches
+        });
+    } catch (err) {
+        console.error('Error fetching manager page data:', err);
+        res.status(500).send(err);
+    }
+};
+
+exports.getOrdersPerDayJulyAugust = async (req, res) => {
+    try {
+        const startDate = new Date('2024-07-30T00:00:00.000Z');
+        const endDate = new Date('2024-08-31T23:59:59.999Z'); // עדכון סוף היום ל-31 באוגוסט
+
+        console.log('Fetching orders between:', startDate, 'and', endDate);
+
+        const orders = await Order.aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: startDate,
+                        $lte: endDate
+                    }
+                }
+            },
+            {
+                $project: {
+                    date: 1,
+                    username: 1,
+                    orderNumber: 1,
+                    totalPrice: 1
+                }
+            },
+            {
+                $group: {
+                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+                    count: { $sum: 1 },
+                    orders: { $push: "$$ROOT" }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+
+        console.log('Orders retrieved:', orders);
+        res.json(orders);
+    } catch (err) {
+        console.error('Error getting orders per day in July and August:', err);
+        res.status(500).send(err);
+    }
+};
+
+exports.getOrdersPerUser = async (req, res) => {
+    try {
+        const orders = await Order.aggregate([
+            {
+                $group: {
+                    _id: "$username",
+                    count: { $sum: 1 }
+                }
+            },
+            { $sort: { _id: 1 } } // לסדר את התוצאות לפי שם המשתמש
+        ]);
+        console.log(`orders per user: ${JSON.stringify(orders)}`);
+        res.json(orders);
+    } catch (err) {
+        console.error('Error getting orders per user:', err);
+        res.status(500).send(err);
+    }
+};
 
 exports.getSkiProducts = async (req, res) => {
     try {
@@ -175,6 +254,68 @@ exports.searchUser = async (req, res) => {
         res.json(users);
     } catch (err) {
         console.error('Error searching users:', err); // הודעת הדפסה במקרה של שגיאה
+        res.status(500).send(err);
+    }
+};
+
+exports.getOrders = async (req, res) => {
+    try {
+        const orders = await Order.find();
+        res.json(orders);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+};
+
+exports.getBranches = async (req, res) => {
+    try {
+        const branches = await Branch.find();
+        console.log('Branches found:', branches); // הודעת הדפסה
+        res.json(branches);
+    } catch (err) {
+        console.error('Error fetching branches:', err); // הודעת שגיאה
+        res.status(500).send(err);
+    }
+};
+
+exports.updateBranch = async (req, res) => {
+    try {
+        const branchId = req.params.id;
+        const updatedData = req.body;
+
+        console.log('Received data for update:', updatedData); // הדפסת הנתונים שהתקבלו
+        console.log('Updating branch with ID:', branchId); // הדפסת ה-ID של הסניף
+
+        const updatedBranch = await Branch.findByIdAndUpdate(branchId, updatedData, { new: true });
+
+        res.json(updatedBranch);
+    } catch (err) {
+        console.error('Error updating branch:', err); // הדפסת השגיאה
+        res.status(500).send(err);
+    }
+};
+
+exports.deleteBranch = async (req, res) => {
+    try {
+        const branchId = req.params.id;
+        const deletedBranch = await Branch.findByIdAndDelete(branchId);
+        res.json({ message: 'Branch deleted successfully', branch: deletedBranch });
+    } catch (err) {
+        console.error('Error deleting branch:', err);
+        res.status(500).send(err);
+    }
+};
+
+exports.uploadBranch = async (req, res) => {
+    try {
+        console.log(`req.body is: ${JSON.stringify(req.body)}`)
+        const newBranch = new Branch(req.body);
+        console.log(`newBranch is: ${JSON.stringify(newBranch)}`)
+        const savedBranch = await newBranch.save();
+        console.log(`savedBranch is: ${JSON.stringify(savedBranch)}`)
+        res.json(savedBranch);
+    } catch (err) {
+        console.error('Error uploading branch:', err);
         res.status(500).send(err);
     }
 };

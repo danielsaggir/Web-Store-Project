@@ -14,4 +14,7 @@ router.delete('/removeCartItem', cartController.removeCartItem);
 // Route to update an item in the cart
 router.put('/updateCartItem', cartController.updateCartItem);
 
+// Route to checkavailability of an item in the cart
+router.post('/checkAvailability', cartController.checkAvailability);
+
 module.exports = router;

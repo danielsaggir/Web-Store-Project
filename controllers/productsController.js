@@ -5,9 +5,9 @@ const Accessories = require('../models/Accessories');
 exports.getProducts = async (req, res) => {
     const selectedCategory = req.query.category;
     const sortOption = req.query.sort;
-    const colorFilters = req.query.color ? req.query.color.split(',') : [];
-    const sizeFilters = req.query.size ? req.query.size.split(',') : [];
-    const priceFilter = req.query.price;
+    const colorFilters = req.query.color ? req.query.color.split(',') : []; // Convert to array if multiple
+    const sizeFilters = req.query.size ? req.query.size.split(',') : [];   // Convert to array if multiple
+    const priceFilter = req.query.price;  // Price range filter value
     const skiCategoryFilter = req.query.skiCategory ? req.query.skiCategory.split(',') : []; // Handle multiple categories
 
     let ProductModel;
@@ -67,6 +67,7 @@ exports.getProducts = async (req, res) => {
             return res.status(400).send('Invalid category');
     }
 
+    //Apply price filter if selected (All categories)
     // Apply price filter if selected (All categories)
     if (priceFilter) {
         switch (priceFilter) {
@@ -82,7 +83,7 @@ exports.getProducts = async (req, res) => {
         }
     }
 
-    // Apply sorting criteria
+    //Apply sorting criteria
     let sortCriteria = {};
     switch (sortOption) {
         case 'price_asc':
@@ -95,9 +96,7 @@ exports.getProducts = async (req, res) => {
             sortCriteria = {}; // Default sort is none
             break;
     }
-
-    console.log('Filter Criteria:', filterCriteria); // Debug statement
-
+    
     try {
         const products = await ProductModel.find(filterCriteria).sort(sortCriteria).exec();
         res.render('products', { selectedCategory, products });

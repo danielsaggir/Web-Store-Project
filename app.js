@@ -63,6 +63,7 @@ const cartRouts = require('./routes/cartRouts');
 const orderRoutes = require('./routes/orders'); // Added Orders routes
 
 
+
 // Use routes
 server.use(homeRoutes);
 server.use(productRoutes);
@@ -70,7 +71,6 @@ server.use(singleProductRoutes);
 server.use(managerRoutes);
 server.use(userRoutes);
 server.use(accountRoutes);
-
 server.use(cartRouts);
 server.use( orderRoutes);
 
