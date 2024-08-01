@@ -114,123 +114,165 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Add event listener for cart button
 const cartBtn = document.getElementById('cartBtn');
 if (cartBtn) {
-  cartBtn.addEventListener('click', function() {
-      const cartCard = document.getElementById('cartCard');
-      if (cartCard.style.display === 'none' || cartCard.style.display === '') {
-          cartCard.style.display = 'block';
-      } else {
-          cartCard.style.display = 'none';
-      }
-  });
+    cartBtn.addEventListener('click', function () {
+        const cartCard = document.getElementById('cartCard');
+        const loginCard = document.getElementById('logInCard');
+        const logoutCard = document.getElementById('logoutCard');
+        const registerCard = document.getElementById('registerCard');
+        const changePassCard = document.getElementById('changePassCard');
+        const changeUserNameCard = document.getElementById('changeUserNameCard');
+
+        // סגור את כל הכרטיסים הפתוחים
+        if (loginCard && loginCard.style.display === 'block') {
+            loginCard.style.display = 'none';
+        }
+        if (logoutCard && logoutCard.style.display === 'block') {
+            logoutCard.style.display = 'none';
+        }
+        if (registerCard && registerCard.style.display === 'block') {
+            registerCard.style.display = 'none';
+        }
+        if (changePassCard && changePassCard.style.display === 'block') {
+            changePassCard.style.display = 'none';
+        }
+        if (changeUserNameCard && changeUserNameCard.style.display === 'block') {
+            changeUserNameCard.style.display = 'none';
+        }
+
+        // החלף את מצב התצוגה של כרטיס העגלה
+        if (cartCard.style.display === 'none' || cartCard.style.display === '') {
+            cartCard.style.display = 'block';
+        } else {
+            cartCard.style.display = 'none';
+        }
+    });
 }
 
 // Add other event listeners for the login and form buttons
 const logInBtn = document.getElementById('logInBtn');
 if (logInBtn) {
-  logInBtn.addEventListener('click', function() {
-      let loginCard = document.getElementById('logInCard');
-      let logoutCard = document.getElementById('logoutCard');
-      let changePassCard = document.getElementById('changePassCard');
-      let changeUserNameCard = document.getElementById('changeUserNameCard');
+    logInBtn.addEventListener('click', function () {
+        let loginCard = document.getElementById('logInCard');
+        let logoutCard = document.getElementById('logoutCard');
+        let changePassCard = document.getElementById('changePassCard');
+        let changeUserNameCard = document.getElementById('changeUserNameCard');
+        let cartCard = document.getElementById('cartCard');
+        let registerCard = document.getElementById('registerCard');
 
-      // Close any open cards
-      if (changePassCard && changePassCard.style.display === 'block') {
-          changePassCard.style.display = 'none';
-      }
-      if (changeUserNameCard && changeUserNameCard.style.display === 'block') {
-          changeUserNameCard.style.display = 'none';
-      }
+        // סגור את כל הכרטיסים הפתוחים
+        if (changePassCard && changePassCard.style.display === 'block') {
+            changePassCard.style.display = 'none';
+        }
+        if (changeUserNameCard && changeUserNameCard.style.display === 'block') {
+            changeUserNameCard.style.display = 'none';
+        }
+        if (cartCard && cartCard.style.display === 'block') {
+            cartCard.style.display = 'none';
+        }
+        if (registerCard && registerCard.style.display === 'block') {
+            registerCard.style.display = 'none';
+        }
 
-      if (username && username !== 'Guest') {
-          // User is logged in
-          if (logoutCard.style.display === 'block') {
-              logoutCard.style.display = 'none';
-          } else {
-              logoutCard.style.display = 'block';
-          }
-      } else {
-          // User is not logged in
-          if (loginCard.style.display === 'block') {
-              loginCard.style.display = 'none';
-          } else {
-              loginCard.style.display = 'block';
-          }
-      }
-  });
+        // החלף את מצב התצוגה של כרטיס ההתחברות או ה-logout
+        if (username && username !== 'Guest') {
+            // User is logged in
+            if (logoutCard.style.display === 'block') {
+                logoutCard.style.display = 'none';
+            } else {
+                logoutCard.style.display = 'block';
+            }
+        } else {
+            // User is not logged in
+            if (loginCard.style.display === 'block') {
+                loginCard.style.display = 'none';
+            } else {
+                loginCard.style.display = 'block';
+            }
+        }
+    });
 }
 
 const showRegisterForm = document.getElementById('showRegisterForm');
 if (showRegisterForm) {
-  showRegisterForm.addEventListener('click', function() {
-      let registerForm = document.getElementById('registerCard');
-      let loginForm = document.getElementById('logInCard');
-      
-      if (registerForm.style.display === 'block') {
-          registerForm.style.display = 'none';
-          loginForm.style.display = 'block';
-      } else {
-          registerForm.style.display = 'block';
-          loginForm.style.display = 'none';
-      }
-  });
+    showRegisterForm.addEventListener('click', function () {
+        let registerForm = document.getElementById('registerCard');
+        let loginForm = document.getElementById('logInCard');
+
+        if (registerForm.style.display === 'block') {
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        } else {
+            registerForm.style.display = 'block';
+            loginForm.style.display = 'none';
+        }
+    });
+}
+
+const backToLoginForm = document.getElementById('backToLoginForm');
+if (backToLoginForm) {
+    backToLoginForm.addEventListener('click', function () {
+        let registerForm = document.getElementById('registerCard');
+        let loginForm = document.getElementById('logInCard');
+        registerForm.style.display = 'none';
+        loginForm.style.display = 'block';
+    });
 }
 
 // הקוד עבור כפתור ה-showChangePassForm
 const showChangePassForm = document.getElementById('showChangePassForm');
 if (showChangePassForm) {
-  showChangePassForm.addEventListener('click', function() {
-      let changePassForm = document.getElementById('changePassCard');
-      let logoutCard = document.getElementById('logoutCard');
-      
-      if (changePassForm.style.display === 'block') {
-          changePassForm.style.display = 'none';
-          logoutCard.style.display = 'block';
-      } else {
-          changePassForm.style.display = 'block';
-          logoutCard.style.display = 'none';
-      }
-  });
+    showChangePassForm.addEventListener('click', function () {
+        let changePassForm = document.getElementById('changePassCard');
+        let logoutCard = document.getElementById('logoutCard');
+
+        if (changePassForm.style.display === 'block') {
+            changePassForm.style.display = 'none';
+            logoutCard.style.display = 'block';
+        } else {
+            changePassForm.style.display = 'block';
+            logoutCard.style.display = 'none';
+        }
+    });
 }
 
 // הקוד עבור כפתור ה-showChangeUserNameForm
 const showChangeUserNameForm = document.getElementById('showChangeUserNameForm');
 if (showChangeUserNameForm) {
-  showChangeUserNameForm.addEventListener('click', function() {
-      let changeUserNameForm = document.getElementById('changeUserNameCard');
-      let logoutCard = document.getElementById('logoutCard');
-      
-      if (changeUserNameForm.style.display === 'block') {
-          changeUserNameForm.style.display = 'none';
-          logoutCard.style.display = 'block';
-      } else {
-          changeUserNameForm.style.display = 'block';
-          logoutCard.style.display = 'none';
-      }
-  });
+    showChangeUserNameForm.addEventListener('click', function () {
+        let changeUserNameForm = document.getElementById('changeUserNameCard');
+        let logoutCard = document.getElementById('logoutCard');
+
+        if (changeUserNameForm.style.display === 'block') {
+            changeUserNameForm.style.display = 'none';
+            logoutCard.style.display = 'block';
+        } else {
+            changeUserNameForm.style.display = 'block';
+            logoutCard.style.display = 'none';
+        }
+    });
 }
 
 // הקוד עבור כפתור ה-backToLogoutFromPass
 const backToLogoutFromPass = document.getElementById('backToLogoutFromPass');
 if (backToLogoutFromPass) {
-  backToLogoutFromPass.addEventListener('click', function() {
-      let changePassForm = document.getElementById('changePassCard');
-      let logoutCard = document.getElementById('logoutCard');
-      changePassForm.style.display = 'none';
-      logoutCard.style.display = 'block';
-  });
+    backToLogoutFromPass.addEventListener('click', function () {
+        let changePassForm = document.getElementById('changePassCard');
+        let logoutCard = document.getElementById('logoutCard');
+        changePassForm.style.display = 'none';
+        logoutCard.style.display = 'block';
+    });
 }
 
 const backToLogoutFromUser = document.getElementById('backToLogoutFromUser');
 if (backToLogoutFromUser) {
-  backToLogoutFromUser.addEventListener('click', function() {
-      let changeUserNameForm = document.getElementById('changeUserNameCard');
-      let logoutCard = document.getElementById('logoutCard');
-      changeUserNameForm.style.display = 'none';
-      logoutCard.style.display = 'block';
-  });
+    backToLogoutFromUser.addEventListener('click', function () {
+        let changeUserNameForm = document.getElementById('changeUserNameCard');
+        let logoutCard = document.getElementById('logoutCard');
+        changeUserNameForm.style.display = 'none';
+        logoutCard.style.display = 'block';
+    });
 }
 
 const loginForm = document.getElementById('loginForm');
