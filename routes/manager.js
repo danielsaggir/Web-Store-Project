@@ -4,9 +4,10 @@ const router = express.Router();
 const managerController = require('../controllers/managerController');
 
 // נתיב להצגת דף הניהול
-router.get('/manager', (req, res) => {
-    res.render('manager');
-});
+// router.get('/manager', (req, res) => {
+//     res.render('manager');
+// });
+router.get('/manager', managerController.getManagerPage);
 
 // נתיבים לקבלת הנתונים מה-DB
 router.get('/manager/api/ski-products', managerController.getSkiProducts);
