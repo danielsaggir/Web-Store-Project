@@ -5,6 +5,82 @@ const Users = require('../models/users');
 const Order = require('../models/orders');
 const Branch = require('../models/Branch');
 
+exports.getManagerPage = async (req, res) => {
+    try {
+        const numberOfClients = await Users.countDocuments();
+        const numberOfBranches = await Branch.countDocuments();
+
+        res.render('manager', {
+            username: req.session.username,
+            numberOfClients,
+            numberOfBranches
+        });
+    } catch (err) {
+        console.error('Error fetching manager page data:', err);
+        res.status(500).send(err);
+    }
+};
+
+exports.getOrdersPerDayJulyAugust = async (req, res) => {
+    try {
+        const startDate = new Date('2024-07-30T00:00:00.000Z');
+        const endDate = new Date('2024-08-31T23:59:59.999Z'); // עדכון סוף היום ל-31 באוגוסט
+
+        console.log('Fetching orders between:', startDate, 'and', endDate);
+
+        const orders = await Order.aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: startDate,
+                        $lte: endDate
+                    }
+                }
+            },
+            {
+                $project: {
+                    date: 1,
+                    username: 1,
+                    orderNumber: 1,
+                    totalPrice: 1
+                }
+            },
+            {
+                $group: {
+                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+                    count: { $sum: 1 },
+                    orders: { $push: "$$ROOT" }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+
+        console.log('Orders retrieved:', orders);
+        res.json(orders);
+    } catch (err) {
+        console.error('Error getting orders per day in July and August:', err);
+        res.status(500).send(err);
+    }
+};
+
+exports.getOrdersPerUser = async (req, res) => {
+    try {
+        const orders = await Order.aggregate([
+            {
+                $group: {
+                    _id: "$username",
+                    count: { $sum: 1 }
+                }
+            },
+            { $sort: { _id: 1 } } // לסדר את התוצאות לפי שם המשתמש
+        ]);
+        console.log(`orders per user: ${JSON.stringify(orders)}`);
+        res.json(orders);
+    } catch (err) {
+        console.error('Error getting orders per user:', err);
+        res.status(500).send(err);
+    }
+};
 
 exports.getSkiProducts = async (req, res) => {
     try {

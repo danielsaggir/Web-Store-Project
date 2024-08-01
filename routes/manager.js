@@ -4,9 +4,10 @@ const router = express.Router();
 const managerController = require('../controllers/managerController');
 
 // נתיב להצגת דף הניהול
-router.get('/manager', (req, res) => {
-    res.render('manager');
-});
+router.get('/manager', managerController.getManagerPage);
+// router.get('/manager', (req, res) => {
+//     res.render('manager');
+// });
 
 // נתיבים לקבלת הנתונים מה-DB
 router.get('/manager/api/ski-products', managerController.getSkiProducts);
@@ -43,6 +44,8 @@ router.put('/manager/api/update-branch/:id', managerController.updateBranch);
 router.delete('/manager/api/delete-branch/:id', managerController.deleteBranch);
 router.post('/manager/api/upload/branches', managerController.uploadBranch);
 
+router.get('/manager/api/orders-per-day-july-august', managerController.getOrdersPerDayJulyAugust);
+router.get('/manager/api/orders-per-user', managerController.getOrdersPerUser);
 
 module.exports = router;
 
