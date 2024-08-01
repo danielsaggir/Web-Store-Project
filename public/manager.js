@@ -360,9 +360,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (currentModel === 'branches') {
             newItemPromise
                 .then(newItem => {
-                    const url= `/manager/api/upload/${currentModel}`
-                    console.log(`url is: ${url}`)
-                    return fetch(url, {
+                    return fetch(`/manager/api/upload/branches`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -409,11 +407,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 phone: document.getElementById('uploadPhone').value
             };
     
-            // בקשה ל-Google Maps API כדי לקבל את הקורדינטות של העיר
+            // Fetch coordinates from Google Maps API
             return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${branch.city}&key=AIzaSyB6RNA9mZmst46xbC-wuiIEA7xIQAjO-Pw`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(`data is: ${JSON.stringify(data)}`)
                     if (data.results.length > 0) {
                         const location = data.results[0].geometry.location;
                         branch.lat = location.lat;
@@ -428,8 +425,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     throw error;
                 });
         } else {
+            let newItem = {};
+    
             if (model === 'ski-products') {
-                return {
+                newItem = {
                     MyId: document.getElementById('uploadMyId').value,
                     name: document.getElementById('uploadName').value,
                     price: document.getElementById('uploadPrice').value,
@@ -440,7 +439,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     imageUrl: document.getElementById('uploadImgUrl').value
                 };
             } else if (model === 'clothes' || model === 'accessories') {
-                return {
+                newItem = {
                     MyId: document.getElementById('uploadMyId').value,
                     name: document.getElementById('uploadName').value,
                     price: document.getElementById('uploadPrice').value,
@@ -453,8 +452,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     imageUrl: document.getElementById('uploadImgUrl').value
                 };
             }
+    
+            return Promise.resolve(newItem);
         }
     }
+    
     
 
     function generateUploadForm(model) {
