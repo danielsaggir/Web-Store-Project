@@ -1,3 +1,5 @@
+
+
 // Dropdown handling
 document.querySelectorAll('.dropdown-item').forEach(item => {
     item.addEventListener('click', function() {

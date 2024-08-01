@@ -194,6 +194,12 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
 
 /* Responsive styling */
 @media (max-width: 1200px) {
+    #topLine {
+        flex-direction: column;
+        align-items: flex-start;
+        height: fit-content;
+        padding: 10px;
+    }
     #title {
         font-size: large;
     }
@@ -207,8 +213,21 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     #topLine {
         flex-direction: column;
         align-items: flex-start;
-        height: auto;
+        height: fit-content;
         padding: 10px;
+    }
+
+    /* לסדר כאן את הרספונסיביות כי כשהמסך קטן אז זה דורס את הקונטיינר */
+    #container  
+    {
+        position: relative;
+        top: 20%;
+    }
+
+    .container_main
+    {
+        position: relative;
+        top: 14%;
     }
     
     #title {
