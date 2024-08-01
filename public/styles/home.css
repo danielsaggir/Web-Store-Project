@@ -515,11 +515,32 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
     flex-direction: column;
     min-height: 100vh;
 }
+#videoInsideCanvas {
+    position: relative;
+    width: 320px;
+    height: 240px;
+    border: 5px solid #048b93; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
 
+#video {
+    position: absolute;
+    top: 5px; 
+    left: 5px; 
+    width: calc(100% - 10px); 
+    height: calc(100% - 10px);
+}
+
+#myCanvas {
+    border: 1px solid #048b93;
+    width: 100%;
+    height: 100%;
+}
 .footer-container {
     width: 100%;
     /* background: linear-gradient(to right, #f8f9fa, #e9ecef); Gradient background for a modern look */
-    border-top: 4px solid #007bff; /* Bold border color for a standout effect */
+    border-top: 4px solid#d2e6fa;/* Bold border color for a standout effect */
     padding: 7px 20px; /* Increased padding for a more spacious feel */
     box-sizing: border-box; /* Include padding and border in element's total width and height */
     margin: 0 auto 0; /* Space above the footer, centered horizontally */
@@ -532,6 +553,10 @@ position: relative; /* כדי שה-overlay יהיה מעל ה-body */
 .footer-email-signup {
     margin-bottom: 10px; /* Increased margin for more spacing */
     text-align: center; /* Center the text and form */
+}
+.contact-box{
+    color: #495057;
+    font-size:16px;
 }
 
 .footer-email-signup h3 {

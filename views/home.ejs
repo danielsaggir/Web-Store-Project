@@ -7,7 +7,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="/styles/home.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
 </head>
 
 <body>
@@ -19,36 +20,36 @@
                 <p id="title"> SkiDis </p>
                 <button id="cartBtn" type="button" class="btn btn-light">
                     <i class="bi bi-cart"></i>
-                </button>  
+                </button>
                 <button id="logInBtn" type="button" class="btn btn-light">
                     <i class="bi bi-person-circle"></i>
                 </button>
                 <div id="lineUser">
                     <% if (username) { %>
                         Hello <%= username %>
-                    <% } else { %>
-                        Hello Guest
-                    <% } %>
+                            <% } else { %>
+                                Hello Guest
+                                <% } %>
                 </div>
                 <nav id="menu">
                     <a id="homePage-link" href="/">Home</a>
                     <a id="ski-products-link" href="#">Ski Products</a>
                     <a id="clothes-link" href="#">Clothes</a>
                     <a id="accessories-link" href="#">Accessories</a>
-                    <% if (isAdmin === true) { %>
+                    <% if (isAdmin===true) { %>
                         <a id="manager-link" href="/manager">Manager Entry</a>
-                    <% } else { %>
-                        <a id="personal-zone-link" href="/account">My Account</a>
-                    <% } %>
+                        <% } else { %>
+                            <a id="personal-zone-link" href="/account">My Account</a>
+                            <% } %>
                 </nav>
                 <div class="search-box">
-                    <button class="btn-search"><i class="bi bi-search"></i></button>
-                    <input type="text" class="input-search" placeholder="product name">
+                    <button class="btn-search" id="searchBtn"><i class="bi bi-search"></i></button>
+                    <input type="text" class="input-search" id="searchInput" placeholder="product name">
                 </div>
             </div>
         </div>
     </header>
-    
+
     <main>
         <section id="container">
             <div id="cartCard" class="card text-center mb-3">
@@ -66,11 +67,13 @@
                     <form id="loginForm" action="/login" method="POST">
                         <div class="mb-3">
                             <label for="username" class="form-label">User Name</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="User Name" required>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="User Name" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Password" required>
                         </div>
                         <button id="submit" type="submit" class="btn btn-primary">Login</button>
                     </form>
@@ -84,19 +87,23 @@
                     <form id="registerForm" action="/register" method="POST">
                         <div class="mb-3">
                             <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
+                            <input type="text" class="form-control" id="firstName" name="firstName"
+                                placeholder="First Name" required>
                         </div>
                         <div class="mb-3">
                             <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
+                            <input type="text" class="form-control" id="lastName" name="lastName"
+                                placeholder="Last Name" required>
                         </div>
                         <div class="mb-3">
                             <label for="registerUsername" class="form-label">User Name</label>
-                            <input type="text" class="form-control" id="registerUsername" name="username" placeholder="User Name" required>
+                            <input type="text" class="form-control" id="registerUsername" name="username"
+                                placeholder="User Name" required>
                         </div>
                         <div class="mb-3">
                             <label for="registerPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Password" required>
+                            <input type="password" class="form-control" id="registerPassword" name="password"
+                                placeholder="Password" required>
                         </div>
                         <button id="registerSubmit" type="submit" class="btn btn-primary">Register</button>
                     </form>
@@ -104,8 +111,8 @@
                     <button id="backToLogin" class="btn btn-primary">Back to Login</button>
                 </div>
             </div>
-            
-            <% if (username && username !== 'Guest') { %>
+
+            <% if (username && username !=='Guest' ) { %>
                 <div id="logoutCard" class="card text-center mb-3" style="width: 18rem; display: none;">
                     <div class="card-body">
                         <h5 class="card-title">See You Soon :)</h5>
@@ -122,7 +129,7 @@
                         <button id="showChangeUserNameForm" class="btn btn-primary">Change User Name</button>
                     </div>
                 </div>
-                
+
                 <div id="changePassCard" class="card text-center mb-3" style="width: 18rem; display: none;">
                     <div class="card-body">
                         <h5 class="card-title">Change Password</h5>
@@ -131,14 +138,16 @@
                             <input type="hidden" name="username" value="<%= username %>">
                             <div class="mb-3">
                                 <label for="newPassword" class="form-label">New Password</label>
-                                <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="New Password" required>
+                                <input type="password" class="form-control" id="newPassword" name="newPassword"
+                                    placeholder="New Password" required>
                             </div>
-                            <button id="ChangePasswordBtn" type="submit" class="btn btn-primary">Change Password</button>
+                            <button id="ChangePasswordBtn" type="submit" class="btn btn-primary">Change
+                                Password</button>
                         </form>
                         <button id="backToLogoutFromPass" class="btn btn-primary">Back</button>
                     </div>
                 </div>
-                
+
                 <div id="changeUserNameCard" class="card text-center mb-3" style="width: 18rem; display: none;">
                     <div class="card-body">
                         <h5 class="card-title">Change User Name</h5>
@@ -147,17 +156,19 @@
                             <input type="hidden" name="username" value="<%= username %>">
                             <div class="mb-3">
                                 <label for="newUserName" class="form-label">New User Name</label>
-                                <input type="text" class="form-control" id="newUserName" name="newUserName" placeholder="New User Name" required>
+                                <input type="text" class="form-control" id="newUserName" name="newUserName"
+                                    placeholder="New User Name" required>
                             </div>
-                            <button id="ChangeUserNameBtn" type="submit" class="btn btn-primary">Change User Name</button>
+                            <button id="ChangeUserNameBtn" type="submit" class="btn btn-primary">Change User
+                                Name</button>
                         </form>
                         <button id="backToLogoutFromUser" class="btn btn-primary">Back</button>
                     </div>
                 </div>
-            <% } %>
-            
+                <% } %>
+
         </section>
-        
+
         <section id="container">
             <p id="subTitel">Top Products</p>
             <div id="TopCategories">
@@ -187,75 +198,71 @@
                 </a>
             </div>
             <p id="subTitel">Come Look For Us</p>
-            <div id="map" ></div>
-            <canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;"></canvas>
-            <video width="320" height="240" controls>
-                <source src="https://www.youtube.com/watch?v=z7FY6X9_DFE" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <div id="map"></div>
+            <div id="videoInsideCanvas">
+                <canvas id="myCanvas"></canvas>
+                <iframe id="video" src="https://www.youtube.com/embed/z7FY6X9_DFE" frameborder="0" allowfullscreen></iframe>
+                </div>
         </section>
     </main>
-    
+
     <footer class="footer-container">
         <div class="footer-columns">
-          <aside class="footer-item first-column">
-            <h3>About</h3>
-            <ul>
-              <li>About Us</li>
-              <li>Careers</li>
-              <li>Privacy</li>
-              <li>Terms Of Use</li>
-            </ul>
-          </aside>
-      
-          <aside class="footer-item second-column">
-            <h3>Account</h3>
-            <ul>
-              <li>My Account</li>
-              <li>Check Order</li>
-            </ul>
-          </aside>
-      
-          <aside class="footer-item third-column">
-            <h3>Customer Service</h3>
-            <ul>
-              <li>Help</li>
-              <li>Shipping</li>
-              <li>Free Online Returns</li>
-              <li>Sitemap</li>
-            </ul>
-          </aside>
-          <aside class="footer-email-signup">
-            <div class="footer-email-inner">
-              <h3>Sign up to receive email updates on special promotions and new product announcements.</h3>
-              <form action="/on/demandware.store/Sites-RalphLauren_Global-Site/en_IL/EDialogEmailSignUp-FooterSignUp" method="post" id="email-alert-signup" class="email-subscribe" novalidate="novalidate">
-                <input type="email" inputmode="email" autocapitalize="off" autocorrect="off" autocomplete="email" id="email-alert-address" class="input-text email required empty" placeholder="Enter Email Address" value="" name="dwfrm_emailsubscribe_email">
-                <button type="submit" name="home-email" value="Submit" title="Submit">Submit</button>
-              </form>
-              <span class="EmailErrorMsg"></span>
-              <div id="EmailSuccess" class="email-success hide">
-                <div class="thank-msg"></div>
-              </div>
-            </div>
-            <div class="footer-email-opt-in-text">
-              <title>email-opt-in</title>
-              <div class="content-asset">
-                <p class="unsubscribe-text">You may unsubscribe at any time by clicking on the unsubscribe link in each e-mail. For more information, please read Skidis’s <a href="" class="privacy-link">Privacy Policy.</a></p>
-              </div> 
-              <img src="Images/HomePage/x logo.jpg" alt="X Icon" class="socialmedia-icons">
-              <img src="Images/HomePage/facebook logo.png" alt="Facebook Icon" class="socialmedia-icons">
-              <img src="Images/HomePage/instagram logo.png" alt="Instagram Icon" class="socialmedia-icons">
-            </div>
-          </aside>
+            <aside class="footer-item first-column">
+                <h3>About</h3>
+                <p>At SkiDis, we offer premium ski equipment and accessories from globally recognized brands.
+                    Our selection includes everything necessary for your skiing adventures, from skis and snowboards to
+                    boots and apparel.
+                    Committed to excellence, SkiDis ensures an outstanding shopping experience with high-quality
+                    products and
+                    personalized customer service, bringing you the finest in ski gear and winter fashion.</p>
+            </aside>
+
+            <aside class="footer-item third-column">
+                <h3>Contact with us</h3>
+                <div class="contact-box">
+                    <p>+972 50 950 6713 :)</p>
+                </div>
+            </aside>
+            <aside class="footer-email-signup">
+                <div class="footer-email-inner">
+                    <h3>Sign up to receive email updates on special promotions and new product announcements.</h3>
+                    <form id="email-alert-signup" class="email-subscribe" novalidate="novalidate">
+                        <input type="email" inputmode="email" autocapitalize="off" autocorrect="off"
+                            autocomplete="email" id="email-alert-address" class="input-text email required empty"
+                            placeholder="Enter Email Address" value="" name="dwfrm_emailsubscribe_email">
+                        <button type="submit" name="home-email" value="Submit" title="Submit">Submit</button>
+                    </form>
+                    <span class="EmailErrorMsg"></span>
+                    <div id="EmailSuccess" class="email-success hide">
+                        <div class="thank-msg"></div>
+                    </div>
+                </div>
+                <div class="footer-email-opt-in-text">
+                    <title>email-opt-in</title>
+                    <div class="content-asset">
+                        <p class="unsubscribe-text">You may unsubscribe at any time by clicking on the unsubscribe link
+                            in each e-mail. For more information, please read Skidis’s <a href=""
+                                class="privacy-link">Privacy Policy.</a></p>
+                    </div>
+                    <a href="https://www.instagram.com/skidis_official?igsh=ejZtdTJ1b2p3Z2Zp" target="_blank">
+                        <img src="Images/HomePage/instagram logo.png" alt="Instagram Icon" class="socialmedia-icons">
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61563688074222" target="_blank">
+                        <img src="Images/HomePage/facebook logo.png" alt="Facebook Icon" class="socialmedia-icons">
+                    </a>
+                </div>
+            </aside>
         </div>
-      </footer>
+    </footer>
 
     <script>
         let username = "<%= username %>";
         let isAdmin = "<%= isAdmin %>";
     </script>
     <script src="home.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6RNA9mZmst46xbC-wuiIEA7xIQAjO-Pw&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6RNA9mZmst46xbC-wuiIEA7xIQAjO-Pw&callback=initMap"
+        async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

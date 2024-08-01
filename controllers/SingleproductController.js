@@ -138,3 +138,69 @@ exports.checkout = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+exports.searchProducts = async (req, res) => {
+    // Extract the search query from the request
+    const query = req.query.query;
+
+    try {
+        // Search for products in SkiProducts collection that match the query (case insensitive)
+        const skiProducts = await SkiProducts.find({ name: new RegExp(query, 'i') });
+
+        // Search for products in Clothes collection that match the query (case insensitive)
+        const clothes = await Clothes.find({ name: new RegExp(query, 'i') });
+
+        // Search for products in Accessories collection that match the query (case insensitive)
+        const accessories = await Accessories.find({ name: new RegExp(query, 'i') });
+
+        // Combine all the results from the three collections into one array
+        const results = [...skiProducts, ...clothes, ...accessories];
+
+        // If there is exactly one product found
+        if (results.length === 1) {
+            const product = results[0]; // Get the single product found
+            let selectedCategory;
+
+            // Determine the category of the found product
+            if (skiProducts.includes(product)) {
+                selectedCategory = 'Ski Products';
+            } else if (clothes.includes(product)) {
+                selectedCategory = 'Clothes';
+            } else if (accessories.includes(product)) {
+                selectedCategory = 'Accessories';
+            }
+
+            // Redirect to the SingleProduct page with the product's name and category as query parameters
+            return res.redirect(`/SingleProduct?name=${product.name}&selectedCategory=${selectedCategory}`);
+        } 
+        // If there are multiple products found
+        else if (results.length > 1) {
+            // For now, handle the case with multiple results by taking the first one
+            const product = results[0]; // Get the first product from the results
+            let selectedCategory;
+
+            // Determine the category of the first found product
+            if (skiProducts.includes(product)) {
+                selectedCategory = 'Ski Products';
+            } else if (clothes.includes(product)) {
+                selectedCategory = 'Clothes';
+            } else if (accessories.includes(product)) {
+                selectedCategory = 'Accessories';
+            }
+
+            // Redirect to the SingleProduct page with the product's name and category as query parameters
+            return res.redirect(`/SingleProduct?name=${product.name}&selectedCategory=${selectedCategory}`);
+        } 
+        // If no products are found
+        else {
+            // Return a 404 status with an error message
+            return res.status(404).json({ error: 'Product not found' });
+        }
+    } catch (error) {
+        // Log the error to the console
+        console.error('Error fetching search results:', error);
+
+        // Return a 500 status with an error message
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};

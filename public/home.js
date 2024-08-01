@@ -1,3 +1,24 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const searchButton = document.querySelector('.btn-search');
+    const searchInput = document.querySelector('.input-search');
+
+    searchButton.addEventListener('click', function () {
+        const query = searchInput.value;
+        if (query) {
+            window.location.href = `/search?query=${query}`;
+        }
+    });
+
+    searchInput.addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            const query = searchInput.value;
+            if (query) {
+                window.location.href = `/search?query=${query}`;
+            }
+        }
+    });
+});
+
 // Function to check if the user is logged in
 function isLoggedIn() {
   return typeof username !== 'undefined' && username && username !== 'Guest';
