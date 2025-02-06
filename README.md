@@ -1,6 +1,4 @@
-**Project Summary: SkiDis E-commerce Platform**
-
-**Overview**
+**SkiDis E-commerce Platform**
 
 The SkiDis project is a full-stack e-commerce web application built with Node.js, Express.js, MongoDB (Mongoose), and EJS for templating. It provides an online store specializing in ski-related products, including ski equipment, clothes, and accessories. The project follows an MVC (Model-View-Controller) architecture, ensuring structured code organization.
 
